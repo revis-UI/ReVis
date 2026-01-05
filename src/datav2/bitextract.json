@@ -1,0 +1,654 @@
+{
+    "container_id": "0",
+    "description": "Circular visualization composed of concentric rings and interior connections.",
+    "coordinate": "polar",
+    "coordinate_system": {
+        "cx": "0.5",
+        "cy": "0.5",
+        "a1": "0",
+        "a2": "360",
+        "r1": "0",
+        "r2": "1.1"
+    },
+    "if_leaf": false,
+    "mark_type": null,
+    "components": [
+        {
+            "container_id": "0-0",
+            "coordinate": "polar",
+            "description": "Data-driven arc ring near the rim; repeated for multiple concentric arc bands.",
+            "coordinate_system": {
+                "cx": "0.5",
+                "cy": "0.5",
+                "a1": "0",
+                "a2": "360",
+                "r1": "0.9",
+                "r2": "1"
+            },
+            "if_leaf": true,
+            "mark_type": "arcs",
+            "components": null
+        },
+        {
+            "container_id": "0-1",
+            "coordinate": "polar",
+            "description": "Circular node ring; repeated for inner/outer node rings on the circumference.",
+            "coordinate_system": {
+                "cx": "0.5",
+                "cy": "0.5",
+                "a1": "0",
+                "a2": "360",
+                "r1": "0.84",
+                "r2": "0.88"
+            },
+            "if_leaf": true,
+            "mark_type": "circle",
+            "components": null
+        },
+        {
+            "container_id": "0-2",
+            "coordinate": "polar",
+            "description": "Dense mesh of faint straight connections (chord-like lines) spanning the interior, linking perimeter nodes across the circle.",
+            "coordinate_system": {
+                "cx": "0.5",
+                "cy": "0.5",
+                "a1": "0",
+                "a2": "360",
+                "r1": "0.65",
+                "r2": "0.7"
+            },
+            "if_leaf": true,
+            "components": null
+        },
+        {
+            "container_id": "0-3",
+            "coordinate": "polar",
+            "description": "Dense mesh of faint straight connections (chord-like lines) spanning the interior, linking perimeter nodes across the circle.",
+            "coordinate_system": {
+                "cx": "0.5",
+                "cy": "0.5",
+                "a1": "0",
+                "a2": "360",
+                "r1": "0",
+                "r2": "0.1"
+            },
+            "if_leaf": true,
+            "components": null
+        },
+        {
+            "container_id": "0-4",
+            "coordinate": "polar",
+            "description": "Radial spoke lines from center outward; repeated for short starburst spokes and longer highlighted spokes.",
+            "if_leaf": true
+        },
+        {
+            "container_id": "0-5",
+            "coordinate": "polar",
+            "description": "Central core circle at the exact center.",
+            "if_leaf": true
+        },
+        {
+            "container_id": "0-6",
+            "coordinate": "polar",
+            "description": "Central core circle at the exact center.",
+            "if_leaf": true
+        }
+    ],
+    "data_specification": {
+        "0-0": {
+            "mark_specification": {
+                "mark_type": "arc",
+                "is_link_mark": false,
+                "link_mark_type": "no_link",
+                "is_width_encoded_data": false,
+                "node_use_once": false,
+                "is_fully_connected": false,
+                "is_bipartite": false
+            },
+            "data_structure": {
+                "data_type": "2D_LIST",
+                "data_size": {
+                    "primary": {
+                        "number": 2,
+                        "dimension": "radius",
+                        "explanation": "Arc segments around the outer ring; the image shows a dozen categorical segments with varying angles."
+                    },
+                    "secondary": {
+                        "number": 12,
+                        "dimension": "angle",
+                        "explanation": "Arc segments around the outer ring; the image shows a dozen categorical segments with varying angles."
+                    }
+                }
+            },
+            "layout_specification": {
+                "x": null,
+                "y": null,
+                "radius": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        40,
+                        40
+                    ],
+                    "anchor_distribute": "uniform_interval",
+                    "anchor_interval": 10,
+                    "anchor_start": 0
+                },
+                "angle": {
+                    "stacking": true,
+                    "stacking_direction": "min",
+                    "anchor": "stacking_decided",
+                    "subdividing": true,
+                    "2d_flatten": false,
+                    "size_uniform": false,
+                    "size_range": [
+                        3,
+                        35
+                    ],
+                    "anchor_distribute": "flexible",
+                    "anchor_interval": null,
+                    "anchor_start": null,
+                    "number": 12
+                },
+                "source": null,
+                "target": null
+            },
+            "non_layout_specification": {
+                "fill": {
+                    "scale": "categorical",
+                    "fix": null,
+                    "linear": null,
+                    "options": [
+                        "#D9B24C",
+                        "#6BB371",
+                        "#77C3B8",
+                        "#C46E2B",
+                        "#9A79B7",
+                        "#7C5E9C",
+                        "#8BC27E",
+                        "#8E6B2B",
+                        "#4E9B55",
+                        "#B36B49",
+                        "#A58BCF",
+                        "#6FAA8F"
+                    ]
+                },
+                "stroke": null,
+                "stroke-width": null,
+                "opacity": null,
+                "line_type": null
+            }
+        },
+        "0-1": {
+            "mark_specification": {
+                "mark_type": "circle",
+                "is_link_mark": false,
+                "link_mark_type": "no_link",
+                "is_width_encoded_data": false,
+                "node_use_once": false,
+                "is_fully_connected": false,
+                "is_bipartite": false
+            },
+            "data_structure": {
+                "data_type": "1D_LIST",
+                "data_size": {
+                    "primary": {
+                        "number": 4,
+                        "dimension": "angle",
+                        "explanation": "Approximate number of perimeter nodes evenly distributed around the circumference in one circle ring."
+                    },
+                    "secondary": null
+                }
+            },
+            "layout_specification": {
+                "x": null,
+                "y": null,
+                "radius": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        100,
+                        100
+                    ],
+                    "anchor_distribute": "fixed_value",
+                    "anchor_interval": 0,
+                    "anchor_start": 0
+                },
+                "angle": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        25,
+                        25
+                    ],
+                    "anchor_distribute": "uniform_interval",
+                    "anchor_interval": 0,
+                    "anchor_start": 12.5
+                },
+                "source": null,
+                "target": null
+            },
+            "non_layout_specification": {
+                "r": {
+                    "scale": "fix",
+                    "fix": 15,
+                    "linear": null,
+                    "options": null
+                },
+                "fill": {
+                    "scale": "categorical",
+                    "fix": null,
+                    "linear": null,
+                    "options": [
+                        "#E0B84E",
+                        "#6ABF70",
+                        "#66C2A5",
+                        "#8E6CC8",
+                        "#C3A6E6",
+                        "#E2834B",
+                        "#BFBFBF"
+                    ]
+                },
+                "stroke": {
+                    "scale": "fix",
+                    "fix": "#FFFFFF",
+                    "linear": null,
+                    "options": null
+                },
+                "stroke-width": {
+                    "scale": "fix",
+                    "fix": 1,
+                    "linear": null,
+                    "options": null
+                },
+                "opacity": {
+                    "scale": "fix",
+                    "fix": 1,
+                    "linear": null,
+                    "options": null
+                },
+                "line_type": null
+            }
+        },
+        "0-2": {
+            "mark_specification": {
+                "mark_type": "circle",
+                "is_link_mark": false,
+                "link_mark_type": "no_link",
+                "is_width_encoded_data": false,
+                "node_use_once": false,
+                "is_fully_connected": false,
+                "is_bipartite": false
+            },
+            "data_structure": {
+                "data_type": "1D_LIST",
+                "data_size": {
+                    "primary": {
+                        "number": 60,
+                        "dimension": "angle",
+                        "explanation": "Approximate number of perimeter nodes evenly distributed around the circumference in one circle ring."
+                    },
+                    "secondary": null
+                }
+            },
+            "layout_specification": {
+                "x": null,
+                "y": null,
+                "radius": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        0,
+                        0
+                    ],
+                    "anchor_distribute": "fixed_value",
+                    "anchor_interval": 0,
+                    "anchor_start": 76
+                },
+                "angle": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        0,
+                        0
+                    ],
+                    "anchor_distribute": "uniform_interval",
+                    "anchor_interval": 1.67,
+                    "anchor_start": 0
+                },
+                "source": null,
+                "target": null
+            },
+            "non_layout_specification": {
+                "r": {
+                    "scale": "fix",
+                    "fix": 15,
+                    "linear": null,
+                    "options": null
+                },
+                "fill": {
+                    "scale": "categorical",
+                    "fix": null,
+                    "linear": null,
+                    "options": [
+                        "#E0B84E",
+                        "#6ABF70",
+                        "#66C2A5",
+                        "#8E6CC8",
+                        "#C3A6E6",
+                        "#E2834B",
+                        "#BFBFBF"
+                    ]
+                },
+                "stroke": {
+                    "scale": "fix",
+                    "fix": "#FFFFFF",
+                    "linear": null,
+                    "options": null
+                },
+                "stroke-width": {
+                    "scale": "fix",
+                    "fix": 1,
+                    "linear": null,
+                    "options": null
+                },
+                "opacity": {
+                    "scale": "fix",
+                    "fix": 1,
+                    "linear": null,
+                    "options": null
+                },
+                "line_type": null
+            }
+        },
+        "0-3": {
+            "mark_specification": {
+                "mark_type": "circle",
+                "is_link_mark": false,
+                "link_mark_type": "no_link",
+                "is_width_encoded_data": false,
+                "node_use_once": false,
+                "is_fully_connected": false,
+                "is_bipartite": false
+            },
+            "data_structure": {
+                "data_type": "1D_LIST",
+                "data_size": {
+                    "primary": {
+                        "number": 1,
+                        "dimension": "angle",
+                        "explanation": "Approximate number of perimeter nodes evenly distributed around the circumference in one circle ring."
+                    },
+                    "secondary": null
+                }
+            },
+            "layout_specification": {
+                "x": null,
+                "y": null,
+                "radius": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        100,
+                        100
+                    ],
+                    "anchor_distribute": "fixed_value",
+                    "anchor_interval": 0,
+                    "anchor_start": 76
+                },
+                "angle": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        100,
+                        100
+                    ],
+                    "anchor_distribute": "fixed_value",
+                    "anchor_interval": 0,
+                    "anchor_start": 0
+                },
+                "source": null,
+                "target": null
+            },
+            "non_layout_specification": {
+                "r": {
+                    "scale": "fix",
+                    "fix": 15,
+                    "linear": null,
+                    "options": null
+                },
+                "fill": {
+                    "scale": "fix",
+                    "fix": "none",
+                    "linear": null,
+                    "options": null
+                },
+                "stroke": {
+                    "scale": "fix",
+                    "fix": "red",
+                    "linear": null,
+                    "options": null
+                },
+                "stroke-width": {
+                    "scale": "fix",
+                    "fix": 1,
+                    "linear": null,
+                    "options": null
+                },
+                "opacity": {
+                    "scale": "fix",
+                    "fix": 1,
+                    "linear": null,
+                    "options": null
+                },
+                "line_type": null
+            }
+        },
+        "0-4": {
+            "mark_specification": {
+                "mark_type": "line",
+                "is_link_mark": true,
+                "link_mark_type": "node_link_type",
+                "is_width_encoded_data": false,
+                "node_use_once": false,
+                "is_fully_connected": false,
+                "is_bipartite": false
+            },
+            "data_structure": {
+                "data_type": "1D_LIST",
+                "data_size": {
+                    "primary": {
+                        "number": 8
+                    },
+                    "secondary": null
+                }
+            },
+            "layout_specification": {
+                "x": null,
+                "y": null,
+                "radius": null,
+                "angle": null,
+                "source": [
+                    {
+                        "container_id": "0-1",
+                        "linked_object": "mark"
+                    }
+                ],
+                "target": [
+                    {
+                        "container_id": "0-2",
+                        "linked_object": "mark"
+                    }
+                ]
+            },
+            "non_layout_specification": {
+                "stroke": {
+                    "scale": "fix",
+                    "fix": "#666",
+                    "linear": null,
+                    "options": null
+                },
+                "stroke-width": {
+                    "scale": "fix",
+                    "fix": 1,
+                    "linear": null,
+                    "options": null
+                },
+                "opacity": {
+                    "scale": "fix",
+                    "fix": 0.6,
+                    "linear": null,
+                    "options": null
+                },
+                "line_type": "straight"
+            }
+        },
+        "0-5": {
+            "mark_specification": {
+                "mark_type": "line",
+                "is_link_mark": true,
+                "link_mark_type": "node_link_type",
+                "is_width_encoded_data": false,
+                "node_use_once": false,
+                "is_fully_connected": false,
+                "is_bipartite": false
+            },
+            "data_structure": {
+                "data_type": "1D_LIST",
+                "data_size": {
+                    "primary": {
+                        "number": 60
+                    },
+                    "secondary": null
+                }
+            },
+            "layout_specification": {
+                "x": null,
+                "y": null,
+                "radius": null,
+                "angle": null,
+                "source": [
+                    {
+                        "container_id": "0-2",
+                        "linked_object": "mark"
+                    }
+                ],
+                "target": [
+                    {
+                        "container_id": "0-2",
+                        "linked_object": "mark"
+                    }
+                ]
+            },
+            "non_layout_specification": {
+                "stroke": {
+                    "scale": "fix",
+                    "fix": "#666",
+                    "linear": null,
+                    "options": null
+                },
+                "stroke-width": {
+                    "scale": "fix",
+                    "fix": 1,
+                    "linear": null,
+                    "options": null
+                },
+                "opacity": {
+                    "scale": "fix",
+                    "fix": 0.6,
+                    "linear": null,
+                    "options": null
+                },
+                "line_type": "straight"
+            }
+        },
+        "0-6": {
+            "mark_specification": {
+                "mark_type": "line",
+                "is_link_mark": true,
+                "link_mark_type": "node_link_type",
+                "is_width_encoded_data": false,
+                "node_use_once": false,
+                "is_fully_connected": false,
+                "is_bipartite": false
+            },
+            "data_structure": {
+                "data_type": "1D_LIST",
+                "data_size": {
+                    "primary": {
+                        "number": 60
+                    },
+                    "secondary": null
+                }
+            },
+            "layout_specification": {
+                "x": null,
+                "y": null,
+                "radius": null,
+                "angle": null,
+                "source": [
+                    {
+                        "container_id": "0-3",
+                        "linked_object": "mark"
+                    }
+                ],
+                "target": [
+                    {
+                        "container_id": "0-2",
+                        "linked_object": "mark"
+                    }
+                ]
+            },
+            "non_layout_specification": {
+                "stroke": {
+                    "scale": "fix",
+                    "fix": "#666",
+                    "linear": null,
+                    "options": null
+                },
+                "stroke-width": {
+                    "scale": "linear",
+                    "fix": null,
+                    "linear": [1, 3],
+                    "options": null
+                },
+                "opacity": {
+                    "scale": "fix",
+                    "fix": 1,
+                    "linear": null,
+                    "options": null
+                },
+                "line_type": "straight"
+            }
+        }
+    },
+    "template_data_specification": {}
+}

@@ -1,0 +1,699 @@
+{
+    "container_id": "0",
+    "coordinate": "cartesian",
+    "description": "Multi-row layout with a left column of small vertical bars and a right column of bubble rows connected by faint horizontal lines; one row is highlighted by a background band.",
+    "coordinate_system": "(0, 0, 100, 120)",
+    "if_leaf": "false",
+    "components": [
+        {
+            "container_id": "0-0",
+            "description": "Left column: per-row miniature bar sequences (narrow vertical rectangles arranged horizontally).",
+            "coordinate": "cartesian",
+            "coordinate_system": "(0, 10, 30, 120)",
+            "if_leaf": "false",
+            "components": [
+                {
+                    "container_id": "0-0-a",
+                    "description": "Row r mini bars",
+                    "coordinate": "cartesian",
+                    "coordinate_system": "(0, 10 + 10*r, 30, 20 + 10*r)",
+                    "if_leaf": "true",
+                    "mark_type": "rectangle"
+                }
+            ]
+        },
+        {
+            "container_id": "0-1",
+            "description": "Right column: per-row bubble series with a faint horizontal connecting line.",
+            "coordinate": "cartesian",
+            "coordinate_system": "(30, 10, 100, 120)",
+            "if_leaf": "false",
+            "components": [
+                {
+                    "container_id": "0-1-a",
+                    "description": "Row r bubbles and connector",
+                    "coordinate": "cartesian",
+                    "coordinate_system": "(30, 10 + 10*r, 100, 20 + 10*r)",
+                    "if_leaf": "false",
+                    "components": [
+                        {
+                            "container_id": "0-1-a-0",
+                            "description": "Faint horizontal connector line across the row",
+                            "coordinate": "cartesian",
+                            "coordinate_system": "(30, 10 + 10*r, 100, 20 + 10*r)",
+                            "if_leaf": "true",
+                            "mark_type": "line"
+                        },
+                        {
+                            "container_id": "0-1-a-1",
+                            "description": "Row r bubbles",
+                            "coordinate": "cartesian",
+                            "coordinate_system": "(30, 10 + 10*r, 100, 20 + 10*r)",
+                            "if_leaf": "true",
+                            "mark_type": "circle"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "container_id": "0-2",
+            "description": "Highlighted band spanning the selected row as a background rectangle.",
+            "coordinate": "cartesian",
+            "coordinate_system": "(0, 100, 100, 110)",
+            "if_leaf": "true",
+            "mark_type": "rectangle"
+        }
+    ],
+    "coordinate_data": [
+        {
+            "container_id": "0",
+            "template_id": "0",
+            "coordinate": "cartesian",
+            "x1": 0,
+            "y1": 0,
+            "x2": 100,
+            "y2": 120,
+            "coordinate_data": [
+                {
+                    "container_id": "0-0",
+                    "template_id": "0-0",
+                    "coordinate": "cartesian",
+                    "x1": 0,
+                    "y1": 10,
+                    "x2": 30,
+                    "y2": 120,
+                    "coordinate_data": [
+                        {
+                            "container_id": "0-0-0",
+                            "template_id": "0-0-a",
+                            "coordinate": "cartesian",
+                            "x1": 0,
+                            "y1": 10,
+                            "x2": 30,
+                            "y2": 20
+                        },
+                        {
+                            "container_id": "0-0-1",
+                            "template_id": "0-0-a",
+                            "coordinate": "cartesian",
+                            "x1": 0,
+                            "y1": 20,
+                            "x2": 30,
+                            "y2": 30
+                        },
+                        {
+                            "container_id": "0-0-2",
+                            "template_id": "0-0-a",
+                            "coordinate": "cartesian",
+                            "x1": 0,
+                            "y1": 30,
+                            "x2": 30,
+                            "y2": 40
+                        },
+                        {
+                            "container_id": "0-0-3",
+                            "template_id": "0-0-a",
+                            "coordinate": "cartesian",
+                            "x1": 0,
+                            "y1": 40,
+                            "x2": 30,
+                            "y2": 50
+                        },
+                        {
+                            "container_id": "0-0-4",
+                            "template_id": "0-0-a",
+                            "coordinate": "cartesian",
+                            "x1": 0,
+                            "y1": 50,
+                            "x2": 30,
+                            "y2": 60
+                        },
+                        {
+                            "container_id": "0-0-5",
+                            "template_id": "0-0-a",
+                            "coordinate": "cartesian",
+                            "x1": 0,
+                            "y1": 60,
+                            "x2": 30,
+                            "y2": 70
+                        },
+                        {
+                            "container_id": "0-0-6",
+                            "template_id": "0-0-a",
+                            "coordinate": "cartesian",
+                            "x1": 0,
+                            "y1": 70,
+                            "x2": 30,
+                            "y2": 80
+                        },
+                        {
+                            "container_id": "0-0-7",
+                            "template_id": "0-0-a",
+                            "coordinate": "cartesian",
+                            "x1": 0,
+                            "y1": 80,
+                            "x2": 30,
+                            "y2": 90
+                        },
+                        {
+                            "container_id": "0-0-8",
+                            "template_id": "0-0-a",
+                            "coordinate": "cartesian",
+                            "x1": 0,
+                            "y1": 90,
+                            "x2": 30,
+                            "y2": 100
+                        },
+                        {
+                            "container_id": "0-0-9",
+                            "template_id": "0-0-a",
+                            "coordinate": "cartesian",
+                            "x1": 0,
+                            "y1": 100,
+                            "x2": 30,
+                            "y2": 110
+                        },
+                        {
+                            "container_id": "0-0-10",
+                            "template_id": "0-0-a",
+                            "coordinate": "cartesian",
+                            "x1": 0,
+                            "y1": 110,
+                            "x2": 30,
+                            "y2": 120
+                        }
+                    ]
+                },
+                {
+                    "container_id": "0-1",
+                    "template_id": "0-1",
+                    "coordinate": "cartesian",
+                    "x1": 30,
+                    "y1": 10,
+                    "x2": 100,
+                    "y2": 120,
+                    "coordinate_data": [
+                        {
+                            "container_id": "0-1-0",
+                            "template_id": "0-1-a",
+                            "coordinate": "cartesian",
+                            "x1": 30,
+                            "y1": 10,
+                            "x2": 100,
+                            "y2": 20,
+                            "coordinate_data": [
+                                {
+                                    "container_id": "0-1-0-0",
+                                    "template_id": "0-1-a-0",
+                                    "coordinate": "cartesian",
+                                    "x1": 30,
+                                    "y1": 10,
+                                    "x2": 100,
+                                    "y2": 20
+                                },
+                                {
+                                    "container_id": "0-1-0-1",
+                                    "template_id": "0-1-a-1",
+                                    "coordinate": "cartesian",
+                                    "x1": 30,
+                                    "y1": 10,
+                                    "x2": 100,
+                                    "y2": 20
+                                }
+                            ]
+                        },
+                        {
+                            "container_id": "0-1-1",
+                            "template_id": "0-1-a",
+                            "coordinate": "cartesian",
+                            "x1": 30,
+                            "y1": 20,
+                            "x2": 100,
+                            "y2": 30,
+                            "coordinate_data": [
+                                {
+                                    "container_id": "0-1-1-0",
+                                    "template_id": "0-1-a-0",
+                                    "coordinate": "cartesian",
+                                    "x1": 30,
+                                    "y1": 20,
+                                    "x2": 100,
+                                    "y2": 30
+                                },
+                                {
+                                    "container_id": "0-1-1-1",
+                                    "template_id": "0-1-a-1",
+                                    "coordinate": "cartesian",
+                                    "x1": 30,
+                                    "y1": 20,
+                                    "x2": 100,
+                                    "y2": 30
+                                }
+                            ]
+                        },
+                        {
+                            "container_id": "0-1-2",
+                            "template_id": "0-1-a",
+                            "coordinate": "cartesian",
+                            "x1": 30,
+                            "y1": 30,
+                            "x2": 100,
+                            "y2": 40,
+                            "coordinate_data": [
+                                {
+                                    "container_id": "0-1-2-0",
+                                    "template_id": "0-1-a-0",
+                                    "coordinate": "cartesian",
+                                    "x1": 30,
+                                    "y1": 30,
+                                    "x2": 100,
+                                    "y2": 40
+                                },
+                                {
+                                    "container_id": "0-1-2-1",
+                                    "template_id": "0-1-a-1",
+                                    "coordinate": "cartesian",
+                                    "x1": 30,
+                                    "y1": 30,
+                                    "x2": 100,
+                                    "y2": 40
+                                }
+                            ]
+                        },
+                        {
+                            "container_id": "0-1-3",
+                            "template_id": "0-1-a",
+                            "coordinate": "cartesian",
+                            "x1": 30,
+                            "y1": 40,
+                            "x2": 100,
+                            "y2": 50,
+                            "coordinate_data": [
+                                {
+                                    "container_id": "0-1-3-0",
+                                    "template_id": "0-1-a-0",
+                                    "coordinate": "cartesian",
+                                    "x1": 30,
+                                    "y1": 40,
+                                    "x2": 100,
+                                    "y2": 50
+                                },
+                                {
+                                    "container_id": "0-1-3-1",
+                                    "template_id": "0-1-a-1",
+                                    "coordinate": "cartesian",
+                                    "x1": 30,
+                                    "y1": 40,
+                                    "x2": 100,
+                                    "y2": 50
+                                }
+                            ]
+                        },
+                        {
+                            "container_id": "0-1-4",
+                            "template_id": "0-1-a",
+                            "coordinate": "cartesian",
+                            "x1": 30,
+                            "y1": 50,
+                            "x2": 100,
+                            "y2": 60,
+                            "coordinate_data": [
+                                {
+                                    "container_id": "0-1-4-0",
+                                    "template_id": "0-1-a-0",
+                                    "coordinate": "cartesian",
+                                    "x1": 30,
+                                    "y1": 50,
+                                    "x2": 100,
+                                    "y2": 60
+                                },
+                                {
+                                    "container_id": "0-1-4-1",
+                                    "template_id": "0-1-a-1",
+                                    "coordinate": "cartesian",
+                                    "x1": 30,
+                                    "y1": 50,
+                                    "x2": 100,
+                                    "y2": 60
+                                }
+                            ]
+                        },
+                        {
+                            "container_id": "0-1-5",
+                            "template_id": "0-1-a",
+                            "coordinate": "cartesian",
+                            "x1": 30,
+                            "y1": 60,
+                            "x2": 100,
+                            "y2": 70,
+                            "coordinate_data": [
+                                {
+                                    "container_id": "0-1-5-0",
+                                    "template_id": "0-1-a-0",
+                                    "coordinate": "cartesian",
+                                    "x1": 30,
+                                    "y1": 60,
+                                    "x2": 100,
+                                    "y2": 70
+                                },
+                                {
+                                    "container_id": "0-1-5-1",
+                                    "template_id": "0-1-a-1",
+                                    "coordinate": "cartesian",
+                                    "x1": 30,
+                                    "y1": 60,
+                                    "x2": 100,
+                                    "y2": 70
+                                }
+                            ]
+                        },
+                        {
+                            "container_id": "0-1-6",
+                            "template_id": "0-1-a",
+                            "coordinate": "cartesian",
+                            "x1": 30,
+                            "y1": 70,
+                            "x2": 100,
+                            "y2": 80,
+                            "coordinate_data": [
+                                {
+                                    "container_id": "0-1-6-0",
+                                    "template_id": "0-1-a-0",
+                                    "coordinate": "cartesian",
+                                    "x1": 30,
+                                    "y1": 70,
+                                    "x2": 100,
+                                    "y2": 80
+                                },
+                                {
+                                    "container_id": "0-1-6-1",
+                                    "template_id": "0-1-a-1",
+                                    "coordinate": "cartesian",
+                                    "x1": 30,
+                                    "y1": 70,
+                                    "x2": 100,
+                                    "y2": 80
+                                }
+                            ]
+                        },
+                        {
+                            "container_id": "0-1-7",
+                            "template_id": "0-1-a",
+                            "coordinate": "cartesian",
+                            "x1": 30,
+                            "y1": 80,
+                            "x2": 100,
+                            "y2": 90,
+                            "coordinate_data": [
+                                {
+                                    "container_id": "0-1-7-0",
+                                    "template_id": "0-1-a-0",
+                                    "coordinate": "cartesian",
+                                    "x1": 30,
+                                    "y1": 80,
+                                    "x2": 100,
+                                    "y2": 90
+                                },
+                                {
+                                    "container_id": "0-1-7-1",
+                                    "template_id": "0-1-a-1",
+                                    "coordinate": "cartesian",
+                                    "x1": 30,
+                                    "y1": 80,
+                                    "x2": 100,
+                                    "y2": 90
+                                }
+                            ]
+                        },
+                        {
+                            "container_id": "0-1-8",
+                            "template_id": "0-1-a",
+                            "coordinate": "cartesian",
+                            "x1": 30,
+                            "y1": 90,
+                            "x2": 100,
+                            "y2": 100,
+                            "coordinate_data": [
+                                {
+                                    "container_id": "0-1-8-0",
+                                    "template_id": "0-1-a-0",
+                                    "coordinate": "cartesian",
+                                    "x1": 30,
+                                    "y1": 90,
+                                    "x2": 100,
+                                    "y2": 100
+                                },
+                                {
+                                    "container_id": "0-1-8-1",
+                                    "template_id": "0-1-a-1",
+                                    "coordinate": "cartesian",
+                                    "x1": 30,
+                                    "y1": 90,
+                                    "x2": 100,
+                                    "y2": 100
+                                }
+                            ]
+                        },
+                        {
+                            "container_id": "0-1-9",
+                            "template_id": "0-1-a",
+                            "coordinate": "cartesian",
+                            "x1": 30,
+                            "y1": 100,
+                            "x2": 100,
+                            "y2": 110,
+                            "coordinate_data": [
+                                {
+                                    "container_id": "0-1-9-0",
+                                    "template_id": "0-1-a-0",
+                                    "coordinate": "cartesian",
+                                    "x1": 30,
+                                    "y1": 100,
+                                    "x2": 100,
+                                    "y2": 110
+                                },
+                                {
+                                    "container_id": "0-1-9-1",
+                                    "template_id": "0-1-a-1",
+                                    "coordinate": "cartesian",
+                                    "x1": 30,
+                                    "y1": 100,
+                                    "x2": 100,
+                                    "y2": 110
+                                }
+                            ]
+                        },
+                        {
+                            "container_id": "0-1-10",
+                            "template_id": "0-1-a",
+                            "coordinate": "cartesian",
+                            "x1": 30,
+                            "y1": 110,
+                            "x2": 100,
+                            "y2": 120,
+                            "coordinate_data": [
+                                {
+                                    "container_id": "0-1-10-0",
+                                    "template_id": "0-1-a-0",
+                                    "coordinate": "cartesian",
+                                    "x1": 30,
+                                    "y1": 110,
+                                    "x2": 100,
+                                    "y2": 120
+                                },
+                                {
+                                    "container_id": "0-1-10-1",
+                                    "template_id": "0-1-a-1",
+                                    "coordinate": "cartesian",
+                                    "x1": 30,
+                                    "y1": 110,
+                                    "x2": 100,
+                                    "y2": 120
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "container_id": "0-2",
+                    "template_id": "0-2",
+                    "coordinate": "cartesian",
+                    "x1": 0,
+                    "y1": 100,
+                    "x2": 100,
+                    "y2": 110
+                }
+            ]
+        }
+    ],
+    "data_pattern": [
+        {
+            "container_id": "0-0-a",
+            "description": "Left-column, single row of miniature vertical rectangles (mini bars). Parse only one template row: equal-width bars arranged horizontally across the row, each spanning the full row height.",
+            "mark_type": "rectangle",
+            "data_type": "1D list",
+            "data_size": {
+                "num_marks": 12
+            },
+            "layout_pattern": {
+                "x": {
+                    "target": "1D_marks",
+                    "type": "equal_subdividing",
+                    "start": 0,
+                    "end": 100,
+                    "num_subdivisions": 12
+                },
+                "y": {
+                    "target": "1D_marks",
+                    "type": "alignment",
+                    "min": 0,
+                    "max": 100
+                }
+            },
+            "coordinate_system": "cartesian",
+            "other_properties": {
+                "opacity": [
+                    0.8,
+                    1
+                ],
+                "fill": [
+                    "#111111",
+                    "#2f2f2f",
+                    "#555555",
+                    "#7a7a7a",
+                    "#a0a0a0",
+                    "#c7c7c7"
+                ],
+                "stroke": "none",
+                "stroke_width": 0
+            }
+        },
+        {
+            "container_id": "0-1-a-0",
+            "description": "One instance of the template faint connector for a single row in the right column. It is a single horizontal line spanning the row from left to right behind the bubbles (parse r=0 only).",
+            "mark_type": "line",
+            "data_type": "1D list",
+            "data_size": {
+                "num_marks": 1
+            },
+            "layout_pattern": {
+                "x": {
+                    "target": "1D_marks",
+                    "type": "flexible_ranging",
+                    "start": 0,
+                    "end": 100,
+                    "data": [
+                        [
+                            0,
+                            100
+                        ]
+                    ]
+                },
+                "y": {
+                    "target": "1D_marks",
+                    "type": "alignment",
+                    "min": 50,
+                    "max": 50
+                }
+            },
+            "coordinate_system": "cartesian",
+            "other_properties": {
+                "opacity": [
+                    0.2,
+                    0.6
+                ],
+                "color": [
+                    "lightgray",
+                    "gray"
+                ],
+                "fill": "none",
+                "stroke": "lightgray",
+                "stroke_width": 1
+            }
+        },
+        {
+            "container_id": "0-1-a-1",
+            "description": "One template row of the right column showing a series of equally spaced bubbles (circles) along a faint horizontal line. We parse only this single template instance (one row), not all repeated rows.",
+            "mark_type": "circle",
+            "data_type": "1D list",
+            "data_size": {
+                "num_marks": 12
+            },
+            "layout_pattern": {
+                "coordinate_system": "cartesian",
+                "x": {
+                    "target": "1D_marks",
+                    "type": "equal_positioning_middle",
+                    "start": 0,
+                    "end": 100,
+                    "num_marks": 12
+                },
+                "y": {
+                    "target": "1D_marks",
+                    "type": "sharing_middle",
+                    "start": 0,
+                    "end": 100,
+                    "middle": 50
+                }
+            },
+            "coordinate_system": "cartesian",
+            "other_properties": {
+                "opacity": [
+                    0.4,
+                    1
+                ],
+                "color": [
+                    "#bfbfbf"
+                ],
+                "fill": "#bfbfbf",
+                "stroke": "#9e9e9e",
+                "stroke_width": 0.5,
+                "radius": [
+                    2,
+                    12
+                ]
+            }
+        },
+        {
+            "container_id": "0-2",
+            "description": "Single highlighted band spanning one row across the full width; parsed only the background rectangle in container 0-2.",
+            "mark_type": "rectangle",
+            "data_type": "1D list",
+            "data_size": {
+                "num_marks": 1
+            },
+            "layout_pattern": {
+                "x": {
+                    "target": "1D_marks",
+                    "type": "concrete",
+                    "min": 0,
+                    "max": 100,
+                    "middle": 50,
+                    "size": 100
+                },
+                "y": {
+                    "target": "1D_marks",
+                    "type": "concrete",
+                    "min": 0,
+                    "max": 100,
+                    "middle": 50,
+                    "size": 100
+                }
+            },
+            "coordinate_system": "cartesian",
+            "other_properties": {
+                "opacity": [
+                    0.2,
+                    0.5
+                ],
+                "color": [
+                    "orange"
+                ],
+                "fill": "orange",
+                "stroke": "none",
+                "stroke_width": 0
+            }
+        }
+    ]
+}

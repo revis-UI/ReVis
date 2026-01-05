@@ -1,0 +1,171 @@
+{
+    "container_id": "0",
+    "coordinate": "cartesian",
+    "description": "Root canvas covering the full figure.",
+    "coordinate_system": "(0, 0, 836, 768)",
+    "if_leaf": "false",
+    "components": [
+        {
+            "container_id": "0-a",
+            "description": "Main plotting region containing grouped vertical bar marks; four evenly spaced groups along x, each with three adjacent bars sharing a common bottom baseline.",
+            "coordinate": "cartesian",
+            "coordinate_system": "(80, 40, 820, 740)",
+            "if_leaf": "false",
+            "components": [
+                {
+                    "container_id": "0-a-a",
+                    "description": "Layer of grouped vertical bars: constant bar widths, uniform gaps; heights vary; three color series per group.",
+                    "coordinate": "cartesian",
+                    "coordinate_system": "(80, 40, 820, 740)",
+                    "if_leaf": "false",
+                    "components": [
+                        {
+                            "container_id": "0-a-a-a",
+                            "description": "All bar marks (12 rectangles) arranged in four clusters along x, each cluster containing three side-by-side vertical rectangles rising from a common baseline.",
+                            "coordinate": "cartesian",
+                            "coordinate_system": "(80, 40, 820, 740)",
+                            "if_leaf": "true",
+                            "mark_type": "rectangle"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "container_id": "0-b",
+            "description": "Empty (no additional data-encoding marks).",
+            "coordinate": "cartesian",
+            "coordinate_system": "(0, 0, 0, 0)",
+            "if_leaf": "false"
+        }
+    ],
+    "constraints": [
+        "four equally spaced x-clusters",
+        "three adjacent bars per cluster sharing a baseline",
+        "constant bar widths and uniform gaps"
+    ],
+    "variable_definitions": {
+        "n_groups": 4,
+        "n_series": 3
+    },
+    "coordinate_data": [
+        {
+            "container_id": "0-0",
+            "template_id": "0-a",
+            "x1": 80,
+            "y1": 40,
+            "x2": 820,
+            "y2": 740,
+            "coordinate_data": [
+                {
+                    "container_id": "0-0-0",
+                    "template_id": "0-a-a",
+                    "x1": 80,
+                    "y1": 40,
+                    "x2": 820,
+                    "y2": 740,
+                    "coordinate_data": [
+                        {
+                            "container_id": "0-0-0-0",
+                            "template_id": "0-a-a-a",
+                            "x1": 80,
+                            "y1": 40,
+                            "x2": 820,
+                            "y2": 740
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "container_id": "0-1",
+            "template_id": "0-b",
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+        },
+        {
+            "container_id": "0-2",
+            "template_id": "0-b",
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+        }
+    ],
+    "data_pattern": [
+        {
+            "container_id": "0-a-a-a",
+            "description": "Grouped vertical bars: 12 rectangles in four equally spaced x-clusters, each cluster has three adjacent bars sharing a common bottom baseline. We parse this as a 2D list (groups × series) and map the axis ranges to [0,100]. Heights approximate the visual values and respect a shared y-baseline.",
+            "mark_type": "rectangle",
+            "data_type": "2D list with same group size",
+            "data_size": {
+                "num_groups": 4,
+                "num_marks_per_group": 3
+            },
+            "layout_pattern": {
+                "x": {
+                    "target": "2D_groups",
+                    "type": "equal_positioning_middle",
+                    "start": 0,
+                    "end": 100,
+                    "num_groups": 4
+                },
+                "y": {
+                    "target": "2D_marks_in_group_with_different_data",
+                    "type": "sharing_min",
+                    "start": 0,
+                    "end": 100,
+                    "data": [
+                        [
+                            30,
+                            2.5,
+                            32.5
+                        ],
+                        [
+                            15,
+                            15,
+                            82.5
+                        ],
+                        [
+                            27.5,
+                            70,
+                            30
+                        ],
+                        [
+                            45,
+                            15,
+                            2.5
+                        ]
+                    ]
+                }
+            },
+            "coordinate_system": "cartesian",
+            "other_properties": {
+                "opacity": [
+                    0.8,
+                    1
+                ],
+                "color": [
+                    "red",
+                    "blue",
+                    "green"
+                ],
+                "fill": [
+                    "red",
+                    "blue",
+                    "green"
+                ],
+                "stroke": [
+                    "none",
+                    "black"
+                ],
+                "stroke_width": [
+                    0,
+                    1
+                ]
+            }
+        }
+    ]
+}

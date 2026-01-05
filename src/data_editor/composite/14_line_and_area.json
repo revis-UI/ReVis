@@ -1,0 +1,212 @@
+{
+    "container_id": "0",
+    "coordinate": "cartesian",
+    "description": "Single layered line chart with an overlaid uncertainty ribbon; one shared Cartesian plot area.",
+    "coordinate_system": {
+        "x1": "0",
+        "y1": "0",
+        "x2": "100",
+        "y2": "100"
+    },
+    "if_leaf": false,
+    "mark_type": null,
+    "components": [
+        {
+            "container_id": "0-0",
+            "coordinate": "cartesian",
+            "description": "A semi-transparent ribbon forming a continuous filled band whose thickness varies vertically along the horizontal extent of the plot; spans nearly the full width, centered around the line.",
+            "coordinate_system": {
+                "x1": "0",
+                "y1": "0",
+                "x2": "100",
+                "y2": "100"
+            },
+            "if_leaf": true,
+            "mark_type": "band",
+            "components": null
+        },
+        {
+            "container_id": "0-1",
+            "coordinate": "cartesian",
+            "description": "A single continuous polyline trending generally upward from left to right, overlaid on top of the band.",
+            "coordinate_system": {
+                "x1": "0",
+                "y1": "0",
+                "x2": "100",
+                "y2": "100"
+            },
+            "if_leaf": true,
+            "mark_type": "line",
+            "components": null
+        }
+    ],
+    "template_data_specification": null,
+    "data_specification": {
+        "0-0": {
+            "mark_specification": {
+                "mark_type": "band",
+                "is_link_mark": true,
+                "link_mark_type": "group_type",
+                "group_link_direction": "x",
+                "link_number": null,
+                "is_width_encoded_data": true,
+                "node_use_once": false,
+                "is_fully_connected": false,
+                "is_bipartite": false
+            },
+            "data_structure": {
+                "data_type": "2D_MATRIX",
+                "data_size": {
+                    "primary": {
+                        "number": 1,
+                        "dimension": "y",
+                        "explanation": "Time series sampled at ~12 x-positions across the plot."
+                    },
+                    "secondary": {
+                        "number": 12,
+                        "dimension": "x",
+                        "explanation": "For each x, two y-values (lower and upper) define the ribbon."
+                    }
+                }
+            },
+            "layout_specification": {
+                "x": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "min",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        0,
+                        0
+                    ],
+                    "anchor_distribute": "uniform_interval",
+                    "anchor_interval": 9.09,
+                    "anchor_start": 0
+                },
+                "y": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "min",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": false,
+                    "size_range": [
+                        0,
+                        20
+                    ],
+                    "anchor_distribute": "flexible",
+                    "anchor_interval": null,
+                    "anchor_start": null
+                },
+                "radius": null,
+                "angle": null,
+                "source": null,
+                "target": null
+            },
+            "non_layout_specification": {
+                "fill": {
+                    "scale": "fix",
+                    "fix": "#4C72B0",
+                    "linear": null,
+                    "options": null
+                },
+                "stroke": null,
+                "stroke-width": null,
+                "opacity": {
+                    "scale": "fix",
+                    "fix": 0.3,
+                    "linear": null,
+                    "options": null
+                },
+                "line_type": "straight",
+                "rx": null,
+                "ry": null
+            }
+        },
+        "0-1": {
+            "mark_specification": {
+                "mark_type": "line",
+                "is_link_mark": true,
+                "link_mark_type": "group_type",
+                "group_link_direction": "x",
+                "link_number": null,
+                "is_width_encoded_data": false,
+                "node_use_once": false,
+                "is_fully_connected": false,
+                "is_bipartite": false
+            },
+            "data_structure": {
+                "data_type": "2D_MATRIX",
+                "data_size": {
+                    "primary": {
+                        "number": 1,
+                        "dimension": "y",
+                        "explanation": "Single series (one line) over the x-axis."
+                    },
+                    "secondary": {
+                        "number": 12,
+                        "dimension": "x",
+                        "explanation": "About a dozen time points from 1970–1982 along x."
+                    }
+                }
+            },
+            "layout_specification": {
+                "x": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "min",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        0,
+                        0
+                    ],
+                    "anchor_distribute": "uniform_interval",
+                    "anchor_interval": 9.09,
+                    "anchor_start": 0
+                },
+                "y": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        0,
+                        0
+                    ],
+                    "anchor_distribute": "flexible",
+                    "anchor_interval": null,
+                    "anchor_start": null
+                },
+                "radius": null,
+                "angle": null,
+                "source": null,
+                "target": null
+            },
+            "non_layout_specification": {
+                "fill": null,
+                "stroke": {
+                    "scale": "fix",
+                    "fix": "#2F5E8E",
+                    "linear": null,
+                    "options": null
+                },
+                "stroke-width": null,
+                "opacity": {
+                    "scale": "fix",
+                    "fix": 1,
+                    "linear": null,
+                    "options": null
+                },
+                "line_type": "straight",
+                "rx": null,
+                "ry": null
+            }
+        }
+    }
+}

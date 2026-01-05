@@ -1,0 +1,234 @@
+{
+    "container_id": "0",
+    "coordinate": "cartesian",
+    "description": "Single-panel network layout composed of many circles (nodes) and numerous straight gray connecting lines (edges). No axes or grids; marks spread across the full canvas with clusters and overlaps.",
+    "coordinate_system": {
+        "x1": "0",
+        "y1": "0",
+        "x2": "100",
+        "y2": "100"
+    },
+    "if_leaf": false,
+    "mark_type": null,
+    "components": [
+        {
+            "container_id": "0-0",
+            "coordinate": "cartesian",
+            "description": "All connecting edges: many straight gray line segments spanning various directions and lengths, densely crossing the central area and linking distant clusters.",
+            "coordinate_system": {
+                "x1": "0",
+                "y1": "0",
+                "x2": "100",
+                "y2": "100"
+            },
+            "if_leaf": true,
+            "mark_type": "line",
+            "components": null
+        },
+        {
+            "container_id": "0-1",
+            "coordinate": "cartesian",
+            "description": "All nodes: multiple filled circles distributed across the canvas. Similar sizes, different fill colors indicating visual grouping; dense central cluster with several peripheral clusters.",
+            "coordinate_system": {
+                "x1": "0",
+                "y1": "0",
+                "x2": "100",
+                "y2": "100"
+            },
+            "if_leaf": true,
+            "mark_type": "circle",
+            "components": null
+        }
+    ],
+    "template_data_specification": null,
+    "data_specification": {
+        "0-0": {
+            "mark_specification": {
+                "mark_type": "line",
+                "is_link_mark": true,
+                "link_mark_type": "node_link_type",
+                "group_link_direction": null,
+                "link_number": 200,
+                "is_width_encoded_data": false,
+                "node_use_once": false,
+                "is_fully_connected": false,
+                "is_bipartite": false
+            },
+            "data_structure": {
+                "data_type": "1D_LIST",
+                "data_size": {
+                    "primary": {
+                        "number": 200,
+                        "dimension": "x",
+                        "explanation": "Approximate count of edges; each edge is positioned by its two node endpoints across the 2D canvas."
+                    },
+                    "secondary": null
+                }
+            },
+            "layout_specification": {
+                "x": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": false,
+                    "size_range": [
+                        0,
+                        100
+                    ],
+                    "anchor_distribute": "flexible",
+                    "anchor_interval": null,
+                    "anchor_start": null
+                },
+                "y": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": false,
+                    "size_range": [
+                        0,
+                        100
+                    ],
+                    "anchor_distribute": "flexible",
+                    "anchor_interval": null,
+                    "anchor_start": null
+                },
+                "radius": null,
+                "angle": null,
+                "source": [
+                    {
+                        "container_id": "0-1",
+                        "linked_object": "mark"
+                    }
+                ],
+                "target": [
+                    {
+                        "container_id": "0-1",
+                        "linked_object": "mark"
+                    }
+                ]
+            },
+            "non_layout_specification": {
+                "fill": null,
+                "stroke": {
+                    "scale": "fix",
+                    "fix": "#B0B0B0",
+                    "linear": null,
+                    "options": null
+                },
+                "stroke-width": null,
+                "opacity": null,
+                "line_type": "straight",
+                "rx": null,
+                "ry": null
+            }
+        },
+        "0-1": {
+            "mark_specification": {
+                "mark_type": "circle",
+                "is_link_mark": false,
+                "link_mark_type": "no_link",
+                "group_link_direction": null,
+                "link_number": null,
+                "is_width_encoded_data": false,
+                "node_use_once": false,
+                "is_fully_connected": false,
+                "is_bipartite": false
+            },
+            "data_structure": {
+                "data_type": "1D_LIST",
+                "data_size": {
+                    "primary": {
+                        "number": 90,
+                        "dimension": "x",
+                        "explanation": "Approximate count of nodes; each circle is positioned with independent x,y coordinates in a 2D scatter/network layout."
+                    },
+                    "secondary": {
+                        "number": 0,
+                        "dimension": "y",
+                        "explanation": "y used together with x to place each node (scatter-like)."
+                    }
+                }
+            },
+            "layout_specification": {
+                "x": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        3,
+                        3
+                    ],
+                    "anchor_distribute": "flexible",
+                    "anchor_interval": null,
+                    "anchor_start": null
+                },
+                "y": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        3,
+                        3
+                    ],
+                    "anchor_distribute": "flexible",
+                    "anchor_interval": null,
+                    "anchor_start": null
+                },
+                "radius": null,
+                "angle": null,
+                "source": null,
+                "target": null
+            },
+            "non_layout_specification": {
+                "fill": {
+                    "scale": "categorical",
+                    "fix": null,
+                    "linear": null,
+                    "options": [
+                        "#E41A1C",
+                        "#FF7F00",
+                        "#4DAF4A",
+                        "#377EB8",
+                        "#984EA3",
+                        "#A6D854",
+                        "#A65628",
+                        "#F781BF",
+                        "#00BCD4",
+                        "#999999"
+                    ]
+                },
+                "stroke": {
+                    "scale": "fix",
+                    "fix": "#FFFFFF",
+                    "linear": null,
+                    "options": null
+                },
+                "stroke-width": {
+                    "scale": "fix",
+                    "fix": 1,
+                    "linear": null,
+                    "options": null
+                },
+                "opacity": {
+                    "scale": "fix",
+                    "fix": 1,
+                    "linear": null,
+                    "options": null
+                },
+                "line_type": null,
+                "rx": null,
+                "ry": null
+            }
+        }
+    }
+}

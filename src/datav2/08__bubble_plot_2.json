@@ -1,0 +1,119 @@
+{
+    "container_id": "0",
+    "coordinate": "cartesian",
+    "description": "Single wide panel containing a dense scatter/bubble plot: numerous circles of varying sizes placed across the horizontal span and aligned into several discrete horizontal rows. No connecting lines or areas; only circles as data marks within the plot region.",
+    "coordinate_system": {
+        "x1": "0",
+        "y1": "0",
+        "x2": "100",
+        "y2": "60"
+    },
+    "if_leaf": true,
+    "mark_type": "circle",
+    "components": null,
+    "data_specification": {
+        "0": {
+            "mark_specification": {
+                "mark_type": "circle",
+                "is_link_mark": false,
+                "link_mark_type": "no_link",
+                "group_link_direction": null,
+                "link_number": null,
+                "is_width_encoded_data": false,
+                "node_use_once": false,
+                "is_fully_connected": false,
+                "is_bipartite": false
+            },
+            "data_structure": {
+                "data_type": "2D_LIST",
+                "data_size": {
+                    "primary": {
+                        "number": 9,
+                        "dimension": "y",
+                        "explanation": "Many bubble points placed by both x (time) and y (category) positions in a scatter/bubble plot."
+                    },
+                    "secondary": {
+                        "number": [10, 10, 20, 10, 15, 10, 25, 10, 10],
+                        "dimension": "x",
+                        "explanation": "Many bubble points placed by both x (time) and y (category) positions in a scatter/bubble plot."
+                    }
+                }
+            },
+            "layout_specification": {
+                "x": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": false,
+                    "size_range": [
+                        0.8,
+                        10
+                    ],
+                    "anchor_distribute": "flexible",
+                    "anchor_interval": null,
+                    "anchor_start": null
+                },
+                "y": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": false,
+                    "size_range": [
+                        0.8,
+                        10
+                    ],
+                    "anchor_distribute": "uniform_interval",
+                    "anchor_interval": 10,
+                    "anchor_start": 2
+                },
+                "radius": null,
+                "angle": null,
+                "source": null,
+                "target": null
+            },
+            "non_layout_specification": {
+                "fill": {
+                    "scale": "ordinal_primary",
+                    "fix": null,
+                    "linear": null,
+                    "options": [
+                        "#4C78A8",
+                        "#F58518",
+                        "#E45756",
+                        "#54A24B",
+                        "#EEDC3C",
+                        "#72B7B2",
+                        "#B279A2",
+                        "#9D755D",
+                        "#79706E"
+                    ]
+                },
+                "stroke": {
+                    "scale": "fix",
+                    "fix": "#333333",
+                    "linear": null,
+                    "options": null
+                },
+                "stroke-width": {
+                    "scale": "fix",
+                    "fix": 1,
+                    "linear": null,
+                    "options": null
+                },
+                "opacity": {
+                    "scale": "fix",
+                    "fix": 0.7,
+                    "linear": null,
+                    "options": null
+                },
+                "line_type": null,
+                "rx": null,
+                "ry": null
+            }
+        }
+    }
+}

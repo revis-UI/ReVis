@@ -1,0 +1,708 @@
+{
+    "container_id": "0",
+    "coordinate": "polar",
+    "description": "Radial layout with multiple concentric layers: outer segmented annuli, a ring of nodes (circles) on the perimeter, numerous internal connecting lines, and dense short radial lines near the center plus a small central circle.",
+    "coordinate_system": {
+        "cx": "0.5",
+        "cy": "0.5",
+        "a1": "0",
+        "a2": "360",
+        "r1": "0",
+        "r2": "1"
+    },
+    "if_leaf": false,
+    "mark_type": null,
+    "components": [
+        {
+            "container_id": "0-0",
+            "coordinate": "polar",
+            "description": "Outermost thick annulus around the full circle, visually split into several colored arc segments.",
+            "coordinate_system": {
+                "cx": "0.5",
+                "cy": "0.5",
+                "a1": "0",
+                "a2": "360",
+                "r1": "0.88",
+                "r2": "1.00"
+            },
+            "if_leaf": true,
+            "mark_type": "arc",
+            "components": null
+        },
+        {
+            "container_id": "0-1",
+            "coordinate": "polar",
+            "description": "Second annulus inside the outer ring, composed of shorter arc segments concentrated in a few sectors.",
+            "coordinate_system": {
+                "cx": "0.5",
+                "cy": "0.5",
+                "a1": "0",
+                "a2": "360",
+                "r1": "0.78",
+                "r2": "0.88"
+            },
+            "if_leaf": true,
+            "mark_type": "arc",
+            "components": null
+        },
+        {
+            "container_id": "0-2",
+            "coordinate": "polar",
+            "description": "Perimeter ring of many evenly spaced small circles just inside the annuli.",
+            "coordinate_system": {
+                "cx": "0.5",
+                "cy": "0.5",
+                "a1": "0",
+                "a2": "360",
+                "r1": "0.63",
+                "r2": "0.72"
+            },
+            "if_leaf": true,
+            "mark_type": "circle",
+            "components": null
+        },
+        {
+            "container_id": "0-3",
+            "coordinate": "polar",
+            "description": "Dense network of thin, mostly translucent straight connections spanning the interior, linking perimeter circles to other circles and toward the center.",
+            "coordinate_system": {
+                "cx": "0.5",
+                "cy": "0.5",
+                "a1": "0",
+                "a2": "360",
+                "r1": "0.00",
+                "r2": "0.75"
+            },
+            "if_leaf": true,
+            "mark_type": "line",
+            "components": null
+        },
+        {
+            "container_id": "0-4",
+            "coordinate": "polar",
+            "description": "Compact cluster of many short radial line marks near the center, forming a star-like pattern with alternating colors.",
+            "coordinate_system": {
+                "cx": "0.5",
+                "cy": "0.5",
+                "a1": "0",
+                "a2": "360",
+                "r1": "0.08",
+                "r2": "0.40"
+            },
+            "if_leaf": true,
+            "mark_type": "line",
+            "components": null
+        },
+        {
+            "container_id": "0-5",
+            "coordinate": "polar",
+            "description": "Small central circular node at the very center.",
+            "coordinate_system": {
+                "cx": "0.5",
+                "cy": "0.5",
+                "a1": "0",
+                "a2": "360",
+                "r1": "0.00",
+                "r2": "0.08"
+            },
+            "if_leaf": true,
+            "mark_type": "circle",
+            "components": null
+        }
+    ],
+    "template_data_specification": null,
+    "data_specification": {
+        "0-0": {
+            "mark_specification": {
+                "mark_type": "arc",
+                "is_link_mark": false,
+                "link_mark_type": "no_link",
+                "group_link_direction": null,
+                "link_number": null,
+                "is_width_encoded_data": false,
+                "node_use_once": false,
+                "is_fully_connected": false,
+                "is_bipartite": false
+            },
+            "data_structure": {
+                "data_type": "1D_LIST",
+                "data_size": {
+                    "primary": {
+                        "number": 8,
+                        "dimension": "angle",
+                        "explanation": "The outer annulus is divided into several arc segments arranged around the circle; each item spans an angular range."
+                    },
+                    "secondary": null
+                }
+            },
+            "layout_specification": {
+                "x": null,
+                "y": null,
+                "radius": {
+                    "stacking": false,
+                    "stacking_direction": "max",
+                    "anchor": "max",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        100,
+                        100
+                    ],
+                    "anchor_distribute": "fixed_value",
+                    "anchor_interval": 0,
+                    "anchor_start": 100
+                },
+                "angle": {
+                    "stacking": true,
+                    "stacking_direction": "min",
+                    "anchor": "stacking_decided",
+                    "subdividing": true,
+                    "2d_flatten": false,
+                    "size_uniform": false,
+                    "size_range": [
+                        5,
+                        40
+                    ],
+                    "anchor_distribute": "flexible",
+                    "anchor_interval": null,
+                    "anchor_start": null
+                },
+                "source": null,
+                "target": null
+            },
+            "non_layout_specification": {
+                "fill": {
+                    "scale": "categorical",
+                    "fix": null,
+                    "linear": null,
+                    "options": [
+                        "#D8B24A",
+                        "#66A85B",
+                        "#A785C8",
+                        "#D07C36",
+                        "#8EC1CF",
+                        "#C6C6C6"
+                    ]
+                },
+                "stroke": {
+                    "scale": "fix",
+                    "fix": "#FFFFFF",
+                    "linear": null,
+                    "options": null
+                },
+                "stroke-width": {
+                    "scale": "fix",
+                    "fix": 1.5,
+                    "linear": null,
+                    "options": null
+                },
+                "opacity": {
+                    "scale": "fix",
+                    "fix": 1,
+                    "linear": null,
+                    "options": null
+                },
+                "line_type": null,
+                "rx": null,
+                "ry": null
+            }
+        },
+        "0-1": {
+            "mark_specification": {
+                "mark_type": "arc",
+                "is_link_mark": false,
+                "link_mark_type": "no_link",
+                "group_link_direction": null,
+                "link_number": null,
+                "is_width_encoded_data": false,
+                "node_use_once": false,
+                "is_fully_connected": false,
+                "is_bipartite": false
+            },
+            "data_structure": {
+                "data_type": "1D_LIST",
+                "data_size": {
+                    "primary": {
+                        "number": 10,
+                        "dimension": "angle",
+                        "explanation": "Short arc segments distributed around selected angular sectors of the inner annulus; approximately ten segments are visible."
+                    },
+                    "secondary": null
+                }
+            },
+            "layout_specification": {
+                "x": null,
+                "y": null,
+                "radius": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        100,
+                        100
+                    ],
+                    "anchor_distribute": "fixed_value",
+                    "anchor_interval": 0,
+                    "anchor_start": 50
+                },
+                "angle": {
+                    "stacking": true,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": true,
+                    "2d_flatten": false,
+                    "size_uniform": false,
+                    "size_range": [
+                        3,
+                        12
+                    ],
+                    "anchor_distribute": "flexible",
+                    "anchor_interval": null,
+                    "anchor_start": null
+                },
+                "source": null,
+                "target": null
+            },
+            "non_layout_specification": {
+                "fill": {
+                    "scale": "categorical",
+                    "fix": null,
+                    "linear": null,
+                    "options": [
+                        "#C9A441",
+                        "#5AA36C",
+                        "#8E69B7",
+                        "#D37D36",
+                        "#7EA9D6",
+                        "#8F8F8F"
+                    ]
+                },
+                "stroke": null,
+                "stroke-width": null,
+                "opacity": {
+                    "scale": "fix",
+                    "fix": 1,
+                    "linear": null,
+                    "options": null
+                },
+                "line_type": null,
+                "rx": null,
+                "ry": null
+            }
+        },
+        "0-2": {
+            "mark_specification": {
+                "mark_type": "circle",
+                "is_link_mark": false,
+                "link_mark_type": "no_link",
+                "group_link_direction": null,
+                "link_number": null,
+                "is_width_encoded_data": false,
+                "node_use_once": false,
+                "is_fully_connected": false,
+                "is_bipartite": false
+            },
+            "data_structure": {
+                "data_type": "1D_LIST",
+                "data_size": {
+                    "primary": {
+                        "number": 48,
+                        "dimension": "angle",
+                        "explanation": "Many evenly spaced small circles placed around the full circle at a fixed radius."
+                    },
+                    "secondary": null
+                }
+            },
+            "layout_specification": {
+                "x": null,
+                "y": null,
+                "radius": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        0,
+                        0
+                    ],
+                    "anchor_distribute": "fixed_value",
+                    "anchor_interval": null,
+                    "anchor_start": 50
+                },
+                "angle": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        0,
+                        0
+                    ],
+                    "anchor_distribute": "uniform_interval",
+                    "anchor_interval": 2.0833,
+                    "anchor_start": 0
+                },
+                "source": null,
+                "target": null
+            },
+            "non_layout_specification": {
+                "fill": {
+                    "scale": "categorical",
+                    "fix": null,
+                    "linear": null,
+                    "options": [
+                        "#D9B44A",
+                        "#7FBF6A",
+                        "#4DAF8A",
+                        "#8C6BAB",
+                        "#C57B39",
+                        "#6FB0C3"
+                    ]
+                },
+                "stroke": {
+                    "scale": "fix",
+                    "fix": "#FFFFFF",
+                    "linear": null,
+                    "options": null
+                },
+                "stroke-width": {
+                    "scale": "fix",
+                    "fix": 1,
+                    "linear": null,
+                    "options": null
+                },
+                "opacity": {
+                    "scale": "fix",
+                    "fix": 1,
+                    "linear": null,
+                    "options": null
+                },
+                "line_type": null,
+                "rx": null,
+                "ry": null
+            }
+        },
+        "0-3": {
+            "mark_specification": {
+                "mark_type": "line",
+                "is_link_mark": true,
+                "link_mark_type": "node_link_type",
+                "group_link_direction": null,
+                "link_number": 350,
+                "is_width_encoded_data": false,
+                "node_use_once": false,
+                "is_fully_connected": false,
+                "is_bipartite": false
+            },
+            "data_structure": {
+                "data_type": "1D_LIST",
+                "data_size": {
+                    "primary": {
+                        "number": 350,
+                        "dimension": "angle",
+                        "explanation": "Each data item represents one edge in the network; edges are positioned by source/target nodes arranged around the circle."
+                    },
+                    "secondary": null
+                }
+            },
+            "layout_specification": {
+                "x": null,
+                "y": null,
+                "radius": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": false,
+                    "size_range": [
+                        0,
+                        100
+                    ],
+                    "anchor_distribute": "flexible",
+                    "anchor_interval": null,
+                    "anchor_start": null
+                },
+                "angle": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": false,
+                    "size_range": [
+                        0,
+                        100
+                    ],
+                    "anchor_distribute": "flexible",
+                    "anchor_interval": null,
+                    "anchor_start": null
+                },
+                "source": [
+                    {
+                        "container_id": "0-2",
+                        "linked_object": "mark"
+                    },
+                    {
+                        "container_id": "0-5",
+                        "linked_object": "mark"
+                    }
+                ],
+                "target": [
+                    {
+                        "container_id": "0-2",
+                        "linked_object": "mark"
+                    },
+                    {
+                        "container_id": "0-5",
+                        "linked_object": "mark"
+                    }
+                ]
+            },
+            "non_layout_specification": {
+                "fill": null,
+                "stroke": {
+                    "scale": "fix",
+                    "fix": "#C0C0C0",
+                    "linear": null,
+                    "options": null
+                },
+                "stroke-width": {
+                    "scale": "fix",
+                    "fix": 1,
+                    "linear": null,
+                    "options": null
+                },
+                "opacity": {
+                    "scale": "fix",
+                    "fix": 0.25,
+                    "linear": null,
+                    "options": null
+                },
+                "line_type": "straight",
+                "rx": null,
+                "ry": null
+            }
+        },
+        "0-4": {
+            "mark_specification": {
+                "mark_type": "line",
+                "is_link_mark": false,
+                "link_mark_type": "no_link",
+                "group_link_direction": null,
+                "link_number": null,
+                "is_width_encoded_data": false,
+                "node_use_once": false,
+                "is_fully_connected": false,
+                "is_bipartite": false
+            },
+            "data_structure": {
+                "data_type": "2D_List",
+                "data_size": {
+                    "primary": {
+                        "number": 36,
+                        "dimension": "angle",
+                        "explanation": "Many short radial strokes arranged around the center across many evenly spaced angles."
+                    },
+                    "secondary": {
+                        "number": [
+                            8,
+                            2,
+                            3,
+                            4,
+                            5,
+                            6,
+                            7,
+                            8,
+                            8,
+                            2,
+                            3,
+                            4,
+                            5,
+                            6,
+                            7,
+                            8,
+                            8,
+                            2,
+                            3,
+                            4,
+                            5,
+                            6,
+                            7,
+                            8,
+                            7,
+                            8,
+                            2,
+                            3,
+                            4,
+                            5,
+                            6,
+                            7,
+                            8,
+                            5,
+                            6,
+                            7
+                        ],
+                        "dimension": "radius",
+                        "explanation": "Multiple short strokes per angle at increasing radii near the center."
+                    }
+                }
+            },
+            "layout_specification": {
+                "x": null,
+                "y": null,
+                "radius": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        5,
+                        5
+                    ],
+                    "anchor_distribute": "uniform_interval",
+                    "anchor_interval": 12.5,
+                    "anchor_start": 0
+                },
+                "angle": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        1,
+                        1
+                    ],
+                    "anchor_distribute": "uniform_interval",
+                    "anchor_interval": 2.7778,
+                    "anchor_start": 0
+                },
+                "source": null,
+                "target": null
+            },
+            "non_layout_specification": {
+                "fill": null,
+                "stroke": {
+                    "scale": "categorical",
+                    "fix": null,
+                    "linear": null,
+                    "options": [
+                        "#D64541",
+                        "#2E86C1"
+                    ]
+                },
+                "stroke-width": null,
+                "opacity": {
+                    "scale": "fix",
+                    "fix": 1,
+                    "linear": null,
+                    "options": null
+                },
+                "line_type": "straight",
+                "rx": null,
+                "ry": null
+            }
+        },
+        "0-5": {
+            "mark_specification": {
+                "mark_type": "circle",
+                "is_link_mark": false,
+                "link_mark_type": "no_link",
+                "group_link_direction": null,
+                "link_number": null,
+                "is_width_encoded_data": false,
+                "node_use_once": false,
+                "is_fully_connected": false,
+                "is_bipartite": false
+            },
+            "data_structure": {
+                "data_type": "1D_LIST",
+                "data_size": {
+                    "primary": {
+                        "number": 1,
+                        "dimension": "radius",
+                        "explanation": "Single central circle at the origin; position controlled by radius only (angle is irrelevant at r=0)."
+                    },
+                    "secondary": null
+                }
+            },
+            "layout_specification": {
+                "x": null,
+                "y": null,
+                "radius": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        8,
+                        8
+                    ],
+                    "anchor_distribute": "fixed_value",
+                    "anchor_interval": 0,
+                    "anchor_start": 0
+                },
+                "angle": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        8,
+                        8
+                    ],
+                    "anchor_distribute": "fixed_value",
+                    "anchor_interval": 0,
+                    "anchor_start": 0
+                },
+                "source": null,
+                "target": null
+            },
+            "non_layout_specification": {
+                "fill": {
+                    "scale": "fix",
+                    "fix": "#C9B07A",
+                    "linear": null,
+                    "options": null
+                },
+                "stroke": {
+                    "scale": "fix",
+                    "fix": "#6E5A2B",
+                    "linear": null,
+                    "options": null
+                },
+                "stroke-width": {
+                    "scale": "fix",
+                    "fix": 1,
+                    "linear": null,
+                    "options": null
+                },
+                "opacity": {
+                    "scale": "fix",
+                    "fix": 1,
+                    "linear": null,
+                    "options": null
+                },
+                "line_type": null,
+                "rx": null,
+                "ry": null
+            }
+        }
+    }
+}

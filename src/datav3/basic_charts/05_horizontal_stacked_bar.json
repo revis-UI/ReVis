@@ -1,0 +1,112 @@
+{
+    "container_id": "0",
+    "coordinate": "cartesian",
+    "description": "Single panel with many horizontally aligned rectangles arranged in rows. Each row contains two opposing rectangles that meet at a central vertical boundary—one extending left and one extending right. Rows are stacked with narrow gaps, forming a mirrored/diverging set of bars across the vertical space. Only rectangles encode data; other elements (gridlines/labels/axes) are ignored.",
+    "coordinate_system": {
+        "x1": "0",
+        "y1": "0",
+        "x2": "100",
+        "y2": "108"
+    },
+    "if_leaf": true,
+    "mark_type": "rectangle",
+    "components": null,
+    "data_specification": {
+        "0": {
+            "mark_specification": {
+                "mark_type": "rectangle",
+                "is_link_mark": false,
+                "link_mark_type": "no_link",
+                "group_link_direction": null,
+                "link_number": null,
+                "is_width_encoded_data": false,
+                "node_use_once": false,
+                "is_fully_connected": false,
+                "is_bipartite": false
+            },
+            "data_structure": {
+                "data_type": "2D_MATRIX",
+                "data_size": {
+                    "primary": {
+                        "number": 19,
+                        "dimension": "y",
+                        "explanation": "Many rows stacked vertically; each row is a pair of opposing bars."
+                    },
+                    "secondary": {
+                        "number": 2,
+                        "dimension": "x",
+                        "explanation": "Two rectangles per row: one extends left and one extends right from the center."
+                    }
+                }
+            },
+            "layout_specification": {
+                "x": {
+                    "stacking": true,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": true,
+                    "2d_flatten": false,
+                    "size_uniform": false,
+                    "size_range": [
+                        1,
+                        50
+                    ],
+                    "anchor_distribute": "fixed_value",
+                    "anchor_interval": 0,
+                    "anchor_start": 50
+                },
+                "y": {
+                    "stacking": true,
+                    "stacking_direction": "min",
+                    "anchor": "stacking_decided",
+                    "subdividing": true,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        4,
+                        4
+                    ],
+                    "anchor_distribute": "uniform_interval",
+                    "anchor_interval": 5,
+                    "anchor_start": 2
+                },
+                "radius": null,
+                "angle": null,
+                "source": null,
+                "target": null
+            },
+            "non_layout_specification": {
+                "fill": {
+                    "scale": "ordinal_secondary",
+                    "fix": null,
+                    "linear": null,
+                    "options": [
+                        "#6A4C93",
+                        "#D88D64"
+                    ]
+                },
+                "stroke": {
+                    "scale": "fix",
+                    "fix": "#FFFFFF",
+                    "linear": null,
+                    "options": null
+                },
+                "stroke-width": {
+                    "scale": "fix",
+                    "fix": 0.5,
+                    "linear": null,
+                    "options": null
+                },
+                "opacity": {
+                    "scale": "fix",
+                    "fix": 1,
+                    "linear": null,
+                    "options": null
+                },
+                "line_type": null,
+                "rx": null,
+                "ry": null
+            }
+        }
+    }
+}

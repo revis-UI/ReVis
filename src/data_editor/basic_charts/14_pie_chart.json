@@ -1,0 +1,104 @@
+{
+    "container_id": "0",
+    "coordinate": "polar",
+    "description": "Single pie chart composed of multiple contiguous wedges (arcs) filling a full circle. No inner hole; wedges meet at the center and span 360 degrees.",
+    "coordinate_system": {
+        "cx": "0.5",
+        "cy": "0.5",
+        "a1": "0",
+        "a2": "360",
+        "r1": "0",
+        "r2": "1"
+    },
+    "if_leaf": true,
+    "mark_type": "arc",
+    "components": null,
+    "data_specification": {
+        "0": {
+            "mark_specification": {
+                "mark_type": "arc",
+                "is_link_mark": false,
+                "link_mark_type": "no_link",
+                "group_link_direction": null,
+                "link_number": null,
+                "is_width_encoded_data": false,
+                "node_use_once": false,
+                "is_fully_connected": false,
+                "is_bipartite": false
+            },
+            "data_structure": {
+                "data_type": "1D_LIST",
+                "data_size": {
+                    "primary": {
+                        "number": 6,
+                        "dimension": "angle",
+                        "explanation": "Six wedges distributed around the circle; value encoded by angular span."
+                    },
+                    "secondary": null
+                }
+            },
+            "layout_specification": {
+                "x": null,
+                "y": null,
+                "radius": {
+                    "stacking": false,
+                    "stacking_direction": "min",
+                    "anchor": "min",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        100,
+                        100
+                    ],
+                    "anchor_distribute": "fixed_value",
+                    "anchor_interval": 0,
+                    "anchor_start": 0
+                },
+                "angle": {
+                    "stacking": true,
+                    "stacking_direction": "min",
+                    "anchor": "stacking_decided",
+                    "subdividing": true,
+                    "2d_flatten": false,
+                    "size_uniform": false,
+                    "size_range": [
+                        8,
+                        28
+                    ],
+                    "anchor_distribute": "flexible",
+                    "anchor_interval": null,
+                    "anchor_start": null
+                },
+                "source": null,
+                "target": null
+            },
+            "non_layout_specification": {
+                "fill": {
+                    "scale": "categorical",
+                    "fix": null,
+                    "linear": null,
+                    "options": [
+                        "#4C72B0",
+                        "#DD8452",
+                        "#C44E52",
+                        "#64B5B4",
+                        "#55A868",
+                        "#E0C240"
+                    ]
+                },
+                "stroke": {
+                    "scale": "fix",
+                    "fix": "#FFFFFF",
+                    "linear": null,
+                    "options": null
+                },
+                "stroke-width": null,
+                "opacity": null,
+                "line_type": null,
+                "rx": null,
+                "ry": null
+            }
+        }
+    }
+}

@@ -1,0 +1,97 @@
+{
+    "container_id": "0",
+    "coordinate": "cartesian",
+    "description": "Single-panel heatmap: a dense rectangular plotting region filled with many small, equally sized rectangles arranged in a grid. Rectangles vary in color intensity and cover most of the central-left area of the canvas, leaving margins for axes and a right-side legend (ignored). No additional overlaid lines, areas, or connectors.",
+    "coordinate_system": {
+        "x1": "0",
+        "y1": "0",
+        "x2": "100",
+        "y2": "100"
+    },
+    "if_leaf": true,
+    "mark_type": "rectangle",
+    "components": null,
+    "data_specification": {
+        "0": {
+            "mark_specification": {
+                "mark_type": "rectangle",
+                "is_link_mark": false,
+                "link_mark_type": "no_link",
+                "group_link_direction": null,
+                "link_number": null,
+                "is_width_encoded_data": false,
+                "node_use_once": false,
+                "is_fully_connected": false,
+                "is_bipartite": false
+            },
+            "data_structure": {
+                "data_type": "2D_MATRIX",
+                "data_size": {
+                    "primary": {
+                        "number": 30,
+                        "dimension": "x",
+                        "explanation": "Heatmap bins form a regular grid; approximately 30 columns along x."
+                    },
+                    "secondary": {
+                        "number": 25,
+                        "dimension": "y",
+                        "explanation": "Regular grid rows; approximately 25 bins along y."
+                    }
+                }
+            },
+            "layout_specification": {
+                "x": {
+                    "stacking": true,
+                    "stacking_direction": "min",
+                    "anchor": "stacking_decided",
+                    "subdividing": true,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        3.33,
+                        3.33
+                    ],
+                    "anchor_distribute": "uniform_interval",
+                    "anchor_interval": 3.33,
+                    "anchor_start": 0
+                },
+                "y": {
+                    "stacking": true,
+                    "stacking_direction": "min",
+                    "anchor": "stacking_decided",
+                    "subdividing": true,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        4,
+                        4
+                    ],
+                    "anchor_distribute": "uniform_interval",
+                    "anchor_interval": 4,
+                    "anchor_start": 0
+                },
+                "radius": null,
+                "angle": null,
+                "source": null,
+                "target": null
+            },
+            "non_layout_specification": {
+                "fill": {
+                    "scale": "linear",
+                    "fix": null,
+                    "linear": [
+                        "#E5F5C9",
+                        "#08519C"
+                    ],
+                    "options": null
+                },
+                "stroke": null,
+                "stroke-width": null,
+                "opacity": null,
+                "line_type": null,
+                "rx": null,
+                "ry": null
+            }
+        }
+    }
+}

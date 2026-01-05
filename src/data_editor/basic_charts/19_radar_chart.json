@@ -1,0 +1,135 @@
+{
+    "container_id": "0",
+    "coordinate": "polar",
+    "description": "Single radar/spider chart in one shared polar space. Central, overlaid polygonal shapes span the full 360° with varying radii. Light gray grid rings and spokes exist but are ignored as non-data decorations.",
+    "coordinate_system": {
+        "cx": "0.5",
+        "cy": "0.5",
+        "a1": "0",
+        "a2": "360",
+        "r1": "0",
+        "r2": "1"
+    },
+    "if_leaf": false,
+    "mark_type": null,
+    "components": [
+        {
+            "container_id": "0-0",
+            "coordinate": "polar",
+            "description": "Filled polygonal areas: two semi‑transparent closed shapes connecting values around all angular axes; overlap occurs near the center and mid-radii.",
+            "coordinate_system": {
+                "cx": "0.5",
+                "cy": "0.5",
+                "a1": "0",
+                "a2": "360",
+                "r1": "0",
+                "r2": "1"
+            },
+            "if_leaf": true,
+            "mark_type": "area",
+            "components": null
+        }
+    ],
+    "template_data_specification": null,
+    "data_specification": {
+        "0-0": {
+            "mark_specification": {
+                "mark_type": "area",
+                "is_link_mark": true,
+                "link_mark_type": "group_type",
+                "group_link_direction": "angle",
+                "link_number": null,
+                "is_width_encoded_data": true,
+                "node_use_once": false,
+                "is_fully_connected": false,
+                "is_bipartite": false
+            },
+            "data_structure": {
+                "data_type": "2D_MATRIX",
+                "data_size": {
+                    "primary": {
+                        "number": 2,
+                        "dimension": "radius",
+                        "explanation": "Two overlaid radar areas (two series) drawn in the same polar space."
+                    },
+                    "secondary": {
+                        "number": 7,
+                        "dimension": "angle",
+                        "explanation": "Each area connects 7 categorical axes around the circle."
+                    }
+                }
+            },
+            "layout_specification": {
+                "x": null,
+                "y": null,
+                "radius": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": false,
+                    "size_range": [
+                        0,
+                        100
+                    ],
+                    "anchor_distribute": "flexible",
+                    "anchor_interval": null,
+                    "anchor_start": null
+                },
+                "angle": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": true,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        0,
+                        0
+                    ],
+                    "anchor_distribute": "uniform_interval",
+                    "anchor_interval": 14.2857,
+                    "anchor_start": 0
+                },
+                "source": null,
+                "target": null
+            },
+            "non_layout_specification": {
+                "fill": {
+                    "scale": "ordinal_primary",
+                    "fix": null,
+                    "linear": null,
+                    "options": [
+                        "#1f77b4",
+                        "#ff7f0e"
+                    ]
+                },
+                "stroke": {
+                    "scale": "ordinal_primary",
+                    "fix": null,
+                    "linear": null,
+                    "options": [
+                        "#1F77B4",
+                        "#FF7F0E"
+                    ]
+                },
+                "stroke-width": {
+                    "scale": "fix",
+                    "fix": 4,
+                    "linear": null,
+                    "options": null
+                },
+                "opacity": {
+                    "scale": "fix",
+                    "fix": 0.3,
+                    "linear": null,
+                    "options": null
+                },
+                "line_type": "straight",
+                "rx": null,
+                "ry": null
+            }
+        }
+    }
+}

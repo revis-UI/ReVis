@@ -1,0 +1,114 @@
+{
+    "container_id": "0",
+    "coordinate": "cartesian",
+    "description": "Single-panel chart containing multiple stacked filled areas that extend across the full width, rising from a shared baseline near the bottom with jagged upper boundaries; axes/labels ignored.",
+    "coordinate_system": {
+        "x1": "0",
+        "y1": "0",
+        "x2": "100",
+        "y2": "100"
+    },
+    "if_leaf": true,
+    "mark_type": "area",
+    "components": null,
+    "template_data_specification": null,
+    "data_specification": {
+        "0": {
+            "mark_specification": {
+                "mark_type": "area",
+                "is_link_mark": true,
+                "link_mark_type": "group_type",
+                "group_link_direction": "x",
+                "link_number": null,
+                "is_width_encoded_data": true,
+                "node_use_once": false,
+                "is_fully_connected": false,
+                "is_bipartite": false
+            },
+            "data_structure": {
+                "data_type": "2D_MATRIX",
+                "data_size": {
+                    "primary": {
+                        "number": 3,
+                        "dimension": "y",
+                        "explanation": "Three stacked series layered along the y direction"
+                    },
+                    "secondary": {
+                        "number": 40,
+                        "dimension": "x",
+                        "explanation": "Each series is defined by many control points distributed across the full x width"
+                    }
+                }
+            },
+            "layout_specification": {
+                "x": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        0,
+                        0
+                    ],
+                    "anchor_distribute": "uniform_interval",
+                    "anchor_interval": 2.6,
+                    "anchor_start": 0
+                },
+                "y": {
+                    "stacking": true,
+                    "stacking_direction": "min",
+                    "anchor": "stacking_decided",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": false,
+                    "size_range": [
+                        0,
+                        100
+                    ],
+                    "anchor_distribute": "flexible",
+                    "anchor_interval": null,
+                    "anchor_start": null
+                },
+                "radius": null,
+                "angle": null,
+                "source": null,
+                "target": null
+            },
+            "non_layout_specification": {
+                "fill": {
+                    "scale": "ordinal_primary",
+                    "fix": null,
+                    "linear": null,
+                    "options": [
+                        "#F05A5A",
+                        "#FFA0A0",
+                        "#F7D36D"
+                    ]
+                },
+                "stroke": {
+                    "scale": "fix",
+                    "fix": "#000",
+                    "linear": null,
+                    "options": null
+                },
+                "stroke-width": {
+                    "scale": "fix",
+                    "fix": 1,
+                    "linear": null,
+                    "options": null
+                },
+                "opacity": {
+                    "scale": "fix",
+                    "fix": 0.9,
+                    "linear": null,
+                    "options": null
+                },
+                "line_type": "straight",
+                "rx": null,
+                "ry": null
+            }
+        }
+    }
+}

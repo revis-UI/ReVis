@@ -1,0 +1,94 @@
+{
+    "container_id": "0",
+    "coordinate": "cartesian",
+    "description": "Single-panel chart containing many filled circles scattered across the main plotting region; circles vary in size and are uniformly colored. No other data-encoding layers (no lines, bands, or areas). Legend and axes are excluded.",
+    "coordinate_system": {
+        "x1": "0",
+        "y1": "0",
+        "x2": "100",
+        "y2": "100"
+    },
+    "if_leaf": true,
+    "mark_type": "circle",
+    "components": null,
+    "data_specification": {
+        "0": {
+            "mark_specification": {
+                "mark_type": "circle",
+                "is_link_mark": false,
+                "link_mark_type": "no_link",
+                "group_link_direction": null,
+                "link_number": null,
+                "is_width_encoded_data": false,
+                "node_use_once": false,
+                "is_fully_connected": false,
+                "is_bipartite": false
+            },
+            "data_structure": {
+                "data_type": "2D_MATRIX",
+                "data_size": {
+                    "primary": {
+                        "number": 9,
+                        "dimension": "x",
+                        "explanation": "Bubble scatter plot with many circles positioned by both x and y; approximate count of points."
+                    },
+                    "secondary": {
+                        "number": 9,
+                        "dimension": "y",
+                        "explanation": "Each point also has a y position."
+                    }
+                }
+            },
+            "layout_specification": {
+                "x": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": false,
+                    "size_range": [
+                        1,
+                        8
+                    ],
+                    "anchor_distribute": "uniform_interval",
+                    "anchor_interval": 10,
+                    "anchor_start": 2
+                },
+                "y": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": false,
+                    "size_range": [
+                        1,
+                        8
+                    ],
+                    "anchor_distribute": "uniform_interval",
+                    "anchor_interval": 10,
+                    "anchor_start": 2
+                },
+                "radius": null,
+                "angle": null,
+                "source": null,
+                "target": null
+            },
+            "non_layout_specification": {
+                "fill": {
+                    "scale": "fix",
+                    "fix": "#4B77A8",
+                    "linear": null,
+                    "options": null
+                },
+                "stroke": null,
+                "stroke-width": null,
+                "opacity": null,
+                "line_type": null,
+                "rx": null,
+                "ry": null
+            }
+        }
+    }
+}

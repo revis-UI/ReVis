@@ -1,0 +1,105 @@
+{
+    "container_id": "0",
+    "coordinate": "cartesian",
+    "description": "Single-panel strip/interval plot composed of many short, thin vertical ticks arranged in several horizontal bands (rows) across the y-direction; ticks vary in x-position and cluster at certain ranges. Axes, labels, and gridlines ignored.",
+    "coordinate_system": {
+        "x1": "0",
+        "y1": "0",
+        "x2": "100",
+        "y2": "100"
+    },
+    "if_leaf": true,
+    "mark_type": "line",
+    "components": null,
+    "data_specification": {
+        "0": {
+            "mark_specification": {
+                "mark_type": "line",
+                "is_link_mark": false,
+                "link_mark_type": "no_link",
+                "group_link_direction": null,
+                "link_number": null,
+                "is_width_encoded_data": false,
+                "node_use_once": false,
+                "is_fully_connected": false,
+                "is_bipartite": false
+            },
+            "data_structure": {
+                "data_type": "2D_LIST",
+                "data_size": {
+                    "primary": {
+                        "number": 5,
+                        "dimension": "y",
+                        "explanation": "Many short vertical tick lines positioned by continuous x and banded y; modeled as individual items."
+                    },
+                    "secondary": {
+                        "number": [
+                            10,
+                            20,
+                            30,
+                            40,
+                            50
+                        ],
+                        "dimension": "x",
+                        "explanation": "Many short vertical tick lines positioned by continuous x and banded y; modeled as individual items."
+                    }
+                }
+            },
+            "layout_specification": {
+                "x": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        0,
+                        0
+                    ],
+                    "anchor_distribute": "flexible",
+                    "anchor_interval": null,
+                    "anchor_start": null
+                },
+                "y": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        4,
+                        4
+                    ],
+                    "anchor_distribute": "uniform_interval",
+                    "anchor_interval": 20,
+                    "anchor_start": 10
+                },
+                "radius": null,
+                "angle": null,
+                "source": null,
+                "target": null
+            },
+            "non_layout_specification": {
+                "fill": null,
+                "stroke": {
+                    "scale": "fix",
+                    "fix": "#6B8DB6",
+                    "linear": null,
+                    "options": null
+                },
+                "stroke-width": null,
+                "opacity": {
+                    "scale": "fix",
+                    "fix": 0.6,
+                    "linear": null,
+                    "options": null
+                },
+                "line_type": "straight",
+                "rx": null,
+                "ry": null
+            }
+        }
+    }
+}

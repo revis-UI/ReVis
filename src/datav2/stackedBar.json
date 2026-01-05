@@ -1,0 +1,110 @@
+{
+    "container_id": "0",
+    "description": "Single plot region containing a set of vertical stacked bars: multiple rectangles stacked along the y-direction forming four separated bar groups across the x-axis. All stacks share a common bottom baseline, groups are evenly spaced horizontally, and each group is composed of multiple colored rectangular segments with varying heights.",
+    "coordinate": "cartesian",
+    "coordinate_system": {
+        "x1": "0",
+        "y1": "0",
+        "x2": "100",
+        "y2": "100"
+    },
+    "if_leaf": true,
+    "mark_type": "rectangle",
+    "components": null,
+    "coordinate_data": [
+        {
+            "container_id": "0",
+            "template_id": "0",
+            "coordinate": "cartesian",
+            "coordinate_system": {
+                "x1": "0",
+                "y1": "0",
+                "x2": "100",
+                "y2": "100"
+            },
+            "if_leaf": true,
+            "mark_type": "rectangle",
+            "coordinate_data": null
+        }
+    ],
+    "data_specification": {
+        "0": {
+            "mark_specification": {
+                "mark_type": "rectangle",
+                "is_link_mark": false,
+                "link_mark_type": "no_link",
+                "is_width_encoded_data": false,
+                "node_use_once": false,
+                "is_fully_connected": false,
+                "is_bipartite": false
+            },
+            "data_structure": {
+                "data_type": "2D_MATRIX",
+                "data_size": {
+                    "primary": {
+                        "number": 4,
+                        "dimension": "x",
+                        "explanation": "Four bar groups across the x-axis (banana, poacee, sorgho, triticum)."
+                    },
+                    "secondary": {
+                        "number": 3,
+                        "dimension": "y",
+                        "explanation": "Each bar group is a vertical stack of three segments."
+                    }
+                }
+            },
+            "layout_specification": {
+                "x": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        12,
+                        12
+                    ],
+                    "anchor_distribute": "uniform_interval",
+                    "anchor_interval": 10,
+                    "anchor_start": 12.5,
+                    "number": 4
+                },
+                "y": {
+                    "stacking": true,
+                    "stacking_direction": "max",
+                    "anchor": "stacking_decided",
+                    "subdividing": true,
+                    "2d_flatten": false,
+                    "size_uniform": false,
+                    "size_range": [
+                        2,
+                        40
+                    ],
+                    "anchor_distribute": "flexible",
+                    "anchor_interval": null,
+                    "anchor_start": null,
+                    "number": 3
+                },
+                "radius": null,
+                "angle": null
+            },
+            "non_layout_specification": {
+                "fill": {
+                    "scale": "ordinal_secondary",
+                    "fix": null,
+                    "linear": null,
+                    "options": [
+                        "#e41a1c",
+                        "#377eb8",
+                        "#4daf4a"
+                    ]
+                },
+                "stroke": null,
+                "stroke-width": null,
+                "opacity": null,
+                "line_type": null
+            }
+        }
+    }
+}

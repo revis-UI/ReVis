@@ -1,0 +1,177 @@
+{
+    "container_id": "0",
+    "coordinate": "cartesian",
+    "description": "Root canvas containing a single stacked-vertical-bar plot.",
+    "coordinate_system": "(x1: 0, y1: 0, x2: 100, y2: 100)",
+    "if_leaf": "false",
+    "components": [
+        {
+            "container_id": "0-0",
+            "description": "Left region covering the two leftmost stacked bars.",
+            "coordinate": "cartesian",
+            "coordinate_system": "(x1: 8, y1: 5, x2: 58, y2: 95)",
+            "if_leaf": "false",
+            "components": [
+                {
+                    "container_id": "0-0-a",
+                    "description": "Data-encoding marks: multiple vertical rectangles stacked within each bar (two bars in this region).",
+                    "coordinate": "cartesian",
+                    "coordinate_system": "(x1: 8, y1: 5, x2: 58, y2: 95)",
+                    "if_leaf": "true",
+                    "mark_type": "rectangle"
+                }
+            ]
+        },
+        {
+            "container_id": "0-a",
+            "description": "Single stacked bar made of vertically stacked rectangles.",
+            "coordinate": "cartesian",
+            "coordinate_system": "(x1: d_x1(a), y1: 5, x2: d_x2(a), y2: 95)",
+            "if_leaf": "true",
+            "mark_type": "rectangle"
+        }
+    ],
+    "constraints": [],
+    "variable_definitions": {
+        "d_x1(a)": "[58, 78][a]",
+        "d_x2(a)": "[78, 92][a]"
+    },
+    "coordinate_data": [
+        {
+            "container_id": "0-0",
+            "template_id": "0-0",
+            "x1": 8,
+            "y1": 5,
+            "x2": 58,
+            "y2": 95,
+            "coordinate_data": [
+                {
+                    "container_id": "0-0-0-0",
+                    "template_id": "0-0-a",
+                    "x1": 8,
+                    "y1": 5,
+                    "x2": 58,
+                    "y2": 95
+                }
+            ]
+        },
+        {
+            "container_id": "0-1",
+            "template_id": "0-a",
+            "x1": 58,
+            "y1": 5,
+            "x2": 78,
+            "y2": 95
+        },
+        {
+            "container_id": "0-2",
+            "template_id": "0-a",
+            "x1": 78,
+            "y1": 5,
+            "x2": 92,
+            "y2": 95
+        }
+    ],
+    "data_pattern": [
+        {
+            "container_id": "0-0-a",
+            "description": "Left-region stacked bars: this container holds the data-encoding rectangles for the two leftmost stacked bars (banana and poacee). Each bar is a group of vertically stacked rectangles. We parse only this region and only one instance of this template. The mark type is rectangle, which matches the visual marks.",
+            "mark_type": "rectangle",
+            "data_type": "2D list with same group size",
+            "data_size": {
+                "num_groups": 2,
+                "num_marks_per_group": 3
+            },
+            "layout_pattern": {
+                "x": {
+                    "target": "2D_groups",
+                    "type": "equal_subdividing",
+                    "start": 0,
+                    "end": 100,
+                    "num_subdivisions": 2
+                },
+                "y": {
+                    "target": "2D_marks_in_group_with_different_data",
+                    "type": "stacking",
+                    "start": 0,
+                    "end": 100,
+                    "data": [
+                        [
+                            20,
+                            3,
+                            22
+                        ],
+                        [
+                            12,
+                            12,
+                            66
+                        ]
+                    ],
+                    "direction": "to_start"
+                }
+            },
+            "coordinate_system": "cartesian",
+            "other_properties": {
+                "opacity": [
+                    0.9,
+                    1
+                ],
+                "color": [
+                    "red",
+                    "steelblue",
+                    "green"
+                ],
+                "fill": "color",
+                "stroke": "none",
+                "stroke_width": 0
+            }
+        },
+        {
+            "container_id": "0-a",
+            "description": "Template container for a single stacked vertical bar. We parse only one instance of this template (one bar) and its stacked rectangles. The mark type is rectangle and is correct. The bar contains three stacked segments (e.g., red, blue, green).",
+            "mark_type": "rectangle",
+            "data_type": "2D list with same group size",
+            "data_size": {
+                "num_groups": 1,
+                "num_marks_per_group": 3
+            },
+            "layout_pattern": {
+                "x": {
+                    "target": "2D_groups",
+                    "type": "equal_subdividing",
+                    "start": 0,
+                    "end": 100,
+                    "num_subdivisions": 1
+                },
+                "y": {
+                    "target": "2D_marks_in_group_with_different_data",
+                    "type": "stacking",
+                    "start": 0,
+                    "end": 100,
+                    "data": [
+                        [
+                            18,
+                            47,
+                            20
+                        ]
+                    ],
+                    "direction": "to_end"
+                }
+            },
+            "coordinate_system": "cartesian",
+            "other_properties": {
+                "opacity": [
+                    0.9,
+                    1
+                ],
+                "fill": [
+                    "red",
+                    "blue",
+                    "green"
+                ],
+                "stroke": "none",
+                "stroke_width": 0
+            }
+        }
+    ]
+}

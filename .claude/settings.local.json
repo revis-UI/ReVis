@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run)",
+      "Bash(dir:*)",
+      "Bash(mv:*)",
+      "Bash(npm run build)",
+      "Bash(npm run dev)",
+      "Bash(claude:*)",
+      "Bash(npx tsc:*)",
+      "Bash(cat:*)",
+      "Bash(node:*)",
+      "WebSearch",
+      "Bash(npm install:*)",
+      "Bash(curl:*)",
+      "Bash(npm update:*)",
+      "Bash(find:*)",
+      "Bash(rm:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

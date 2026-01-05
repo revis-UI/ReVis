@@ -1,0 +1,120 @@
+{
+    "container_id": "0",
+    "coordinate": "cartesian",
+    "description": "Single view composed solely of repeated circular marks arranged along a horizontal baseline. Circles are equal size and stacked vertically into multiple columns across the width, with varying stack heights and gaps between columns. No additional data-encoding layers (lines/bands/areas) besides these circles.",
+    "coordinate_system": {
+        "x1": "0",
+        "y1": "0",
+        "x2": "100",
+        "y2": "100"
+    },
+    "if_leaf": true,
+    "mark_type": "circle",
+    "components": null,
+    "data_specification": {
+        "0": {
+            "mark_specification": {
+                "mark_type": "circle",
+                "is_link_mark": false,
+                "link_mark_type": "no_link",
+                "group_link_direction": null,
+                "link_number": null,
+                "is_width_encoded_data": false,
+                "node_use_once": false,
+                "is_fully_connected": false,
+                "is_bipartite": false
+            },
+            "data_structure": {
+                "data_type": "2D_LIST",
+                "data_size": {
+                    "primary": {
+                        "number": 20,
+                        "dimension": "x",
+                        "explanation": "Columns of stacked circles across the horizontal baseline; estimated 16 columns."
+                    },
+                    "secondary": {
+                        "number": [
+                            5,
+                            0,
+                            4,
+                            3,
+                            4,
+                            2,
+                            3,
+                            3,
+                            7,
+                            0,
+                            6,
+                            4,
+                            2,
+                            0,
+                            6,
+                            6,
+                            0,
+                            2,
+                            0,
+                            1
+                        ],
+                        "dimension": "y",
+                        "explanation": "Heights of stacks per column vary; counts sorted ascending for 2D_LIST."
+                    }
+                }
+            },
+            "layout_specification": {
+                "x": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        4,
+                        4
+                    ],
+                    "anchor_distribute": "uniform_interval",
+                    "anchor_interval": 5,
+                    "anchor_start": 2
+                },
+                "y": {
+                    "stacking": true,
+                    "stacking_direction": "min",
+                    "anchor": "stacking_decided",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        4,
+                        4
+                    ],
+                    "anchor_distribute": "uniform_interval",
+                    "anchor_interval": 4,
+                    "anchor_start": 10
+                },
+                "radius": null,
+                "angle": null,
+                "source": null,
+                "target": null
+            },
+            "non_layout_specification": {
+                "fill": {
+                    "scale": "fix",
+                    "fix": "#000000",
+                    "linear": null,
+                    "options": null
+                },
+                "stroke": null,
+                "stroke-width": null,
+                "opacity": {
+                    "scale": "fix",
+                    "fix": 1,
+                    "linear": null,
+                    "options": null
+                },
+                "line_type": null,
+                "rx": null,
+                "ry": null
+            }
+        }
+    }
+}

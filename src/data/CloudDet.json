@@ -1,0 +1,230 @@
+{
+    "container_id": "0",
+    "coordinate": "cartesian",
+    "description": "Root canvas containing a left panel of horizontal bars, a thin vertical separator, and a right panel of dense square grid cells.",
+    "coordinate_system": "(0, 0, 160, 100)",
+    "if_leaf": "false",
+    "components": [
+        {
+            "container_id": "0-0",
+            "description": "Left panel with several horizontally oriented rounded rectangles stacked vertically (uniform height, varying lengths).",
+            "coordinate": "cartesian",
+            "coordinate_system": "(8, 24, 68, 96)",
+            "if_leaf": "true",
+            "mark_type": "rectangle"
+        },
+        {
+            "container_id": "0-1",
+            "description": "Narrow vertical separator bar between left bars and right grid.",
+            "coordinate": "cartesian",
+            "coordinate_system": "(70, 22, 74, 96)",
+            "if_leaf": "true",
+            "mark_type": "rectangle"
+        },
+        {
+            "container_id": "0-2",
+            "description": "Right panel consisting of a dense matrix of small square cells arranged in rows and columns.",
+            "coordinate": "cartesian",
+            "coordinate_system": "(78, 22, 155, 96)",
+            "if_leaf": "true",
+            "mark_type": "rectangle"
+        }
+    ],
+    "coordinate_data": [
+        {
+            "container_id": "0",
+            "template_id": "0",
+            "coordinate": "cartesian",
+            "x1": 0,
+            "y1": 0,
+            "x2": 160,
+            "y2": 100,
+            "coordinate_data": [
+                {
+                    "container_id": "0-0",
+                    "template_id": "0-0",
+                    "coordinate": "cartesian",
+                    "x1": 8,
+                    "y1": 24,
+                    "x2": 68,
+                    "y2": 96
+                },
+                {
+                    "container_id": "0-1",
+                    "template_id": "0-1",
+                    "coordinate": "cartesian",
+                    "x1": 70,
+                    "y1": 22,
+                    "x2": 74,
+                    "y2": 96
+                },
+                {
+                    "container_id": "0-2",
+                    "template_id": "0-2",
+                    "coordinate": "cartesian",
+                    "x1": 78,
+                    "y1": 22,
+                    "x2": 155,
+                    "y2": 96
+                }
+            ]
+        }
+    ],
+    "data_pattern": [
+        {
+            "container_id": "0-0",
+            "description": "Left panel contains five horizontally oriented bars (rounded rectangles) stacked vertically with equal height and varying lengths. We parse only the marks inside container 0-0. These are rectangles (bars), treated as a 1D list.",
+            "mark_type": "rectangle",
+            "data_type": "1D list",
+            "data_size": {
+                "num_marks": 5
+            },
+            "layout_pattern": {
+                "x": {
+                    "target": "1D_marks",
+                    "type": "sharing_max",
+                    "start": 0,
+                    "end": 100,
+                    "data": [
+                        60,
+                        68,
+                        40,
+                        72,
+                        90
+                    ]
+                },
+                "y": {
+                    "target": "1D_marks",
+                    "type": "equal_subdividing",
+                    "start": 0,
+                    "end": 100,
+                    "num_subdivisions": 5
+                }
+            },
+            "coordinate_system": "cartesian",
+            "other_properties": {
+                "opacity": [
+                    0.7,
+                    1
+                ],
+                "color": [
+                    "#BFD0E6",
+                    "#FBE7D2",
+                    "#A6BFA9",
+                    "#1E3C56",
+                    "#F6A6A6"
+                ],
+                "fill": [
+                    "#BFD0E6",
+                    "#FBE7D2",
+                    "#A6BFA9",
+                    "#1E3C56",
+                    "#F6A6A6"
+                ],
+                "stroke": "none",
+                "stroke_width": 0
+            }
+        },
+        {
+            "container_id": "0-1",
+            "description": "Container 0-1 is a narrow vertical separator between the left bar panel and the right grid. It contains a single thin rectangular mark that spans the full height of its local container. We parse only this one rectangle and map its local coordinates to [0,100] in both x and y.",
+            "mark_type": "rectangle",
+            "data_type": "1D list",
+            "data_size": {
+                "num_marks": 1
+            },
+            "layout_pattern": {
+                "x": {
+                    "target": "1D_marks",
+                    "type": "flexible_ranging",
+                    "start": 0,
+                    "end": 100,
+                    "data": [
+                        [
+                            0,
+                            100
+                        ]
+                    ]
+                },
+                "y": {
+                    "target": "1D_marks",
+                    "type": "flexible_ranging",
+                    "start": 0,
+                    "end": 100,
+                    "data": [
+                        [
+                            0,
+                            100
+                        ]
+                    ]
+                }
+            },
+            "coordinate_system": "cartesian",
+            "other_properties": {
+                "opacity": [
+                    0,
+                    1
+                ],
+                "color": [
+                    "lightgray"
+                ],
+                "fill": "lightgray",
+                "stroke": "none",
+                "stroke_width": 0
+            }
+        },
+        {
+            "container_id": "0-2",
+            "description": "Right panel is a dense heatmap-like grid composed of many small square rectangles. We model it as rows (groups) and columns (marks within each row), all with equal cell size and spacing. One data point per cell.",
+            "mark_type": "rectangle",
+            "data_type": "2D list with same group size",
+            "data_size": {
+                "num_groups": 12,
+                "num_marks_per_group": 18
+            },
+            "layout_pattern": {
+                "x": {
+                    "target": "2D_marks_in_group_with_same_data",
+                    "type": "equal_subdividing",
+                    "start": 0,
+                    "end": 100,
+                    "num_subdivisions": 18
+                },
+                "y": {
+                    "target": "2D_groups",
+                    "type": "equal_subdividing",
+                    "start": 0,
+                    "end": 100,
+                    "num_subdivisions": 12
+                }
+            },
+            "coordinate_system": "cartesian",
+            "other_properties": {
+                "opacity": [
+                    0.6,
+                    1
+                ],
+                "color": [
+                    "#eef2f6",
+                    "#dbe5ee",
+                    "#bfcfe0",
+                    "#9fb6cc",
+                    "#7f9db7",
+                    "#5f84a2",
+                    "#3f6c8e"
+                ],
+                "fill": [
+                    "#eef2f6",
+                    "#dbe5ee",
+                    "#bfcfe0",
+                    "#9fb6cc",
+                    "#7f9db7",
+                    "#5f84a2",
+                    "#3f6c8e"
+                ],
+                "stroke": "#ffffff",
+                "stroke_width": 0.5
+            }
+        }
+    ]
+}

@@ -1,0 +1,176 @@
+{
+    "container_id": "0",
+    "coordinate": "cartesian",
+    "description": "Four vertically stacked small-multiple panels. Each panel contains one continuous filled area shape extending across the horizontal span.",
+    "coordinate_system": {
+        "x1": "0",
+        "y1": "0",
+        "x2": "100",
+        "y2": "100"
+    },
+    "if_leaf": false,
+    "mark_type": null,
+    "components": [
+        {
+            "container_id": "0-a",
+            "coordinate": "cartesian",
+            "description": "Template for a single repeated area panel (one filled area mark), laid out as a vertical 1D_LIST; its coordinate is the outer boundary of all repeated panel instances.",
+            "coordinate_system": {
+                "x1": "5",
+                "y1": "3",
+                "x2": "95",
+                "y2": "99"
+            },
+            "if_leaf": false,
+            "mark_type": null,
+            "components": [
+                {
+                    "container_id": "0-a-0",
+                    "coordinate": "cartesian",
+                    "description": "Representative panel instance: one continuous filled area spanning the panel width.",
+                    "coordinate_system": {
+                        "x1": "5",
+                        "y1": "3",
+                        "x2": "95",
+                        "y2": "24"
+                    },
+                    "if_leaf": true,
+                    "mark_type": "area",
+                    "components": null
+                }
+            ]
+        }
+    ],
+    "template_data_specification": {
+        "0-a": {
+            "container_id": "0-a",
+            "data_structure": {
+                "data_type": "1D_LIST",
+                "data_size": {
+                    "primary": {
+                        "number": 4,
+                        "dimension": "y",
+                        "explanation": "Four vertically stacked panels."
+                    },
+                    "secondary": null
+                }
+            },
+            "layout_specification": {
+                "x": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        100,
+                        100
+                    ],
+                    "anchor_distribute": "fixed_value",
+                    "anchor_interval": 0,
+                    "anchor_start": 50
+                },
+                "y": {
+                    "stacking": true,
+                    "stacking_direction": "min",
+                    "anchor": "stacking_decided",
+                    "subdividing": true,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        21.9,
+                        21.9
+                    ],
+                    "anchor_distribute": "uniform_interval",
+                    "anchor_interval": 26,
+                    "anchor_start": 10.9
+                },
+                "radius": null,
+                "angle": null,
+                "source": null,
+                "target": null
+            }
+        }
+    },
+    "data_specification": {
+        "0-a-0": {
+            "mark_specification": {
+                "mark_type": "area",
+                "is_link_mark": true,
+                "link_mark_type": "group_type",
+                "group_link_direction": "x",
+                "link_number": null,
+                "is_width_encoded_data": true,
+                "node_use_once": false,
+                "is_fully_connected": false,
+                "is_bipartite": false
+            },
+            "data_structure": {
+                "data_type": "2D_MATRIX",
+                "data_size": {
+                    "primary": {
+                        "number": 1,
+                        "dimension": "y",
+                        "explanation": "One area mark in this panel; a single group."
+                    },
+                    "secondary": {
+                        "number": 100,
+                        "dimension": "x",
+                        "explanation": "Control points along x to form the continuous area"
+                    }
+                }
+            },
+            "layout_specification": {
+                "x": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        0,
+                        0
+                    ],
+                    "anchor_distribute": "uniform_interval",
+                    "anchor_interval": 1,
+                    "anchor_start": 0
+                },
+                "y": {
+                    "stacking": true,
+                    "stacking_direction": "min",
+                    "anchor": "middle",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        0,
+                        90
+                    ],
+                    "anchor_distribute": "flexible",
+                    "anchor_interval": null,
+                    "anchor_start": null
+                },
+                "radius": null,
+                "angle": null,
+                "source": null,
+                "target": null
+            },
+            "non_layout_specification": {
+                "fill": {
+                    "scale": "fix",
+                    "fix": "#3B6EA8",
+                    "linear": null,
+                    "options": null
+                },
+                "stroke": null,
+                "stroke-width": null,
+                "opacity": null,
+                "line_type": "curve",
+                "rx": null,
+                "ry": null
+            }
+        }
+    }
+}

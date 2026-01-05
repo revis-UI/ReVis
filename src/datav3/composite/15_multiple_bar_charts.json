@@ -1,0 +1,176 @@
+{
+    "container_id": "0",
+    "coordinate": "cartesian",
+    "description": "A 2x2 grid of small-multiple histograms. Each panel contains many vertical rectangles (bars) of varying heights; axes/labels are ignored.",
+    "coordinate_system": {
+        "x1": "0",
+        "y1": "0",
+        "x2": "100",
+        "y2": "100"
+    },
+    "if_leaf": false,
+    "mark_type": null,
+    "components": [
+        {
+            "container_id": "0-a",
+            "coordinate": "cartesian",
+            "description": "Template for a single histogram panel composed of many vertical rectangles; laid out in a 2x2 grid. The coordinates bound all panel instances.",
+            "coordinate_system": {
+                "x1": "5",
+                "y1": "12",
+                "x2": "95",
+                "y2": "90"
+            },
+            "if_leaf": true,
+            "mark_type": "rectangle",
+            "components": null
+        }
+    ],
+    "template_data_specification": {
+        "0-a": {
+            "container_id": "0-a",
+            "data_structure": {
+                "data_type": "2D_MATRIX",
+                "data_size": {
+                    "primary": {
+                        "number": 2,
+                        "dimension": "y",
+                        "explanation": "Two rows of panels by vertical placement."
+                    },
+                    "secondary": {
+                        "number": 2,
+                        "dimension": "x",
+                        "explanation": "Two columns per row across x."
+                    }
+                }
+            },
+            "layout_specification": {
+                "x": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "min",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        46.7,
+                        46.7
+                    ],
+                    "anchor_distribute": "uniform_interval",
+                    "anchor_interval": 53.3,
+                    "anchor_start": 0
+                },
+                "y": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "min",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        44.9,
+                        44.9
+                    ],
+                    "anchor_distribute": "uniform_interval",
+                    "anchor_interval": 55.1,
+                    "anchor_start": 0
+                },
+                "radius": null,
+                "angle": null,
+                "source": null,
+                "target": null
+            }
+        }
+    },
+    "data_specification": {
+        "0-a": {
+            "mark_specification": {
+                "mark_type": "rectangle",
+                "is_link_mark": false,
+                "link_mark_type": "no_link",
+                "group_link_direction": null,
+                "link_number": null,
+                "is_width_encoded_data": false,
+                "node_use_once": false,
+                "is_fully_connected": false,
+                "is_bipartite": false
+            },
+            "data_structure": {
+                "data_type": "1D_LIST",
+                "data_size": {
+                    "primary": {
+                        "number": 20,
+                        "dimension": "x",
+                        "explanation": "A single histogram panel with about twenty vertical bars uniformly distributed along x."
+                    },
+                    "secondary": null
+                }
+            },
+            "layout_specification": {
+                "x": {
+                    "stacking": false,
+                    "stacking_direction": "middle",
+                    "anchor": "middle",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        3,
+                        3
+                    ],
+                    "anchor_distribute": "uniform_interval",
+                    "anchor_interval": 5,
+                    "anchor_start": 1.5
+                },
+                "y": {
+                    "stacking": false,
+                    "stacking_direction": "min",
+                    "anchor": "min",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": false,
+                    "size_range": [
+                        5,
+                        90
+                    ],
+                    "anchor_distribute": "fixed_value",
+                    "anchor_interval": 0,
+                    "anchor_start": 0
+                },
+                "radius": null,
+                "angle": null,
+                "source": null,
+                "target": null
+            },
+            "non_layout_specification": {
+                "fill": {
+                    "scale": "fix",
+                    "fix": "#4E79A7",
+                    "linear": null,
+                    "options": null
+                },
+                "stroke": {
+                    "scale": "fix",
+                    "fix": "#2F5B8B",
+                    "linear": null,
+                    "options": null
+                },
+                "stroke-width": {
+                    "scale": "fix",
+                    "fix": 0,
+                    "linear": null,
+                    "options": null
+                },
+                "opacity": {
+                    "scale": "fix",
+                    "fix": 0.9,
+                    "linear": null,
+                    "options": null
+                },
+                "line_type": null,
+                "rx": null,
+                "ry": null
+            }
+        }
+    }
+}

@@ -1,0 +1,194 @@
+{
+    "container_id": "0",
+    "coordinate": "cartesian",
+    "description": "A 2x2 grid of small-multiple charts. Each panel contains vertically oriented, side-by-side bars that are stacked by color (all rectangles).",
+    "coordinate_system": {
+        "x1": "0",
+        "y1": "0",
+        "x2": "100",
+        "y2": "100"
+    },
+    "if_leaf": false,
+    "mark_type": null,
+    "components": [
+        {
+            "container_id": "0-a",
+            "coordinate": "cartesian",
+            "description": "Template for a single repeated small-multiple panel of adjacent vertical bars with stacked segments; laid out in a 2D grid. The coordinate represents the outer boundary of all panel instances.",
+            "coordinate_system": {
+                "x1": "0",
+                "y1": "0",
+                "x2": "100",
+                "y2": "100"
+            },
+            "if_leaf": true,
+            "mark_type": "rectangle",
+            "components": null
+        }
+    ],
+    "template_data_specification": {
+        "0-a": {
+            "container_id": "0-a",
+            "data_structure": {
+                "data_type": "2D_MATRIX",
+                "data_size": {
+                    "primary": {
+                        "number": 2,
+                        "dimension": "x",
+                        "explanation": "Two columns along x: left and right halves."
+                    },
+                    "secondary": {
+                        "number": 2,
+                        "dimension": "y",
+                        "explanation": "Two rows along y: bottom and top halves."
+                    }
+                }
+            },
+            "layout_specification": {
+                "x": {
+                    "stacking": false,
+                    "stacking_direction": "min",
+                    "anchor": "min",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        50,
+                        50
+                    ],
+                    "anchor_distribute": "uniform_interval",
+                    "anchor_interval": 50,
+                    "anchor_start": 0
+                },
+                "y": {
+                    "stacking": false,
+                    "stacking_direction": "min",
+                    "anchor": "min",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        50,
+                        50
+                    ],
+                    "anchor_distribute": "uniform_interval",
+                    "anchor_interval": 50,
+                    "anchor_start": 0
+                },
+                "radius": null,
+                "angle": null,
+                "source": null,
+                "target": null
+            }
+        }
+    },
+    "data_specification": {
+        "0-a": {
+            "mark_specification": {
+                "mark_type": "rectangle",
+                "is_link_mark": false,
+                "link_mark_type": "no_link",
+                "group_link_direction": null,
+                "link_number": null,
+                "is_width_encoded_data": false,
+                "node_use_once": false,
+                "is_fully_connected": false,
+                "is_bipartite": false
+            },
+            "data_structure": {
+                "data_type": "2D_MATRIX",
+                "data_size": {
+                    "primary": {
+                        "number": 10,
+                        "dimension": "x",
+                        "explanation": "Approximate number of histogram bins per panel laid out side-by-side along x."
+                    },
+                    "secondary": {
+                        "number": 3,
+                        "dimension": "y",
+                        "explanation": "Three stacked categories/colors within each bar along y."
+                    }
+                }
+            },
+            "layout_specification": {
+                "x": {
+                    "stacking": false,
+                    "stacking_direction": "min",
+                    "anchor": "min",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": true,
+                    "size_range": [
+                        8,
+                        8
+                    ],
+                    "anchor_distribute": "uniform_interval",
+                    "anchor_interval": 10,
+                    "anchor_start": 0
+                },
+                "y": {
+                    "stacking": true,
+                    "stacking_direction": "min",
+                    "anchor": "stacking_decided",
+                    "subdividing": false,
+                    "2d_flatten": false,
+                    "size_uniform": false,
+                    "size_range": [
+                        1,
+                        60
+                    ],
+                    "anchor_distribute": "fixed_value",
+                    "anchor_interval": 0,
+                    "anchor_start": 0
+                },
+                "radius": null,
+                "angle": null,
+                "source": null,
+                "target": null
+            },
+            "non_layout_specification": {
+                "fill": {
+                    "scale": "ordinal_secondary",
+                    "fix": null,
+                    "linear": null,
+                    "options": [
+                        "#E45756",
+                        "#F58518",
+                        "#4C78A8"
+                    ]
+                },
+                "stroke": {
+                    "scale": "fix",
+                    "fix": "#FFFFFF",
+                    "linear": null,
+                    "options": null
+                },
+                "stroke-width": {
+                    "scale": "fix",
+                    "fix": 0.5,
+                    "linear": null,
+                    "options": null
+                },
+                "opacity": {
+                    "scale": "fix",
+                    "fix": 1,
+                    "linear": null,
+                    "options": null
+                },
+                "line_type": null,
+                "rx": {
+                    "scale": "fix",
+                    "fix": 0,
+                    "linear": null,
+                    "options": null
+                },
+                "ry": {
+                    "scale": "fix",
+                    "fix": 0,
+                    "linear": null,
+                    "options": null
+                }
+            }
+        }
+    }
+}
