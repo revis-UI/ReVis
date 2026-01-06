@@ -121,3 +121,15 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 - [Vite.js](https://vitejs.dev/)
 - [D3.js](https://d3js.org/)
 - [React](https://react.dev/)
+
+
+- opinionseer 改 180，因为 字符串 和 数字的差别导致没更新
+- 输入的逻辑
+- json 改的报错
+- non_layout_specification 的表单修改，动态表单
+
+- 改 coordinate system， link 没有更新
+- stacking 的时候展示 size_uniform
+- size_uniform 的逻辑
+- 数据保留，container
+- 轴 exchange，右边 加按钮

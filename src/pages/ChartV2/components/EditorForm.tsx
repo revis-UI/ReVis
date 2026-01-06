@@ -273,13 +273,13 @@ export const EditorForm = () => {
     });
   };
 
-  // Handle child container field updates
+  // Handle Instance Container field updates
   const handleChildContainerUpdate = (childContainerId: string, fieldPath: string, value: any) => {
     useChartStore.setState((state) => {
-      // Find the child container in the selected container's children
+      // Find the Instance Container in the selected container's children
       const childIndex = state.selectedContainerChildren?.findIndex((child: any) => child.container_id === childContainerId);
       if (childIndex !== undefined && childIndex !== -1) {
-        // Update the child container's field
+        // Update the Instance Container's field
         const updatedChildren = [...state.selectedContainerChildren];
         const updatedChild = R.set(R.lensPath(fieldPath.split('.')), value, updatedChildren[childIndex]);
         updatedChildren[childIndex] = updatedChild;
@@ -743,15 +743,15 @@ export const EditorForm = () => {
                     />
                   </div>
 
-                  {/* Coordinate System */}
+                  {/* Coordinate */}
                   <div className="space-y-2">
-                    <Label htmlFor="coordinate">Coordinate System</Label>
+                    <Label htmlFor="coordinate">Coordinate</Label>
                     <Select
                       value={selectedContainer.coordinate}
                       onValueChange={(value) => handleFormFieldUpdate('coordinate', value)}
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder="Select coordinate system" />
+                        <SelectValue placeholder="Select coordinate" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="cartesian">Cartesian</SelectItem>
@@ -788,7 +788,7 @@ export const EditorForm = () => {
                     <div key={selectedContainer.container_id} className="border border-gray-200 rounded-lg p-4">
                       <div className="flex items-center justify-between mb-3">
                         <h5 className="text-sm font-medium text-gray-700">
-                          Instance Container: {selectedContainer.container_id}
+                          Coordinate System: {selectedContainer.container_id}
                         </h5>
                         <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-blue-100 text-blue-800">
                           {selectedContainer.coordinate}
@@ -802,7 +802,7 @@ export const EditorForm = () => {
                             <Input
                               id={`${selectedContainer.container_id}-x1`}
                               value={selectedContainer.coordinate_system.x1 || ''}
-                              onChange={(e) => handleFormFieldUpdate('coordinate_system.x1', parseFloat(e.target.value))}
+                              onChange={(e) => handleFormFieldUpdate('coordinate_system.x1', e.target.value)}
                               placeholder="0"
                             />
                           </div>
@@ -811,7 +811,7 @@ export const EditorForm = () => {
                             <Input
                               id={`${selectedContainer.container_id}-x2`}
                               value={selectedContainer.coordinate_system.x2 || ''}
-                              onChange={(e) => handleFormFieldUpdate('coordinate_system.x2', parseFloat(e.target.value))}
+                              onChange={(e) => handleFormFieldUpdate('coordinate_system.x2', e.target.value)}
                               placeholder="100"
                             />
                           </div>
@@ -820,7 +820,7 @@ export const EditorForm = () => {
                             <Input
                               id={`${selectedContainer.container_id}-y1`}
                               value={selectedContainer.coordinate_system.y1 || ''}
-                              onChange={(e) => handleFormFieldUpdate('coordinate_system.y1', parseFloat(e.target.value))}
+                              onChange={(e) => handleFormFieldUpdate('coordinate_system.y1', e.target.value)}
                               placeholder="0"
                             />
                           </div>
@@ -829,7 +829,7 @@ export const EditorForm = () => {
                             <Input
                               id={`${selectedContainer.container_id}-y2`}
                               value={selectedContainer.coordinate_system.y2 || ''}
-                              onChange={(e) => handleFormFieldUpdate('coordinate_system.y2', parseFloat(e.target.value))}
+                              onChange={(e) => handleFormFieldUpdate('coordinate_system.y2', e.target.value)}
                               placeholder="100"
                             />
                           </div>
@@ -841,7 +841,7 @@ export const EditorForm = () => {
                             <Input
                               id={`${selectedContainer.container_id}-a1`}
                               value={selectedContainer.coordinate_system.a1 || ''}
-                              onChange={(e) => handleFormFieldUpdate('coordinate_system.a1', parseFloat(e.target.value))}
+                              onChange={(e) => handleFormFieldUpdate('coordinate_system.a1', e.target.value)}
                               placeholder="-90"
                             />
                           </div>
@@ -850,7 +850,7 @@ export const EditorForm = () => {
                             <Input
                               id={`${selectedContainer.container_id}-a2`}
                               value={selectedContainer.coordinate_system.a2 || ''}
-                              onChange={(e) => handleFormFieldUpdate('coordinate_system.a2', parseFloat(e.target.value))}
+                              onChange={(e) => handleFormFieldUpdate('coordinate_system.a2', e.target.value)}
                               placeholder="270"
                             />
                           </div>
@@ -859,7 +859,7 @@ export const EditorForm = () => {
                             <Input
                               id={`${selectedContainer.container_id}-r1`}
                               value={selectedContainer.coordinate_system.r1 || ''}
-                              onChange={(e) => handleFormFieldUpdate('coordinate_system.r1', parseFloat(e.target.value))}
+                              onChange={(e) => handleFormFieldUpdate('coordinate_system.r1', e.target.value)}
                               placeholder="0"
                             />
                           </div>
@@ -868,7 +868,7 @@ export const EditorForm = () => {
                             <Input
                               id={`${selectedContainer.container_id}-r2`}
                               value={selectedContainer.coordinate_system.r2 || ''}
-                              onChange={(e) => handleFormFieldUpdate('coordinate_system.r2', parseFloat(e.target.value))}
+                              onChange={(e) => handleFormFieldUpdate('coordinate_system.r2', e.target.value)}
                               placeholder="50"
                             />
                           </div>
@@ -882,10 +882,10 @@ export const EditorForm = () => {
                 {renderDataSpecificationForm(selectedContainer.__temp_specification, 'temp')}
 
 
-                {/* Child Container Fields - Moved to the end */}
+                {/* Instance Container Fields - Moved to the end */}
                 {selectedContainer?.__temp_specification && (
                   <div className="space-y-4">
-                    <h4 className="text-md font-medium text-gray-700">Child Container</h4>
+                    <h4 className="text-md font-medium text-gray-700">Instance Container</h4>
 
                     {selectedContainerChildren.length > 0 ? (
                       <div className="space-y-4 max-h-[500px] overflow-y-auto">
@@ -893,7 +893,7 @@ export const EditorForm = () => {
                           <div key={child.container_id} className="border border-gray-200 rounded-lg p-4">
                             <div className="flex items-center justify-between mb-3">
                               <h5 className="text-sm font-medium text-gray-700">
-                                Child Container: {child.container_id}
+                                Instance Container: {child.container_id}
                               </h5>
                               <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-blue-100 text-blue-800">
                                 {child.coordinate}
@@ -984,7 +984,7 @@ export const EditorForm = () => {
                       </div>
                     ) : (
                       <div className="text-center py-4 text-gray-500">
-                        No child containers found
+                        No Instance Containers found
                       </div>
                     )}
                   </div>

@@ -27,27 +27,27 @@ export async function getImagePath(chartFile: string | typeof JSON_FILES[number]
 
   try {
     await import(`../../imagev3/basic_charts/${key}.png`);
-    return `/src/imagev3/basic_charts/${key}.png`;
+    return `/ReVis/src/imagev3/basic_charts/${key}.png`;
   } catch (e) {}
 
   try {
     await import(`../../imagev3/basic_charts/${key}.jpg`);
-    return `/src/imagev3/basic_charts/${key}.jpg`;
+    return `/ReVis/src/imagev3/basic_charts/${key}.jpg`;
   } catch (e) {}
 
   try {
     await import(`../../imagev3/composite/${key}.png`);
-    return `/src/imagev3/composite/${key}.png`;
+    return `/ReVis/src/imagev3/composite/${key}.png`;
   } catch (e) {}
 
   try {
     await import(`../../imagev3/composite/${key}.jpg`);
-    return `/src/imagev3/composite/${key}.jpg`;
+    return `/ReVis/src/imagev3/composite/${key}.jpg`;
   } catch (e) {}
 
   try {
     await import(`../../imagev3/composite/${key}.jpg`);
-    return `/src/imagev3/composite/${key}.jpg`;
+    return `/ReVis/src/imagev3/composite/${key}.jpg`;
   } catch (e) {}
   throw new Error(`Failed to load image file: ${key}`);
 }

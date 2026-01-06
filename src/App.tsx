@@ -6,10 +6,10 @@ const App = () => {
   const pathname = location.pathname;
 
   const togglePage = () => {
-    if (pathname === '/') {
-      location.href = '/editor';
+    if (pathname === '/ReVis/') {
+      location.href = '/ReVis/editor';
     } else {
-      location.href = '/';
+      location.href = '/ReVis/';
     }
   };
 
@@ -17,10 +17,10 @@ const App = () => {
     <div className="main w-screen h-screen">
       <div className="w-full h-full">
         {
-          pathname === '/' ? <Gallery /> : null
+          pathname === '/ReVis/' ? <Gallery /> : null
         }
         {
-          pathname === '/editor' ? <Editor /> : null
+          pathname === '/ReVis/editor' ? <Editor /> : null
         }
       </div>
       
@@ -29,7 +29,7 @@ const App = () => {
         onClick={togglePage}
         className="fixed bottom-4 left-4 z-50 bg-primary text-primary-foreground px-4 py-2 rounded-full shadow-lg hover:bg-primary/90 transition-all duration-300 transform hover:scale-105"
       >
-        {pathname === '/' ? 'Go to Editor' : 'Go to Gallery'}
+        {pathname === '/ReVis/' ? 'Go to Editor' : 'Go to Gallery'}
       </button>
     </div>
   );
