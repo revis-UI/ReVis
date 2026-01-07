@@ -200,7 +200,7 @@ export const applyContainerChanges = () => {
     computeDslContainer: (dsl_container) => {
       for (const container of selectedContainerChildren) {
         if (dsl_container[container.container_id]) {
-          dsl_container[container.container_id] = R.mergeDeepRight(dsl_container[container.container_id], R.omit(['components', '__data_specification', 'coordinate_system'], container));
+          dsl_container[container.container_id] = R.mergeDeepRight(dsl_container[container.container_id], R.omit(['components', '__data_specification'], container));
         }
       }
       return dsl_container;
