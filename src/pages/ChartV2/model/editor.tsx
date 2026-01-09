@@ -22,7 +22,7 @@ export const useChartStore = create(immer<{
   currentDataFormProp: DataFormProp
 }>(() => ({
   chart: new VisualChart(),
-  dsl_file: "07_iForest",
+  dsl_file: "06_OpinionSeer",
   dsl_json: undefined,
   dsl_container: {},
   dsl_data: {},
