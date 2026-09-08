@@ -1,55 +1,35 @@
+import { previewDocument } from './model/previewDocument';
+import { loadDSLFile } from '@/services/dsl';
 import type { JSON_FILES } from "@/generated/json-files";
 import * as R from "ramda";
 
-export const randomInRange = (min: number, max: number) => {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
+export type DSLCategory = 'basic_charts' | 'composite';
 
-export const loadData = async (baseFileName: string | typeof JSON_FILES[number], type: 'editor' | 'gallery' = 'editor') => {
-  const key = String(baseFileName);
+const dataModules = import.meta.glob<{default: unknown}>('../../datav3/*/*.json');
+const imageModules = import.meta.glob('../../imagev3/*/*.{png,jpg}', {eager:true, query:'?url', import:'default'}) as Record<string,string>;
 
-  try {
-    const mod0 = await import(`../../${type === 'gallery' ? 'datav3' : 'data_editor'}/basic_charts/${key}.json`);
-    return mod0.default;
-  } catch (e) {}
-
-  try {
-    const mod0 = await import(`../../${type === 'gallery' ? 'datav3' : 'data_editor'}/composite/${key}.json`);
-    return mod0.default;
-  } catch (e) {}
-
-  console.error(`Failed to load data file: ${key}`);
+export const resolveDataCategory = async (baseFileName: string | typeof JSON_FILES[number]): Promise<DSLCategory | null> => {
+  for (const category of ['basic_charts','composite'] as const) {
+    if (`../../datav3/${category}/${baseFileName}.json` in dataModules) return category;
+  }
   return null;
 };
 
-export async function getImagePath(chartFile: string | typeof JSON_FILES[number], type: 'editor' | 'gallery' = 'editor'): Promise<string> {
-  const key = String(chartFile);
+export const loadData = async (baseFileName: string | typeof JSON_FILES[number], _legacyType?: 'editor' | 'gallery') => {
+  const category = await resolveDataCategory(baseFileName);
+  if (!category) return null;
+  let data: unknown;
+  try { data = (await loadDSLFile(category, `${baseFileName}.json`)).content; }
+  catch { data = (await dataModules[`../../datav3/${category}/${baseFileName}.json`]()).default; }
+  return _legacyType === 'gallery' ? previewDocument(data) : data;
+};
 
-  try {
-    await import(`../../imagev3/basic_charts/${key}.png`);
-    return `/ReVis/src/imagev3/basic_charts/${key}.png`;
-  } catch (e) {}
-
-  try {
-    await import(`../../imagev3/basic_charts/${key}.jpg`);
-    return `/ReVis/src/imagev3/basic_charts/${key}.jpg`;
-  } catch (e) {}
-
-  try {
-    await import(`../../imagev3/composite/${key}.png`);
-    return `/ReVis/src/imagev3/composite/${key}.png`;
-  } catch (e) {}
-
-  try {
-    await import(`../../imagev3/composite/${key}.jpg`);
-    return `/ReVis/src/imagev3/composite/${key}.jpg`;
-  } catch (e) {}
-
-  try {
-    await import(`../../imagev3/composite/${key}.jpg`);
-    return `/ReVis/src/imagev3/composite/${key}.jpg`;
-  } catch (e) {}
-  throw new Error(`Failed to load image file: ${key}`);
+export async function getImagePath(chartFile: string | typeof JSON_FILES[number]): Promise<string> {
+  for (const category of ['basic_charts','composite']) for (const extension of ['png','jpg']) {
+    const url=imageModules[`../../imagev3/${category}/${chartFile}.${extension}`];
+    if(url) return url;
+  }
+  throw new Error(`Failed to load image file: ${chartFile}`);
 }
 
 export const selectRandomElements = R.curry((count, array) => {

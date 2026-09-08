@@ -1,0 +1,1299 @@
+{
+  "schema_version": 1,
+  "case_id": "02_scatter_plot_matrix",
+  "chart_type": "Composite",
+  "model": "gpt-5.4",
+  "saved_at": "2026-08-31T14:41:50.434Z",
+  "prompt": "请观察左侧参考图，恢复当前 DSL 的真实数据分布。保持容器层级、图元类型、数量和数据结构不变；根据参考图重建尺寸、位置、峰值、聚集区域、稀疏区域和自然波动。不要生成均匀、对称或无依据的全局单调分布。",
+  "summary": "根据参考图恢复为 3×3 散点矩阵的面板级真实分布；使用重复模板的 instance_position_generators 分别重建各面板的聚集区、负相关/正相关趋势、对角线面板以及局部离群点。",
+  "reference_image_used": true,
+  "generated_value_count": 7840,
+  "dsl": {
+    "container_id": "0",
+    "coordinate": "cartesian",
+    "description": "A 3x3 grid of small-multiple scatter plot panels composed of many circular marks.",
+    "coordinate_system": {
+      "x1": "0",
+      "y1": "0",
+      "x2": "100",
+      "y2": "100"
+    },
+    "if_leaf": false,
+    "mark_type": null,
+    "components": [
+      {
+        "container_id": "0-a",
+        "coordinate": "cartesian",
+        "description": "Template for a single scatter panel of circular marks, laid out in a 3x3 2D grid; the coordinate bounds cover all panel instances.",
+        "coordinate_system": {
+          "x1": "0",
+          "y1": "0",
+          "x2": "100",
+          "y2": "100"
+        },
+        "if_leaf": false,
+        "mark_type": null,
+        "components": [
+          {
+            "container_id": "0-a-0",
+            "coordinate": "cartesian",
+            "description": "Representative panel containing many circular points (scatter).",
+            "coordinate_system": {
+              "x1": "0",
+              "y1": "0",
+              "x2": "33.33",
+              "y2": "33.33"
+            },
+            "if_leaf": true,
+            "mark_type": "circle",
+            "components": null
+          }
+        ]
+      }
+    ],
+    "template_data_specification": {
+      "0-a": {
+        "container_id": "0-a",
+        "data_structure": {
+          "data_type": "2D_MATRIX",
+          "data_size": {
+            "primary": {
+              "number": 3,
+              "dimension": "y",
+              "explanation": "Three rows inferred from vertical positions of panels."
+            },
+            "secondary": {
+              "number": 3,
+              "dimension": "x",
+              "explanation": "Three columns inferred from horizontal positions per row."
+            }
+          }
+        },
+        "layout_specification": {
+          "x": {
+            "stacking": true,
+            "stacking_direction": "max",
+            "anchor": "stacking_decided",
+            "subdividing": true,
+            "2d_flatten": false,
+            "size_uniform": true,
+            "size_range": [
+              33.33,
+              33.33
+            ],
+            "anchor_distribute": "uniform_interval",
+            "anchor_interval": 33.33,
+            "anchor_start": 0
+          },
+          "y": {
+            "stacking": true,
+            "stacking_direction": "max",
+            "anchor": "stacking_decided",
+            "subdividing": true,
+            "2d_flatten": false,
+            "size_uniform": true,
+            "size_range": [
+              33.33,
+              33.33
+            ],
+            "anchor_distribute": "uniform_interval",
+            "anchor_interval": 33.33,
+            "anchor_start": 0
+          },
+          "radius": null,
+          "angle": null,
+          "source": null,
+          "target": null
+        }
+      }
+    },
+    "data_specification": {
+      "0-a-0": {
+        "mark_specification": {
+          "mark_type": "circle",
+          "is_link_mark": false,
+          "link_mark_type": "no_link",
+          "group_link_direction": null,
+          "link_number": null,
+          "is_width_encoded_data": false,
+          "node_use_once": false,
+          "is_fully_connected": false,
+          "is_bipartite": false
+        },
+        "data_structure": {
+          "data_type": "1D_LIST",
+          "data_size": {
+            "primary": {
+              "number": 392,
+              "dimension": "x",
+              "explanation": "Approximate number of points in one scatter panel."
+            },
+            "secondary": null
+          }
+        },
+        "layout_specification": {
+          "x": {
+            "stacking": false,
+            "stacking_direction": "middle",
+            "anchor": "middle",
+            "subdividing": false,
+            "2d_flatten": false,
+            "size_uniform": true,
+            "size_range": [
+              1.5,
+              1.5
+            ],
+            "anchor_distribute": "flexible",
+            "anchor_interval": null,
+            "anchor_start": null
+          },
+          "y": {
+            "stacking": false,
+            "stacking_direction": "middle",
+            "anchor": "middle",
+            "subdividing": false,
+            "2d_flatten": false,
+            "size_uniform": true,
+            "size_range": [
+              1.5,
+              1.5
+            ],
+            "anchor_distribute": "flexible",
+            "anchor_interval": null,
+            "anchor_start": null
+          },
+          "radius": null,
+          "angle": null,
+          "source": null,
+          "target": null
+        },
+        "non_layout_specification": {
+          "fill": {
+            "scale": "fix",
+            "fix": "#FFFFFF",
+            "linear": null,
+            "options": null
+          },
+          "stroke": {
+            "scale": "categorical",
+            "fix": null,
+            "linear": null,
+            "options": [
+              "#4C72B0",
+              "#DD8452",
+              "#C44E52"
+            ]
+          },
+          "stroke-width": {
+            "scale": "fix",
+            "fix": 1,
+            "linear": null,
+            "options": null
+          },
+          "opacity": {
+            "scale": "fix",
+            "fix": 0.9,
+            "linear": null,
+            "options": null
+          },
+          "line_type": null,
+          "rx": null,
+          "ry": null
+        },
+        "position_generator": {
+          "type": "gaussian_mixture",
+          "seed": 42137,
+          "background_weight": 0.08,
+          "clusters": [
+            {
+              "weight": 0.34,
+              "center": [
+                30,
+                70
+              ],
+              "spread": [
+                8,
+                10
+              ],
+              "correlation": -0.78
+            },
+            {
+              "weight": 0.28,
+              "center": [
+                48,
+                52
+              ],
+              "spread": [
+                9,
+                8
+              ],
+              "correlation": -0.62
+            },
+            {
+              "weight": 0.18,
+              "center": [
+                63,
+                40
+              ],
+              "spread": [
+                8,
+                6
+              ],
+              "correlation": -0.55
+            },
+            {
+              "weight": 0.12,
+              "center": [
+                24,
+                36
+              ],
+              "spread": [
+                5,
+                7
+              ],
+              "correlation": -0.15
+            }
+          ]
+        },
+        "instance_position_generators": [
+          {
+            "type": "gaussian_mixture",
+            "seed": 31001,
+            "background_weight": 0.04,
+            "clusters": [
+              {
+                "weight": 0.22,
+                "center": [
+                  30,
+                  74
+                ],
+                "spread": [
+                  4,
+                  14
+                ],
+                "correlation": -0.25
+              },
+              {
+                "weight": 0.34,
+                "center": [
+                  38,
+                  60
+                ],
+                "spread": [
+                  6,
+                  8
+                ],
+                "correlation": -0.72
+              },
+              {
+                "weight": 0.28,
+                "center": [
+                  55,
+                  44
+                ],
+                "spread": [
+                  10,
+                  6
+                ],
+                "correlation": -0.72
+              },
+              {
+                "weight": 0.12,
+                "center": [
+                  70,
+                  32
+                ],
+                "spread": [
+                  7,
+                  5
+                ],
+                "correlation": -0.45
+              }
+            ]
+          },
+          {
+            "type": "gaussian_mixture",
+            "seed": 31002,
+            "background_weight": 0.05,
+            "clusters": [
+              {
+                "weight": 0.22,
+                "center": [
+                  42,
+                  73
+                ],
+                "spread": [
+                  6,
+                  13
+                ],
+                "correlation": -0.45
+              },
+              {
+                "weight": 0.35,
+                "center": [
+                  50,
+                  61
+                ],
+                "spread": [
+                  6,
+                  8
+                ],
+                "correlation": -0.76
+              },
+              {
+                "weight": 0.27,
+                "center": [
+                  61,
+                  42
+                ],
+                "spread": [
+                  8,
+                  7
+                ],
+                "correlation": -0.68
+              },
+              {
+                "weight": 0.11,
+                "center": [
+                  72,
+                  31
+                ],
+                "spread": [
+                  6,
+                  5
+                ],
+                "correlation": -0.38
+              }
+            ]
+          },
+          {
+            "type": "gaussian_mixture",
+            "seed": 31003,
+            "background_weight": 0.01,
+            "clusters": [
+              {
+                "weight": 0.55,
+                "center": [
+                  46,
+                  46
+                ],
+                "spread": [
+                  13,
+                  13
+                ],
+                "correlation": 0.995
+              },
+              {
+                "weight": 0.28,
+                "center": [
+                  58,
+                  58
+                ],
+                "spread": [
+                  10,
+                  10
+                ],
+                "correlation": 0.995
+              },
+              {
+                "weight": 0.12,
+                "center": [
+                  34,
+                  34
+                ],
+                "spread": [
+                  7,
+                  7
+                ],
+                "correlation": 0.995
+              }
+            ]
+          },
+          {
+            "type": "gaussian_mixture",
+            "seed": 31004,
+            "background_weight": 0.05,
+            "clusters": [
+              {
+                "weight": 0.24,
+                "center": [
+                  31,
+                  52
+                ],
+                "spread": [
+                  5,
+                  8
+                ],
+                "correlation": 0.38
+              },
+              {
+                "weight": 0.33,
+                "center": [
+                  42,
+                  59
+                ],
+                "spread": [
+                  8,
+                  7
+                ],
+                "correlation": 0.28
+              },
+              {
+                "weight": 0.23,
+                "center": [
+                  56,
+                  61
+                ],
+                "spread": [
+                  8,
+                  7
+                ],
+                "correlation": 0.05
+              },
+              {
+                "weight": 0.13,
+                "center": [
+                  67,
+                  63
+                ],
+                "spread": [
+                  7,
+                  6
+                ],
+                "correlation": -0.12
+              }
+            ]
+          },
+          {
+            "type": "gaussian_mixture",
+            "seed": 31005,
+            "background_weight": 0.01,
+            "clusters": [
+              {
+                "weight": 0.56,
+                "center": [
+                  52,
+                  52
+                ],
+                "spread": [
+                  14,
+                  14
+                ],
+                "correlation": 0.995
+              },
+              {
+                "weight": 0.24,
+                "center": [
+                  63,
+                  63
+                ],
+                "spread": [
+                  10,
+                  10
+                ],
+                "correlation": 0.995
+              },
+              {
+                "weight": 0.14,
+                "center": [
+                  40,
+                  40
+                ],
+                "spread": [
+                  8,
+                  8
+                ],
+                "correlation": 0.995
+              }
+            ]
+          },
+          {
+            "type": "gaussian_mixture",
+            "seed": 31006,
+            "background_weight": 0.05,
+            "clusters": [
+              {
+                "weight": 0.18,
+                "center": [
+                  31,
+                  78
+                ],
+                "spread": [
+                  5,
+                  8
+                ],
+                "correlation": -0.45
+              },
+              {
+                "weight": 0.34,
+                "center": [
+                  42,
+                  64
+                ],
+                "spread": [
+                  8,
+                  7
+                ],
+                "correlation": -0.62
+              },
+              {
+                "weight": 0.28,
+                "center": [
+                  56,
+                  54
+                ],
+                "spread": [
+                  9,
+                  7
+                ],
+                "correlation": -0.7
+              },
+              {
+                "weight": 0.14,
+                "center": [
+                  72,
+                  44
+                ],
+                "spread": [
+                  12,
+                  7
+                ],
+                "correlation": -0.76
+              }
+            ]
+          },
+          {
+            "type": "gaussian_mixture",
+            "seed": 31007,
+            "background_weight": 0.04,
+            "clusters": [
+              {
+                "weight": 0.18,
+                "center": [
+                  30,
+                  72
+                ],
+                "spread": [
+                  4,
+                  10
+                ],
+                "correlation": 0.82
+              },
+              {
+                "weight": 0.38,
+                "center": [
+                  43,
+                  52
+                ],
+                "spread": [
+                  7,
+                  10
+                ],
+                "correlation": 0.9
+              },
+              {
+                "weight": 0.26,
+                "center": [
+                  55,
+                  40
+                ],
+                "spread": [
+                  7,
+                  8
+                ],
+                "correlation": 0.88
+              },
+              {
+                "weight": 0.12,
+                "center": [
+                  70,
+                  28
+                ],
+                "spread": [
+                  10,
+                  6
+                ],
+                "correlation": 0.78
+              }
+            ]
+          },
+          {
+            "type": "gaussian_mixture",
+            "seed": 31008,
+            "background_weight": 0.05,
+            "clusters": [
+              {
+                "weight": 0.23,
+                "center": [
+                  54,
+                  50
+                ],
+                "spread": [
+                  6,
+                  10
+                ],
+                "correlation": 0.2
+              },
+              {
+                "weight": 0.27,
+                "center": [
+                  58,
+                  61
+                ],
+                "spread": [
+                  7,
+                  8
+                ],
+                "correlation": 0.18
+              },
+              {
+                "weight": 0.19,
+                "center": [
+                  49,
+                  39
+                ],
+                "spread": [
+                  7,
+                  7
+                ],
+                "correlation": -0.05
+              },
+              {
+                "weight": 0.16,
+                "center": [
+                  63,
+                  70
+                ],
+                "spread": [
+                  6,
+                  7
+                ],
+                "correlation": 0.08
+              },
+              {
+                "weight": 0.09,
+                "center": [
+                  70,
+                  52
+                ],
+                "spread": [
+                  8,
+                  8
+                ],
+                "correlation": -0.2
+              }
+            ]
+          },
+          {
+            "type": "gaussian_mixture",
+            "seed": 31009,
+            "background_weight": 0.05,
+            "clusters": [
+              {
+                "weight": 0.24,
+                "center": [
+                  28,
+                  74
+                ],
+                "spread": [
+                  5,
+                  9
+                ],
+                "correlation": -0.5
+              },
+              {
+                "weight": 0.34,
+                "center": [
+                  40,
+                  57
+                ],
+                "spread": [
+                  8,
+                  8
+                ],
+                "correlation": -0.74
+              },
+              {
+                "weight": 0.24,
+                "center": [
+                  52,
+                  45
+                ],
+                "spread": [
+                  9,
+                  7
+                ],
+                "correlation": -0.78
+              },
+              {
+                "weight": 0.12,
+                "center": [
+                  70,
+                  30
+                ],
+                "spread": [
+                  12,
+                  7
+                ],
+                "correlation": -0.7
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "recovered_data": {
+    "format": "JSON Pointer paths into the complete DSL above",
+    "fields": [
+      {
+        "path": "/data_specification/0-a-0/position_generator",
+        "kind": "position_generator",
+        "value": {
+          "type": "gaussian_mixture",
+          "seed": 42137,
+          "background_weight": 0.08,
+          "clusters": [
+            {
+              "weight": 0.34,
+              "center": [
+                30,
+                70
+              ],
+              "spread": [
+                8,
+                10
+              ],
+              "correlation": -0.78
+            },
+            {
+              "weight": 0.28,
+              "center": [
+                48,
+                52
+              ],
+              "spread": [
+                9,
+                8
+              ],
+              "correlation": -0.62
+            },
+            {
+              "weight": 0.18,
+              "center": [
+                63,
+                40
+              ],
+              "spread": [
+                8,
+                6
+              ],
+              "correlation": -0.55
+            },
+            {
+              "weight": 0.12,
+              "center": [
+                24,
+                36
+              ],
+              "spread": [
+                5,
+                7
+              ],
+              "correlation": -0.15
+            }
+          ]
+        }
+      },
+      {
+        "path": "/data_specification/0-a-0/instance_position_generators",
+        "kind": "instance_position_generators",
+        "value": [
+          {
+            "type": "gaussian_mixture",
+            "seed": 31001,
+            "background_weight": 0.04,
+            "clusters": [
+              {
+                "weight": 0.22,
+                "center": [
+                  30,
+                  74
+                ],
+                "spread": [
+                  4,
+                  14
+                ],
+                "correlation": -0.25
+              },
+              {
+                "weight": 0.34,
+                "center": [
+                  38,
+                  60
+                ],
+                "spread": [
+                  6,
+                  8
+                ],
+                "correlation": -0.72
+              },
+              {
+                "weight": 0.28,
+                "center": [
+                  55,
+                  44
+                ],
+                "spread": [
+                  10,
+                  6
+                ],
+                "correlation": -0.72
+              },
+              {
+                "weight": 0.12,
+                "center": [
+                  70,
+                  32
+                ],
+                "spread": [
+                  7,
+                  5
+                ],
+                "correlation": -0.45
+              }
+            ]
+          },
+          {
+            "type": "gaussian_mixture",
+            "seed": 31002,
+            "background_weight": 0.05,
+            "clusters": [
+              {
+                "weight": 0.22,
+                "center": [
+                  42,
+                  73
+                ],
+                "spread": [
+                  6,
+                  13
+                ],
+                "correlation": -0.45
+              },
+              {
+                "weight": 0.35,
+                "center": [
+                  50,
+                  61
+                ],
+                "spread": [
+                  6,
+                  8
+                ],
+                "correlation": -0.76
+              },
+              {
+                "weight": 0.27,
+                "center": [
+                  61,
+                  42
+                ],
+                "spread": [
+                  8,
+                  7
+                ],
+                "correlation": -0.68
+              },
+              {
+                "weight": 0.11,
+                "center": [
+                  72,
+                  31
+                ],
+                "spread": [
+                  6,
+                  5
+                ],
+                "correlation": -0.38
+              }
+            ]
+          },
+          {
+            "type": "gaussian_mixture",
+            "seed": 31003,
+            "background_weight": 0.01,
+            "clusters": [
+              {
+                "weight": 0.55,
+                "center": [
+                  46,
+                  46
+                ],
+                "spread": [
+                  13,
+                  13
+                ],
+                "correlation": 0.995
+              },
+              {
+                "weight": 0.28,
+                "center": [
+                  58,
+                  58
+                ],
+                "spread": [
+                  10,
+                  10
+                ],
+                "correlation": 0.995
+              },
+              {
+                "weight": 0.12,
+                "center": [
+                  34,
+                  34
+                ],
+                "spread": [
+                  7,
+                  7
+                ],
+                "correlation": 0.995
+              }
+            ]
+          },
+          {
+            "type": "gaussian_mixture",
+            "seed": 31004,
+            "background_weight": 0.05,
+            "clusters": [
+              {
+                "weight": 0.24,
+                "center": [
+                  31,
+                  52
+                ],
+                "spread": [
+                  5,
+                  8
+                ],
+                "correlation": 0.38
+              },
+              {
+                "weight": 0.33,
+                "center": [
+                  42,
+                  59
+                ],
+                "spread": [
+                  8,
+                  7
+                ],
+                "correlation": 0.28
+              },
+              {
+                "weight": 0.23,
+                "center": [
+                  56,
+                  61
+                ],
+                "spread": [
+                  8,
+                  7
+                ],
+                "correlation": 0.05
+              },
+              {
+                "weight": 0.13,
+                "center": [
+                  67,
+                  63
+                ],
+                "spread": [
+                  7,
+                  6
+                ],
+                "correlation": -0.12
+              }
+            ]
+          },
+          {
+            "type": "gaussian_mixture",
+            "seed": 31005,
+            "background_weight": 0.01,
+            "clusters": [
+              {
+                "weight": 0.56,
+                "center": [
+                  52,
+                  52
+                ],
+                "spread": [
+                  14,
+                  14
+                ],
+                "correlation": 0.995
+              },
+              {
+                "weight": 0.24,
+                "center": [
+                  63,
+                  63
+                ],
+                "spread": [
+                  10,
+                  10
+                ],
+                "correlation": 0.995
+              },
+              {
+                "weight": 0.14,
+                "center": [
+                  40,
+                  40
+                ],
+                "spread": [
+                  8,
+                  8
+                ],
+                "correlation": 0.995
+              }
+            ]
+          },
+          {
+            "type": "gaussian_mixture",
+            "seed": 31006,
+            "background_weight": 0.05,
+            "clusters": [
+              {
+                "weight": 0.18,
+                "center": [
+                  31,
+                  78
+                ],
+                "spread": [
+                  5,
+                  8
+                ],
+                "correlation": -0.45
+              },
+              {
+                "weight": 0.34,
+                "center": [
+                  42,
+                  64
+                ],
+                "spread": [
+                  8,
+                  7
+                ],
+                "correlation": -0.62
+              },
+              {
+                "weight": 0.28,
+                "center": [
+                  56,
+                  54
+                ],
+                "spread": [
+                  9,
+                  7
+                ],
+                "correlation": -0.7
+              },
+              {
+                "weight": 0.14,
+                "center": [
+                  72,
+                  44
+                ],
+                "spread": [
+                  12,
+                  7
+                ],
+                "correlation": -0.76
+              }
+            ]
+          },
+          {
+            "type": "gaussian_mixture",
+            "seed": 31007,
+            "background_weight": 0.04,
+            "clusters": [
+              {
+                "weight": 0.18,
+                "center": [
+                  30,
+                  72
+                ],
+                "spread": [
+                  4,
+                  10
+                ],
+                "correlation": 0.82
+              },
+              {
+                "weight": 0.38,
+                "center": [
+                  43,
+                  52
+                ],
+                "spread": [
+                  7,
+                  10
+                ],
+                "correlation": 0.9
+              },
+              {
+                "weight": 0.26,
+                "center": [
+                  55,
+                  40
+                ],
+                "spread": [
+                  7,
+                  8
+                ],
+                "correlation": 0.88
+              },
+              {
+                "weight": 0.12,
+                "center": [
+                  70,
+                  28
+                ],
+                "spread": [
+                  10,
+                  6
+                ],
+                "correlation": 0.78
+              }
+            ]
+          },
+          {
+            "type": "gaussian_mixture",
+            "seed": 31008,
+            "background_weight": 0.05,
+            "clusters": [
+              {
+                "weight": 0.23,
+                "center": [
+                  54,
+                  50
+                ],
+                "spread": [
+                  6,
+                  10
+                ],
+                "correlation": 0.2
+              },
+              {
+                "weight": 0.27,
+                "center": [
+                  58,
+                  61
+                ],
+                "spread": [
+                  7,
+                  8
+                ],
+                "correlation": 0.18
+              },
+              {
+                "weight": 0.19,
+                "center": [
+                  49,
+                  39
+                ],
+                "spread": [
+                  7,
+                  7
+                ],
+                "correlation": -0.05
+              },
+              {
+                "weight": 0.16,
+                "center": [
+                  63,
+                  70
+                ],
+                "spread": [
+                  6,
+                  7
+                ],
+                "correlation": 0.08
+              },
+              {
+                "weight": 0.09,
+                "center": [
+                  70,
+                  52
+                ],
+                "spread": [
+                  8,
+                  8
+                ],
+                "correlation": -0.2
+              }
+            ]
+          },
+          {
+            "type": "gaussian_mixture",
+            "seed": 31009,
+            "background_weight": 0.05,
+            "clusters": [
+              {
+                "weight": 0.24,
+                "center": [
+                  28,
+                  74
+                ],
+                "spread": [
+                  5,
+                  9
+                ],
+                "correlation": -0.5
+              },
+              {
+                "weight": 0.34,
+                "center": [
+                  40,
+                  57
+                ],
+                "spread": [
+                  8,
+                  8
+                ],
+                "correlation": -0.74
+              },
+              {
+                "weight": 0.24,
+                "center": [
+                  52,
+                  45
+                ],
+                "spread": [
+                  9,
+                  7
+                ],
+                "correlation": -0.78
+              },
+              {
+                "weight": 0.12,
+                "center": [
+                  70,
+                  30
+                ],
+                "spread": [
+                  12,
+                  7
+                ],
+                "correlation": -0.7
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

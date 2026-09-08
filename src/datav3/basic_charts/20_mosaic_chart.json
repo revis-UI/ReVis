@@ -1,35 +1,332 @@
 {
-    "container_id": "0",
-    "coordinate": "cartesian",
-    "description": "Single-panel rectangular layout filled with multiple non-overlapping rectangles of varying sizes (treemap-like). Numbers are centered within many rectangles.",
-    "coordinate_system": {
+  "container_id": "0",
+  "coordinate": "cartesian",
+  "description": "Single-panel rectangular layout filled with multiple non-overlapping rectangles of varying sizes (treemap-like). Numbers are centered within many rectangles.",
+  "coordinate_system": {
+    "x1": "0",
+    "y1": "0",
+    "x2": "100",
+    "y2": "100"
+  },
+  "if_leaf": false,
+  "mark_type": null,
+  "components": [
+    {
+      "container_id": "0-0",
+      "coordinate": "cartesian",
+      "description": "Primary data-encoding rectangles forming a treemap: several vertical columns on the left with small stacked rectangles and three large stacked rectangles on the right. Rectangles differ in area and fill color but share the same rectangular mark rule.",
+      "coordinate_system": {
         "x1": "0",
         "y1": "0",
         "x2": "100",
         "y2": "100"
-    },
-    "if_leaf": false,
-    "mark_type": null,
-    "components": [
-        {
-            "container_id": "0-0",
-            "coordinate": "cartesian",
-            "description": "Primary data-encoding rectangles forming a treemap: several vertical columns on the left with small stacked rectangles and three large stacked rectangles on the right. Rectangles differ in area and fill color but share the same rectangular mark rule.",
-            "coordinate_system": {
-                "x1": "0",
-                "y1": "0",
-                "x2": "100",
-                "y2": "100"
-            },
-            "if_leaf": true,
-            "mark_type": "rectangle",
-            "components": null
+      },
+      "if_leaf": true,
+      "mark_type": "rectangle",
+      "components": null
+    }
+  ],
+  "template_data_specification": null,
+  "data_specification": {
+    "0-0": {
+      "mark_specification": {
+        "mark_type": "rectangle",
+        "is_link_mark": false,
+        "link_mark_type": "no_link",
+        "group_link_direction": null,
+        "link_number": null,
+        "is_width_encoded_data": false,
+        "node_use_once": false,
+        "is_fully_connected": false,
+        "is_bipartite": false
+      },
+      "data_structure": {
+        "data_type": "2D_MATRIX",
+        "data_size": {
+          "primary": {
+            "number": 3,
+            "dimension": "x",
+            "explanation": "3 rectangles forming a treemap; items are positioned in 2D within a single group."
+          },
+          "secondary": {
+            "number": 3,
+            "dimension": "y",
+            "explanation": "3 rectangles forming a treemap; items are positioned in 2D within a single group."
+          }
         }
-    ],
-    "template_data_specification": null,
-    "data_specification": {
-        "0-0": {
-            "mark_specification": {
+      },
+      "layout_specification": {
+        "x": {
+          "stacking": true,
+          "stacking_direction": "min",
+          "anchor": "stacking_decided",
+          "subdividing": true,
+          "2d_flatten": false,
+          "size_uniform": false,
+          "size_range": [
+            10,
+            65
+          ],
+          "anchor_distribute": "flexible",
+          "anchor_interval": null,
+          "anchor_start": null,
+          "data_values": [
+            [
+              18,
+              18,
+              18
+            ],
+            [
+              20,
+              20,
+              20
+            ],
+            [
+              62,
+              62,
+              62
+            ]
+          ]
+        },
+        "y": {
+          "stacking": true,
+          "stacking_direction": "min",
+          "anchor": "stacking_decided",
+          "subdividing": true,
+          "2d_flatten": false,
+          "size_uniform": false,
+          "size_range": [
+            5,
+            80
+          ],
+          "anchor_distribute": "flexible",
+          "anchor_interval": null,
+          "anchor_start": null,
+          "data_values": [
+            [
+              88,
+              5,
+              7
+            ],
+            [
+              5,
+              87,
+              8
+            ],
+            [
+              28,
+              29,
+              43
+            ]
+          ]
+        },
+        "radius": null,
+        "angle": null,
+        "source": null,
+        "target": null
+      },
+      "non_layout_specification": {
+        "fill": {
+          "scale": "ordinal_primary",
+          "fix": null,
+          "linear": null,
+          "options": [
+            "#B6C5D7",
+            "#F5C18B",
+            "#DA6E73",
+            "#E59696",
+            "#F0B9B9"
+          ]
+        },
+        "stroke": {
+          "scale": "fix",
+          "fix": "#FFFFFF",
+          "linear": null,
+          "options": null
+        },
+        "stroke-width": {
+          "scale": "fix",
+          "fix": 2,
+          "linear": null,
+          "options": null
+        },
+        "opacity": {
+          "scale": "fix",
+          "fix": 1,
+          "linear": null,
+          "options": null
+        },
+        "line_type": null,
+        "rx": null,
+        "ry": null
+      }
+    }
+  },
+  "metadata": {
+    "generator_version": "mulberry32-fnv1a-v1",
+    "generation_seed": "3418070a-59d9-4b2f-81f2-9b8f3e02417a",
+    "schema_version": "2.0.0",
+    "updated_at": "2026-09-08T12:36:18.797Z"
+  },
+  "view_data": {
+    "marks": {
+      "0-0": [
+        [
+          {
+            "id": "0-0__0",
+            "x1": 0,
+            "y1": 0,
+            "x2": 18,
+            "y2": 88,
+            "props": {
+              "fill": "#B6CADD",
+              "stroke": "#FFFFFF",
+              "stroke-width": 2,
+              "opacity": 1
+            }
+          },
+          {
+            "id": "0-0__1",
+            "x1": 0,
+            "y1": 88,
+            "x2": 18,
+            "y2": 93,
+            "props": {
+              "fill": "#A7BDD2",
+              "stroke": "#FFFFFF",
+              "stroke-width": 2,
+              "opacity": 1
+            }
+          },
+          {
+            "id": "0-0__2",
+            "x1": 0,
+            "y1": 93,
+            "x2": 18,
+            "y2": 100,
+            "props": {
+              "fill": "#97B2CF",
+              "stroke": "#FFFFFF",
+              "stroke-width": 2,
+              "opacity": 1
+            }
+          }
+        ],
+        [
+          {
+            "id": "0-0__3",
+            "x1": 18,
+            "y1": 0,
+            "x2": 38,
+            "y2": 5,
+            "props": {
+              "fill": "#FFD3AD",
+              "stroke": "#FFFFFF",
+              "stroke-width": 2,
+              "opacity": 1
+            }
+          },
+          {
+            "id": "0-0__4",
+            "x1": 18,
+            "y1": 5,
+            "x2": 38,
+            "y2": 92,
+            "props": {
+              "fill": "#FFBD83",
+              "stroke": "#FFFFFF",
+              "stroke-width": 2,
+              "opacity": 1
+            }
+          },
+          {
+            "id": "0-0__5",
+            "x1": 18,
+            "y1": 92,
+            "x2": 38,
+            "y2": 100,
+            "props": {
+              "fill": "#FFB579",
+              "stroke": "#FFFFFF",
+              "stroke-width": 2,
+              "opacity": 1
+            }
+          }
+        ],
+        [
+          {
+            "id": "0-0__6",
+            "x1": 38,
+            "y1": 0,
+            "x2": 100,
+            "y2": 28.000000000000004,
+            "props": {
+              "fill": "#F6BBBD",
+              "stroke": "#FFFFFF",
+              "stroke-width": 2,
+              "opacity": 1
+            }
+          },
+          {
+            "id": "0-0__7",
+            "x1": 38,
+            "y1": 28.000000000000004,
+            "x2": 100,
+            "y2": 56.99999999999999,
+            "props": {
+              "fill": "#ED9699",
+              "stroke": "#FFFFFF",
+              "stroke-width": 2,
+              "opacity": 1
+            }
+          },
+          {
+            "id": "0-0__8",
+            "x1": 38,
+            "y1": 56.99999999999999,
+            "x2": 100,
+            "y2": 100,
+            "props": {
+              "fill": "#E97378",
+              "stroke": "#FFFFFF",
+              "stroke-width": 2,
+              "opacity": 1
+            }
+          }
+        ]
+      ]
+    },
+    "containers": {
+      "0": {
+        "container_id": "0",
+        "template_id": "0",
+        "description": "Single-panel rectangular layout filled with multiple non-overlapping rectangles of varying sizes (treemap-like). Numbers are centered within many rectangles.",
+        "coordinate": "cartesian",
+        "coordinate_system": {
+          "x1": 0,
+          "y1": 0,
+          "x2": 100,
+          "y2": 100
+        },
+        "if_template_container": false,
+        "if_leaf": false,
+        "components": [
+          {
+            "container_id": "0-0",
+            "template_id": "0-0",
+            "description": "Primary data-encoding rectangles forming a treemap: several vertical columns on the left with small stacked rectangles and three large stacked rectangles on the right. Rectangles differ in area and fill color but share the same rectangular mark rule.",
+            "coordinate": "cartesian",
+            "parent_coordinate": "cartesian",
+            "coordinate_system": {
+              "x1": 0,
+              "y1": 0,
+              "x2": 100,
+              "y2": 100
+            },
+            "if_template_container": false,
+            "if_leaf": true,
+            "__data_specification": {
+              "mark_specification": {
                 "mark_type": "rectangle",
                 "is_link_mark": false,
                 "link_mark_type": "no_link",
@@ -39,93 +336,1352 @@
                 "node_use_once": false,
                 "is_fully_connected": false,
                 "is_bipartite": false
-            },
-            "data_structure": {
+              },
+              "data_structure": {
                 "data_type": "2D_MATRIX",
                 "data_size": {
-                    "primary": {
-                        "number": 3,
-                        "dimension": "x",
-                        "explanation": "3 rectangles forming a treemap; items are positioned in 2D within a single group."
-                    },
-                    "secondary": {
-                        "number": 3,
-                        "dimension": "y",
-                        "explanation": "3 rectangles forming a treemap; items are positioned in 2D within a single group."
-                    }
+                  "primary": {
+                    "number": 3,
+                    "dimension": "x",
+                    "explanation": "3 rectangles forming a treemap; items are positioned in 2D within a single group."
+                  },
+                  "secondary": {
+                    "number": 3,
+                    "dimension": "y",
+                    "explanation": "3 rectangles forming a treemap; items are positioned in 2D within a single group."
+                  }
                 }
-            },
-            "layout_specification": {
+              },
+              "layout_specification": {
                 "x": {
-                    "stacking": true,
-                    "stacking_direction": "min",
-                    "anchor": "stacking_decided",
-                    "subdividing": true,
-                    "2d_flatten": false,
-                    "size_uniform": false,
-                    "size_range": [
-                        10,
-                        65
+                  "stacking": true,
+                  "stacking_direction": "min",
+                  "anchor": "stacking_decided",
+                  "subdividing": true,
+                  "2d_flatten": false,
+                  "size_uniform": false,
+                  "size_range": [
+                    10,
+                    65
+                  ],
+                  "anchor_distribute": "flexible",
+                  "anchor_interval": null,
+                  "anchor_start": null,
+                  "data_values": [
+                    [
+                      18,
+                      18,
+                      18
                     ],
-                    "anchor_distribute": "flexible",
-                    "anchor_interval": null,
-                    "anchor_start": null
+                    [
+                      20,
+                      20,
+                      20
+                    ],
+                    [
+                      62,
+                      62,
+                      62
+                    ]
+                  ]
                 },
                 "y": {
-                    "stacking": true,
-                    "stacking_direction": "min",
-                    "anchor": "stacking_decided",
-                    "subdividing": true,
-                    "2d_flatten": false,
-                    "size_uniform": false,
-                    "size_range": [
-                        5,
-                        80
+                  "stacking": true,
+                  "stacking_direction": "min",
+                  "anchor": "stacking_decided",
+                  "subdividing": true,
+                  "2d_flatten": false,
+                  "size_uniform": false,
+                  "size_range": [
+                    5,
+                    80
+                  ],
+                  "anchor_distribute": "flexible",
+                  "anchor_interval": null,
+                  "anchor_start": null,
+                  "data_values": [
+                    [
+                      88,
+                      5,
+                      7
                     ],
-                    "anchor_distribute": "flexible",
-                    "anchor_interval": null,
-                    "anchor_start": null
+                    [
+                      5,
+                      87,
+                      8
+                    ],
+                    [
+                      28,
+                      29,
+                      43
+                    ]
+                  ]
                 },
                 "radius": null,
                 "angle": null,
                 "source": null,
                 "target": null
-            },
-            "non_layout_specification": {
+              },
+              "non_layout_specification": {
                 "fill": {
-                    "scale": "ordinal_primary",
-                    "fix": null,
-                    "linear": null,
-                    "options": [
-                        "#B6C5D7",
-                        "#F5C18B",
-                        "#DA6E73",
-                        "#E59696",
-                        "#F0B9B9"
-                    ]
+                  "scale": "ordinal_primary",
+                  "fix": null,
+                  "linear": null,
+                  "options": [
+                    "#B6C5D7",
+                    "#F5C18B",
+                    "#DA6E73",
+                    "#E59696",
+                    "#F0B9B9"
+                  ]
                 },
                 "stroke": {
-                    "scale": "fix",
-                    "fix": "#FFFFFF",
-                    "linear": null,
-                    "options": null
+                  "scale": "fix",
+                  "fix": "#FFFFFF",
+                  "linear": null,
+                  "options": null
                 },
                 "stroke-width": {
-                    "scale": "fix",
-                    "fix": 2,
-                    "linear": null,
-                    "options": null
+                  "scale": "fix",
+                  "fix": 2,
+                  "linear": null,
+                  "options": null
                 },
                 "opacity": {
-                    "scale": "fix",
-                    "fix": 1,
-                    "linear": null,
-                    "options": null
+                  "scale": "fix",
+                  "fix": 1,
+                  "linear": null,
+                  "options": null
                 },
                 "line_type": null,
                 "rx": null,
                 "ry": null
+              }
             }
+          }
+        ]
+      },
+      "0-0": {
+        "container_id": "0-0",
+        "template_id": "0-0",
+        "description": "Primary data-encoding rectangles forming a treemap: several vertical columns on the left with small stacked rectangles and three large stacked rectangles on the right. Rectangles differ in area and fill color but share the same rectangular mark rule.",
+        "coordinate": "cartesian",
+        "parent_coordinate": "cartesian",
+        "coordinate_system": {
+          "x1": 0,
+          "y1": 0,
+          "x2": 100,
+          "y2": 100
+        },
+        "if_template_container": false,
+        "if_leaf": true,
+        "__data_specification": {
+          "mark_specification": {
+            "mark_type": "rectangle",
+            "is_link_mark": false,
+            "link_mark_type": "no_link",
+            "group_link_direction": null,
+            "link_number": null,
+            "is_width_encoded_data": false,
+            "node_use_once": false,
+            "is_fully_connected": false,
+            "is_bipartite": false
+          },
+          "data_structure": {
+            "data_type": "2D_MATRIX",
+            "data_size": {
+              "primary": {
+                "number": 3,
+                "dimension": "x",
+                "explanation": "3 rectangles forming a treemap; items are positioned in 2D within a single group."
+              },
+              "secondary": {
+                "number": 3,
+                "dimension": "y",
+                "explanation": "3 rectangles forming a treemap; items are positioned in 2D within a single group."
+              }
+            }
+          },
+          "layout_specification": {
+            "x": {
+              "stacking": true,
+              "stacking_direction": "min",
+              "anchor": "stacking_decided",
+              "subdividing": true,
+              "2d_flatten": false,
+              "size_uniform": false,
+              "size_range": [
+                10,
+                65
+              ],
+              "anchor_distribute": "flexible",
+              "anchor_interval": null,
+              "anchor_start": null,
+              "data_values": [
+                [
+                  18,
+                  18,
+                  18
+                ],
+                [
+                  20,
+                  20,
+                  20
+                ],
+                [
+                  62,
+                  62,
+                  62
+                ]
+              ]
+            },
+            "y": {
+              "stacking": true,
+              "stacking_direction": "min",
+              "anchor": "stacking_decided",
+              "subdividing": true,
+              "2d_flatten": false,
+              "size_uniform": false,
+              "size_range": [
+                5,
+                80
+              ],
+              "anchor_distribute": "flexible",
+              "anchor_interval": null,
+              "anchor_start": null,
+              "data_values": [
+                [
+                  88,
+                  5,
+                  7
+                ],
+                [
+                  5,
+                  87,
+                  8
+                ],
+                [
+                  28,
+                  29,
+                  43
+                ]
+              ]
+            },
+            "radius": null,
+            "angle": null,
+            "source": null,
+            "target": null
+          },
+          "non_layout_specification": {
+            "fill": {
+              "scale": "ordinal_primary",
+              "fix": null,
+              "linear": null,
+              "options": [
+                "#B6C5D7",
+                "#F5C18B",
+                "#DA6E73",
+                "#E59696",
+                "#F0B9B9"
+              ]
+            },
+            "stroke": {
+              "scale": "fix",
+              "fix": "#FFFFFF",
+              "linear": null,
+              "options": null
+            },
+            "stroke-width": {
+              "scale": "fix",
+              "fix": 2,
+              "linear": null,
+              "options": null
+            },
+            "opacity": {
+              "scale": "fix",
+              "fix": 1,
+              "linear": null,
+              "options": null
+            },
+            "line_type": null,
+            "rx": null,
+            "ry": null
+          }
         }
+      }
+    },
+    "cache": {
+      "size_range": {
+        "0-0": {
+          "x": [
+            [
+              [
+                18,
+                null
+              ],
+              [
+                18,
+                null
+              ],
+              [
+                18,
+                null
+              ]
+            ],
+            [
+              [
+                20,
+                null
+              ],
+              [
+                20,
+                null
+              ],
+              [
+                20,
+                null
+              ]
+            ],
+            [
+              [
+                62,
+                null
+              ],
+              [
+                62,
+                null
+              ],
+              [
+                62,
+                null
+              ]
+            ]
+          ],
+          "y": [
+            [
+              [
+                null,
+                88
+              ],
+              [
+                null,
+                5
+              ],
+              [
+                null,
+                7
+              ]
+            ],
+            [
+              [
+                null,
+                5
+              ],
+              [
+                null,
+                87
+              ],
+              [
+                null,
+                8
+              ]
+            ],
+            [
+              [
+                null,
+                28
+              ],
+              [
+                null,
+                29
+              ],
+              [
+                null,
+                43
+              ]
+            ]
+          ]
+        }
+      },
+      "anchor_point": {
+        "0-0": {
+          "x": [
+            [
+              [
+                0,
+                null
+              ],
+              [
+                0,
+                null
+              ],
+              [
+                0,
+                null
+              ]
+            ],
+            [
+              [
+                0,
+                null
+              ],
+              [
+                0,
+                null
+              ],
+              [
+                0,
+                null
+              ]
+            ],
+            [
+              [
+                0,
+                null
+              ],
+              [
+                0,
+                null
+              ],
+              [
+                0,
+                null
+              ]
+            ]
+          ],
+          "y": [
+            [
+              [
+                null,
+                0
+              ],
+              [
+                null,
+                0
+              ],
+              [
+                null,
+                0
+              ]
+            ],
+            [
+              [
+                null,
+                0
+              ],
+              [
+                null,
+                0
+              ],
+              [
+                null,
+                0
+              ]
+            ],
+            [
+              [
+                null,
+                0
+              ],
+              [
+                null,
+                0
+              ],
+              [
+                null,
+                0
+              ]
+            ]
+          ]
+        }
+      },
+      "link_nodes": {},
+      "non_property": {
+        "0-0": [
+          [
+            {
+              "fill": "#B6CADD",
+              "stroke": "#FFFFFF",
+              "stroke-width": 2,
+              "opacity": 1
+            },
+            {
+              "fill": "#A7BDD2",
+              "stroke": "#FFFFFF",
+              "stroke-width": 2,
+              "opacity": 1
+            },
+            {
+              "fill": "#97B2CF",
+              "stroke": "#FFFFFF",
+              "stroke-width": 2,
+              "opacity": 1
+            }
+          ],
+          [
+            {
+              "fill": "#FFD3AD",
+              "stroke": "#FFFFFF",
+              "stroke-width": 2,
+              "opacity": 1
+            },
+            {
+              "fill": "#FFBD83",
+              "stroke": "#FFFFFF",
+              "stroke-width": 2,
+              "opacity": 1
+            },
+            {
+              "fill": "#FFB579",
+              "stroke": "#FFFFFF",
+              "stroke-width": 2,
+              "opacity": 1
+            }
+          ],
+          [
+            {
+              "fill": "#F6BBBD",
+              "stroke": "#FFFFFF",
+              "stroke-width": 2,
+              "opacity": 1
+            },
+            {
+              "fill": "#ED9699",
+              "stroke": "#FFFFFF",
+              "stroke-width": 2,
+              "opacity": 1
+            },
+            {
+              "fill": "#E97378",
+              "stroke": "#FFFFFF",
+              "stroke-width": 2,
+              "opacity": 1
+            }
+          ]
+        ]
+      }
     }
+  },
+  "history": {
+    "cursor": 1,
+    "entries": [
+      {
+        "affected_paths": [
+          "/data_mode",
+          "/data_specification/0-0/layout_specification/x/data_values",
+          "/data_specification/0-0/layout_specification/y/data_values",
+          "/view_data/cache/anchor_point/0-0",
+          "/view_data/cache/non_property/0-0",
+          "/view_data/cache/size_range/0-0",
+          "/view_data/containers/0",
+          "/view_data/containers/0-0",
+          "/view_data/marks/0-0"
+        ],
+        "forward_patch": [
+          {
+            "op": "add",
+            "path": "/data_mode",
+            "value": "reference"
+          },
+          {
+            "op": "add",
+            "path": "/data_specification/0-0/layout_specification/x/data_values",
+            "value": [
+              [
+                18,
+                18,
+                18
+              ],
+              [
+                20,
+                20,
+                20
+              ],
+              [
+                62,
+                62,
+                62
+              ]
+            ]
+          },
+          {
+            "op": "add",
+            "path": "/data_specification/0-0/layout_specification/y/data_values",
+            "value": [
+              [
+                88,
+                5,
+                7
+              ],
+              [
+                5,
+                87,
+                8
+              ],
+              [
+                28,
+                29,
+                43
+              ]
+            ]
+          },
+          {
+            "op": "replace",
+            "path": "/metadata/updated_at",
+            "value": "2026-09-08T12:36:18.797Z"
+          },
+          {
+            "op": "add",
+            "path": "/view_data/cache/anchor_point/0-0",
+            "value": {
+              "x": [
+                [
+                  [
+                    0,
+                    null
+                  ],
+                  [
+                    0,
+                    null
+                  ],
+                  [
+                    0,
+                    null
+                  ]
+                ],
+                [
+                  [
+                    0,
+                    null
+                  ],
+                  [
+                    0,
+                    null
+                  ],
+                  [
+                    0,
+                    null
+                  ]
+                ],
+                [
+                  [
+                    0,
+                    null
+                  ],
+                  [
+                    0,
+                    null
+                  ],
+                  [
+                    0,
+                    null
+                  ]
+                ]
+              ],
+              "y": [
+                [
+                  [
+                    null,
+                    0
+                  ],
+                  [
+                    null,
+                    0
+                  ],
+                  [
+                    null,
+                    0
+                  ]
+                ],
+                [
+                  [
+                    null,
+                    0
+                  ],
+                  [
+                    null,
+                    0
+                  ],
+                  [
+                    null,
+                    0
+                  ]
+                ],
+                [
+                  [
+                    null,
+                    0
+                  ],
+                  [
+                    null,
+                    0
+                  ],
+                  [
+                    null,
+                    0
+                  ]
+                ]
+              ]
+            }
+          },
+          {
+            "op": "add",
+            "path": "/view_data/cache/non_property/0-0",
+            "value": [
+              [
+                {
+                  "fill": "#B6CADD",
+                  "stroke": "#FFFFFF",
+                  "stroke-width": 2,
+                  "opacity": 1
+                },
+                {
+                  "fill": "#A7BDD2",
+                  "stroke": "#FFFFFF",
+                  "stroke-width": 2,
+                  "opacity": 1
+                },
+                {
+                  "fill": "#97B2CF",
+                  "stroke": "#FFFFFF",
+                  "stroke-width": 2,
+                  "opacity": 1
+                }
+              ],
+              [
+                {
+                  "fill": "#FFD3AD",
+                  "stroke": "#FFFFFF",
+                  "stroke-width": 2,
+                  "opacity": 1
+                },
+                {
+                  "fill": "#FFBD83",
+                  "stroke": "#FFFFFF",
+                  "stroke-width": 2,
+                  "opacity": 1
+                },
+                {
+                  "fill": "#FFB579",
+                  "stroke": "#FFFFFF",
+                  "stroke-width": 2,
+                  "opacity": 1
+                }
+              ],
+              [
+                {
+                  "fill": "#F6BBBD",
+                  "stroke": "#FFFFFF",
+                  "stroke-width": 2,
+                  "opacity": 1
+                },
+                {
+                  "fill": "#ED9699",
+                  "stroke": "#FFFFFF",
+                  "stroke-width": 2,
+                  "opacity": 1
+                },
+                {
+                  "fill": "#E97378",
+                  "stroke": "#FFFFFF",
+                  "stroke-width": 2,
+                  "opacity": 1
+                }
+              ]
+            ]
+          },
+          {
+            "op": "add",
+            "path": "/view_data/cache/size_range/0-0",
+            "value": {
+              "x": [
+                [
+                  [
+                    18,
+                    null
+                  ],
+                  [
+                    18,
+                    null
+                  ],
+                  [
+                    18,
+                    null
+                  ]
+                ],
+                [
+                  [
+                    20,
+                    null
+                  ],
+                  [
+                    20,
+                    null
+                  ],
+                  [
+                    20,
+                    null
+                  ]
+                ],
+                [
+                  [
+                    62,
+                    null
+                  ],
+                  [
+                    62,
+                    null
+                  ],
+                  [
+                    62,
+                    null
+                  ]
+                ]
+              ],
+              "y": [
+                [
+                  [
+                    null,
+                    88
+                  ],
+                  [
+                    null,
+                    5
+                  ],
+                  [
+                    null,
+                    7
+                  ]
+                ],
+                [
+                  [
+                    null,
+                    5
+                  ],
+                  [
+                    null,
+                    87
+                  ],
+                  [
+                    null,
+                    8
+                  ]
+                ],
+                [
+                  [
+                    null,
+                    28
+                  ],
+                  [
+                    null,
+                    29
+                  ],
+                  [
+                    null,
+                    43
+                  ]
+                ]
+              ]
+            }
+          },
+          {
+            "op": "add",
+            "path": "/view_data/containers/0",
+            "value": {
+              "container_id": "0",
+              "template_id": "0",
+              "description": "Single-panel rectangular layout filled with multiple non-overlapping rectangles of varying sizes (treemap-like). Numbers are centered within many rectangles.",
+              "coordinate": "cartesian",
+              "coordinate_system": {
+                "x1": 0,
+                "y1": 0,
+                "x2": 100,
+                "y2": 100
+              },
+              "if_template_container": false,
+              "if_leaf": false,
+              "components": [
+                {
+                  "container_id": "0-0",
+                  "template_id": "0-0",
+                  "description": "Primary data-encoding rectangles forming a treemap: several vertical columns on the left with small stacked rectangles and three large stacked rectangles on the right. Rectangles differ in area and fill color but share the same rectangular mark rule.",
+                  "coordinate": "cartesian",
+                  "parent_coordinate": "cartesian",
+                  "coordinate_system": {
+                    "x1": 0,
+                    "y1": 0,
+                    "x2": 100,
+                    "y2": 100
+                  },
+                  "if_template_container": false,
+                  "if_leaf": true,
+                  "__data_specification": {
+                    "mark_specification": {
+                      "mark_type": "rectangle",
+                      "is_link_mark": false,
+                      "link_mark_type": "no_link",
+                      "group_link_direction": null,
+                      "link_number": null,
+                      "is_width_encoded_data": false,
+                      "node_use_once": false,
+                      "is_fully_connected": false,
+                      "is_bipartite": false
+                    },
+                    "data_structure": {
+                      "data_type": "2D_MATRIX",
+                      "data_size": {
+                        "primary": {
+                          "number": 3,
+                          "dimension": "x",
+                          "explanation": "3 rectangles forming a treemap; items are positioned in 2D within a single group."
+                        },
+                        "secondary": {
+                          "number": 3,
+                          "dimension": "y",
+                          "explanation": "3 rectangles forming a treemap; items are positioned in 2D within a single group."
+                        }
+                      }
+                    },
+                    "layout_specification": {
+                      "x": {
+                        "stacking": true,
+                        "stacking_direction": "min",
+                        "anchor": "stacking_decided",
+                        "subdividing": true,
+                        "2d_flatten": false,
+                        "size_uniform": false,
+                        "size_range": [
+                          10,
+                          65
+                        ],
+                        "anchor_distribute": "flexible",
+                        "anchor_interval": null,
+                        "anchor_start": null,
+                        "data_values": [
+                          [
+                            18,
+                            18,
+                            18
+                          ],
+                          [
+                            20,
+                            20,
+                            20
+                          ],
+                          [
+                            62,
+                            62,
+                            62
+                          ]
+                        ]
+                      },
+                      "y": {
+                        "stacking": true,
+                        "stacking_direction": "min",
+                        "anchor": "stacking_decided",
+                        "subdividing": true,
+                        "2d_flatten": false,
+                        "size_uniform": false,
+                        "size_range": [
+                          5,
+                          80
+                        ],
+                        "anchor_distribute": "flexible",
+                        "anchor_interval": null,
+                        "anchor_start": null,
+                        "data_values": [
+                          [
+                            88,
+                            5,
+                            7
+                          ],
+                          [
+                            5,
+                            87,
+                            8
+                          ],
+                          [
+                            28,
+                            29,
+                            43
+                          ]
+                        ]
+                      },
+                      "radius": null,
+                      "angle": null,
+                      "source": null,
+                      "target": null
+                    },
+                    "non_layout_specification": {
+                      "fill": {
+                        "scale": "ordinal_primary",
+                        "fix": null,
+                        "linear": null,
+                        "options": [
+                          "#B6C5D7",
+                          "#F5C18B",
+                          "#DA6E73",
+                          "#E59696",
+                          "#F0B9B9"
+                        ]
+                      },
+                      "stroke": {
+                        "scale": "fix",
+                        "fix": "#FFFFFF",
+                        "linear": null,
+                        "options": null
+                      },
+                      "stroke-width": {
+                        "scale": "fix",
+                        "fix": 2,
+                        "linear": null,
+                        "options": null
+                      },
+                      "opacity": {
+                        "scale": "fix",
+                        "fix": 1,
+                        "linear": null,
+                        "options": null
+                      },
+                      "line_type": null,
+                      "rx": null,
+                      "ry": null
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "op": "add",
+            "path": "/view_data/containers/0-0",
+            "value": {
+              "container_id": "0-0",
+              "template_id": "0-0",
+              "description": "Primary data-encoding rectangles forming a treemap: several vertical columns on the left with small stacked rectangles and three large stacked rectangles on the right. Rectangles differ in area and fill color but share the same rectangular mark rule.",
+              "coordinate": "cartesian",
+              "parent_coordinate": "cartesian",
+              "coordinate_system": {
+                "x1": 0,
+                "y1": 0,
+                "x2": 100,
+                "y2": 100
+              },
+              "if_template_container": false,
+              "if_leaf": true,
+              "__data_specification": {
+                "mark_specification": {
+                  "mark_type": "rectangle",
+                  "is_link_mark": false,
+                  "link_mark_type": "no_link",
+                  "group_link_direction": null,
+                  "link_number": null,
+                  "is_width_encoded_data": false,
+                  "node_use_once": false,
+                  "is_fully_connected": false,
+                  "is_bipartite": false
+                },
+                "data_structure": {
+                  "data_type": "2D_MATRIX",
+                  "data_size": {
+                    "primary": {
+                      "number": 3,
+                      "dimension": "x",
+                      "explanation": "3 rectangles forming a treemap; items are positioned in 2D within a single group."
+                    },
+                    "secondary": {
+                      "number": 3,
+                      "dimension": "y",
+                      "explanation": "3 rectangles forming a treemap; items are positioned in 2D within a single group."
+                    }
+                  }
+                },
+                "layout_specification": {
+                  "x": {
+                    "stacking": true,
+                    "stacking_direction": "min",
+                    "anchor": "stacking_decided",
+                    "subdividing": true,
+                    "2d_flatten": false,
+                    "size_uniform": false,
+                    "size_range": [
+                      10,
+                      65
+                    ],
+                    "anchor_distribute": "flexible",
+                    "anchor_interval": null,
+                    "anchor_start": null,
+                    "data_values": [
+                      [
+                        18,
+                        18,
+                        18
+                      ],
+                      [
+                        20,
+                        20,
+                        20
+                      ],
+                      [
+                        62,
+                        62,
+                        62
+                      ]
+                    ]
+                  },
+                  "y": {
+                    "stacking": true,
+                    "stacking_direction": "min",
+                    "anchor": "stacking_decided",
+                    "subdividing": true,
+                    "2d_flatten": false,
+                    "size_uniform": false,
+                    "size_range": [
+                      5,
+                      80
+                    ],
+                    "anchor_distribute": "flexible",
+                    "anchor_interval": null,
+                    "anchor_start": null,
+                    "data_values": [
+                      [
+                        88,
+                        5,
+                        7
+                      ],
+                      [
+                        5,
+                        87,
+                        8
+                      ],
+                      [
+                        28,
+                        29,
+                        43
+                      ]
+                    ]
+                  },
+                  "radius": null,
+                  "angle": null,
+                  "source": null,
+                  "target": null
+                },
+                "non_layout_specification": {
+                  "fill": {
+                    "scale": "ordinal_primary",
+                    "fix": null,
+                    "linear": null,
+                    "options": [
+                      "#B6C5D7",
+                      "#F5C18B",
+                      "#DA6E73",
+                      "#E59696",
+                      "#F0B9B9"
+                    ]
+                  },
+                  "stroke": {
+                    "scale": "fix",
+                    "fix": "#FFFFFF",
+                    "linear": null,
+                    "options": null
+                  },
+                  "stroke-width": {
+                    "scale": "fix",
+                    "fix": 2,
+                    "linear": null,
+                    "options": null
+                  },
+                  "opacity": {
+                    "scale": "fix",
+                    "fix": 1,
+                    "linear": null,
+                    "options": null
+                  },
+                  "line_type": null,
+                  "rx": null,
+                  "ry": null
+                }
+              }
+            }
+          },
+          {
+            "op": "add",
+            "path": "/view_data/marks/0-0",
+            "value": [
+              [
+                {
+                  "id": "0-0__0",
+                  "x1": 0,
+                  "y1": 0,
+                  "x2": 18,
+                  "y2": 88,
+                  "props": {
+                    "fill": "#B6CADD",
+                    "stroke": "#FFFFFF",
+                    "stroke-width": 2,
+                    "opacity": 1
+                  }
+                },
+                {
+                  "id": "0-0__1",
+                  "x1": 0,
+                  "y1": 88,
+                  "x2": 18,
+                  "y2": 93,
+                  "props": {
+                    "fill": "#A7BDD2",
+                    "stroke": "#FFFFFF",
+                    "stroke-width": 2,
+                    "opacity": 1
+                  }
+                },
+                {
+                  "id": "0-0__2",
+                  "x1": 0,
+                  "y1": 93,
+                  "x2": 18,
+                  "y2": 100,
+                  "props": {
+                    "fill": "#97B2CF",
+                    "stroke": "#FFFFFF",
+                    "stroke-width": 2,
+                    "opacity": 1
+                  }
+                }
+              ],
+              [
+                {
+                  "id": "0-0__3",
+                  "x1": 18,
+                  "y1": 0,
+                  "x2": 38,
+                  "y2": 5,
+                  "props": {
+                    "fill": "#FFD3AD",
+                    "stroke": "#FFFFFF",
+                    "stroke-width": 2,
+                    "opacity": 1
+                  }
+                },
+                {
+                  "id": "0-0__4",
+                  "x1": 18,
+                  "y1": 5,
+                  "x2": 38,
+                  "y2": 92,
+                  "props": {
+                    "fill": "#FFBD83",
+                    "stroke": "#FFFFFF",
+                    "stroke-width": 2,
+                    "opacity": 1
+                  }
+                },
+                {
+                  "id": "0-0__5",
+                  "x1": 18,
+                  "y1": 92,
+                  "x2": 38,
+                  "y2": 100,
+                  "props": {
+                    "fill": "#FFB579",
+                    "stroke": "#FFFFFF",
+                    "stroke-width": 2,
+                    "opacity": 1
+                  }
+                }
+              ],
+              [
+                {
+                  "id": "0-0__6",
+                  "x1": 38,
+                  "y1": 0,
+                  "x2": 100,
+                  "y2": 28.000000000000004,
+                  "props": {
+                    "fill": "#F6BBBD",
+                    "stroke": "#FFFFFF",
+                    "stroke-width": 2,
+                    "opacity": 1
+                  }
+                },
+                {
+                  "id": "0-0__7",
+                  "x1": 38,
+                  "y1": 28.000000000000004,
+                  "x2": 100,
+                  "y2": 56.99999999999999,
+                  "props": {
+                    "fill": "#ED9699",
+                    "stroke": "#FFFFFF",
+                    "stroke-width": 2,
+                    "opacity": 1
+                  }
+                },
+                {
+                  "id": "0-0__8",
+                  "x1": 38,
+                  "y1": 56.99999999999999,
+                  "x2": 100,
+                  "y2": 100,
+                  "props": {
+                    "fill": "#E97378",
+                    "stroke": "#FFFFFF",
+                    "stroke-width": 2,
+                    "opacity": 1
+                  }
+                }
+              ]
+            ]
+          }
+        ],
+        "id": "2026-09-08T12:36:18.797Z:json:d",
+        "inverse_patch": [
+          {
+            "op": "remove",
+            "path": "/data_mode"
+          },
+          {
+            "op": "remove",
+            "path": "/data_specification/0-0/layout_specification/x/data_values"
+          },
+          {
+            "op": "remove",
+            "path": "/data_specification/0-0/layout_specification/y/data_values"
+          },
+          {
+            "op": "replace",
+            "path": "/metadata/updated_at",
+            "value": "2026-09-08T12:36:18.796Z"
+          },
+          {
+            "op": "remove",
+            "path": "/view_data/cache/anchor_point/0-0"
+          },
+          {
+            "op": "remove",
+            "path": "/view_data/cache/non_property/0-0"
+          },
+          {
+            "op": "remove",
+            "path": "/view_data/cache/size_range/0-0"
+          },
+          {
+            "op": "remove",
+            "path": "/view_data/containers/0"
+          },
+          {
+            "op": "remove",
+            "path": "/view_data/containers/0-0"
+          },
+          {
+            "op": "remove",
+            "path": "/view_data/marks/0-0"
+          }
+        ],
+        "source": "json",
+        "timestamp": "2026-09-08T12:36:18.797Z"
+      }
+    ]
+  },
+  "data_mode": "reference"
 }

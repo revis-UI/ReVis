@@ -73,8 +73,8 @@ export function generateCircle(axis: XYDatumAxis, context: DrawContext, attribut
 
 export function generateRect(axis: XYDatumAxis, context: DrawContext, attribution: MarkProps) {
   const { x, y } = context.transXY(axis.x.d1, axis.y.d1)
-  const width = Math.abs(axis.x.d2 - axis.x.d1) || 10
-  const height = Math.abs(axis.y.d2 - axis.y.d1) || 10
+  const width = Math.abs(axis.x.d2 - axis.x.d1)
+  const height = Math.abs(axis.y.d2 - axis.y.d1)
 
   const correctRect = d3
     .select(document.createElementNS(d3.namespaces.svg, 'rect'))

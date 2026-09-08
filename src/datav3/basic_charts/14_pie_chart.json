@@ -68,23 +68,31 @@
                     ],
                     "anchor_distribute": "flexible",
                     "anchor_interval": null,
-                    "anchor_start": null
+                    "anchor_start": null,
+                    "data_values": [
+                        11,
+                        16,
+                        27,
+                        9,
+                        18,
+                        21
+                    ]
                 },
                 "source": null,
                 "target": null
             },
             "non_layout_specification": {
                 "fill": {
-                    "scale": "categorical",
+                    "scale": "ordinal_primary",
                     "fix": null,
                     "linear": null,
                     "options": [
-                        "#4C72B0",
-                        "#DD8452",
-                        "#C44E52",
-                        "#64B5B4",
-                        "#55A868",
-                        "#E0C240"
+                        "#4C78A8",
+                        "#F58518",
+                        "#E45756",
+                        "#72B7B2",
+                        "#54A24B",
+                        "#EECA3B"
                     ]
                 },
                 "stroke": {
@@ -94,7 +102,10 @@
                     "options": null
                 },
                 "stroke-width": null,
-                "opacity": null,
+                "opacity": {
+                    "scale": "fix",
+                    "fix": 1
+                },
                 "line_type": null,
                 "rx": null,
                 "ry": null

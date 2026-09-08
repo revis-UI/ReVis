@@ -7,8 +7,8 @@
         "cy": "0.5",
         "a1": "0",
         "a2": "360",
-        "r1": "0.22",
-        "r2": "0.48"
+        "r1": "0.33",
+        "r2": "1"
     },
     "if_leaf": true,
     "mark_type": "arc",
@@ -68,14 +68,22 @@
                     ],
                     "anchor_distribute": "flexible",
                     "anchor_interval": null,
-                    "anchor_start": null
+                    "anchor_start": null,
+                    "data_values": [
+                        11,
+                        16,
+                        26,
+                        9,
+                        18,
+                        20
+                    ]
                 },
                 "source": null,
                 "target": null
             },
             "non_layout_specification": {
                 "fill": {
-                    "scale": "categorical",
+                    "scale": "ordinal_primary",
                     "fix": null,
                     "linear": null,
                     "options": [
@@ -94,7 +102,10 @@
                     "options": null
                 },
                 "stroke-width": null,
-                "opacity": null,
+                "opacity": {
+                    "scale": "fix",
+                    "fix": 1
+                },
                 "line_type": null,
                 "rx": null,
                 "ry": null

@@ -2,12 +2,15 @@ import React, { useRef, useEffect } from 'react';
 import * as d3 from 'd3';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useChartStore, handleChangeContainer, handleHoverContainer, deleteContainer, copyContainer } from '../model/editor';
+import { showToast } from '@/components/toast';
 import type { VisualChartJsonData } from '../type';
 
 import { useShallow } from 'zustand/shallow';
 
 export const EditorTree = () => {
   const svgRef = useRef<SVGSVGElement>(null);
+  const menuRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => () => { menuRef.current?.remove(); }, []);
   const { dsl_json, dsl_container, chart } = useChartStore(useShallow((state) => ({
     dsl_json: state.dsl_json,
     dsl_container: state.dsl_container,
@@ -33,6 +36,7 @@ export const EditorTree = () => {
     const root_coordinate_system_type = dslData.coordinate;
 
     // 创建右键菜单容器
+    menuRef.current?.remove();
     const contextMenu = d3.select("body")
       .append("div")
       .attr("class", "context-menu")
@@ -44,6 +48,8 @@ export const EditorTree = () => {
       .style("box-shadow", "2px 2px 6px rgba(0,0,0,0.1)")
       .style("display", "none")
       .style("z-index", "1000");
+
+    menuRef.current = contextMenu.node();
 
     // 添加菜单项
     const menuItems = [
@@ -61,9 +67,9 @@ export const EditorTree = () => {
         if (action === "edit") {
           handleChangeContainer(d.data.id);
         } else if (action === "copy") {
-          copyContainer(d.data.id);
+          void copyContainer(d.data.id).catch(error => showToast(`Copy failed: ${error.message}`));
         } else if (action === "remove") {
-          deleteContainer(d.data.id);
+          void deleteContainer(d.data.id).catch(error => showToast(`Remove failed: ${error.message}`));
         }
       }
     }
@@ -102,7 +108,7 @@ export const EditorTree = () => {
         description: node.description || '',
         coordinate: node.coordinate || '',
         coordinate_system: node.coordinate_system || '',
-        if_leaf: node.if_leaf === 'true',
+        if_leaf: node.if_leaf === true || node.if_leaf === 'true',
         mark_type: node.mark_type || '',
         is_template: isTemplate,
         depth,
@@ -285,7 +291,7 @@ export const EditorTree = () => {
       .append('title')
       .text(
         (d) =>
-          `ID: ${d.data.id}\nDescription: ${d.data.description}\nCoordinate: ${d.data.coordinate_system}\nLeaf: ${d.data.if_leaf
+          `ID: ${d.data.id}\nDescription: ${d.data.description}\nCoordinate: ${JSON.stringify(d.data.coordinate_system)}\nLeaf: ${d.data.if_leaf
           }${d.data.mark_type ? `\nMark: ${d.data.mark_type}` : ''}`
       );
 

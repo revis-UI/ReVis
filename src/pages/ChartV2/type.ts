@@ -1,3 +1,7 @@
+import type { ColorScales, StyleRule } from './model/colorScales';
+import type { CoordinateGuides } from './model/coordinateGuides';
+import type { DataRef, DataSource, DataMode } from './model/dataSources';
+import type { GaussianMixture } from './model/positionGenerator';
 import type { MarkType } from "../../utils/mark";
 
 // 笛卡尔坐标系
@@ -36,6 +40,8 @@ export interface VisualChartDataSize {
 }
 
 export interface VisualChartLayout {
+  data_values?: number[] | number[][];
+  anchor_values?: number[] | number[][];
   stacking: boolean,
   stacking_direction: "min" | "max" | "middle",
   anchor: "stacking_decided" | "min" | "max" | "middle",
@@ -68,6 +74,9 @@ export interface VisualChartContainer {
 }
 
 export interface VisualChartDataSpecification {
+  data_ref?: DataRef;
+  position_generator?: GaussianMixture;
+  instance_position_generators?: GaussianMixture[];
   mark_specification: {
     mark_type: MarkType;
     link_mark_type?: 'group_type' | 'node_link_type';
@@ -86,6 +95,7 @@ export interface VisualChartDataSpecification {
     y?: VisualChartLayout;
     radius?: VisualChartLayout;
     angle?: VisualChartLayout;
+    link_values?: [string, string][];
     link_mark_configuration?: any;
     source?: {
       container_id: string;
@@ -97,16 +107,16 @@ export interface VisualChartDataSpecification {
     }[];
   };
   non_layout_specification: {
-    [key: string]: number | string | string[] | {
-      scale: 'fix' | 'linear' | 'ordinal_primary' | 'ordinal_secondary' | 'categorical',
-      fix?: number,
-      linear?: [number, number],
-      options?: string[]
-    }
+    [key: string]: number | string | string[] | StyleRule
   }
 }
 
 export interface VisualChartJsonData extends VisualChartContainer {
+  color_scales?: ColorScales;
+  coordinate_guides?: CoordinateGuides;
+  data_sources?: Record<string, DataSource>;
+  data_mode?: DataMode;
+  metadata?: { generation_seed: string };
 
   template_data_specification: {
     [key: string]: VisualChartDataSpecification

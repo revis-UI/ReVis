@@ -2,15 +2,34 @@ import { EditorSelector } from "./EditorSelector";
 import { EditorForm } from "./EditorForm";
 import { EditorTree } from "./EditorTree";
 import { EditorPreview } from "./EditorPreview";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { initChart } from "../model/editor";
 import { DSLDataViewer } from "./DSLDataViewer";
+import { EditorAIController } from "./EditorAIController";
 
 export const Editor = () => {
+  const [ready, setReady] = useState(false);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
   useEffect(() => {
-    initChart();
+    let active = true;
+    initChart().then(
+      () => { if (active) setReady(true); },
+      (error: unknown) => {
+        if (active) setLoadError(error instanceof Error ? error.message : 'Unable to load chart.');
+      },
+    );
+    return () => { active = false; };
   }, []);
+
+  if (!ready) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-gray-100"
+        role={loadError ? 'alert' : 'status'}>
+        {loadError || 'Loading chart…'}
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-screen bg-gray-100">
@@ -37,6 +56,7 @@ export const Editor = () => {
           <DSLDataViewer />
         </div>
       </div>
+      <EditorAIController />
     </div>
   );
 }

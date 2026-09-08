@@ -1,0 +1,335 @@
+{
+  "schema_version": 1,
+  "case_id": "08_bubble_plot_1",
+  "chart_type": "Basic",
+  "model": "gpt-5.4",
+  "saved_at": "2026-08-31T14:41:50.439Z",
+  "prompt": "请观察左侧参考图，恢复当前 DSL 的真实数据分布。保持容器层级、图元类型、数量和数据结构不变；根据参考图重建尺寸、位置、峰值、聚集区域、稀疏区域和自然波动。不要生成均匀、对称或无依据的全局单调分布。",
+  "summary": "根据参考图重建为单面板散点：整体呈明显负相关，主要高密度簇集中在 x≈70-110、y≈18-32，左上有少量高油耗点，右侧形成低油耗长尾，并保留一个中高位置离群点；使用位置生成器恢复非均匀聚集与稀疏区，半径采用显式 data_values 维持自然波动。",
+  "reference_image_used": true,
+  "generated_value_count": 796,
+  "dsl": {
+    "container_id": "0",
+    "coordinate": "cartesian",
+    "description": "Single scatter plot composed of many circular marks (varying sizes, semi-transparent blue outlines) distributed across one rectangular plotting area; no additional layers or connectors; ignore axes, grid, and legend.",
+    "coordinate_system": {
+      "x1": "0",
+      "y1": "0",
+      "x2": "100",
+      "y2": "100"
+    },
+    "if_leaf": true,
+    "mark_type": "circle",
+    "components": null,
+    "data_specification": {
+      "0": {
+        "mark_specification": {
+          "mark_type": "circle",
+          "is_link_mark": false,
+          "link_mark_type": "no_link",
+          "group_link_direction": null,
+          "link_number": null,
+          "is_width_encoded_data": false,
+          "node_use_once": false,
+          "is_fully_connected": false,
+          "is_bipartite": false
+        },
+        "data_structure": {
+          "data_type": "1D_LIST",
+          "data_size": {
+            "primary": {
+              "number": 398,
+              "dimension": "x",
+              "explanation": "Scatter plot with one circle per data point positioned by both x and y."
+            },
+            "secondary": null
+          }
+        },
+        "layout_specification": {
+          "x": {
+            "stacking": false,
+            "stacking_direction": "middle",
+            "anchor": "middle",
+            "subdividing": false,
+            "2d_flatten": false,
+            "size_uniform": false,
+            "size_range": [
+              1,
+              6
+            ],
+            "anchor_distribute": "flexible",
+            "anchor_interval": null,
+            "anchor_start": null
+          },
+          "y": {
+            "stacking": false,
+            "stacking_direction": "middle",
+            "anchor": "middle",
+            "subdividing": false,
+            "2d_flatten": false,
+            "size_uniform": false,
+            "size_range": [
+              1,
+              6
+            ],
+            "anchor_distribute": "flexible",
+            "anchor_interval": null,
+            "anchor_start": null
+          },
+          "radius": null,
+          "angle": null,
+          "source": null,
+          "target": null
+        },
+        "non_layout_specification": {
+          "fill": {
+            "scale": "fix",
+            "fix": "white",
+            "linear": null,
+            "options": null
+          },
+          "stroke": {
+            "scale": "fix",
+            "fix": "#4C78A8",
+            "linear": null,
+            "options": null
+          },
+          "stroke-width": {
+            "scale": "fix",
+            "fix": 4,
+            "linear": null,
+            "options": null
+          },
+          "opacity": {
+            "scale": "fix",
+            "fix": 0.4,
+            "linear": null,
+            "options": null
+          },
+          "line_type": null,
+          "rx": null,
+          "ry": null
+        },
+        "position_generator": {
+          "type": "gaussian_mixture",
+          "seed": 12345,
+          "background_weight": 0.08,
+          "clusters": [
+            {
+              "weight": 0.18,
+              "center": [
+                28,
+                70
+              ],
+              "spread": [
+                5,
+                10
+              ],
+              "correlation": -0.55
+            },
+            {
+              "weight": 0.34,
+              "center": [
+                37,
+                55
+              ],
+              "spread": [
+                6,
+                9
+              ],
+              "correlation": -0.6
+            },
+            {
+              "weight": 0.24,
+              "center": [
+                45,
+                42
+              ],
+              "spread": [
+                6,
+                7
+              ],
+              "correlation": -0.5
+            },
+            {
+              "weight": 0.14,
+              "center": [
+                60,
+                30
+              ],
+              "spread": [
+                10,
+                5
+              ],
+              "correlation": -0.45
+            },
+            {
+              "weight": 0.08,
+              "center": [
+                78,
+                24
+              ],
+              "spread": [
+                10,
+                4
+              ],
+              "correlation": -0.35
+            },
+            {
+              "weight": 0.02,
+              "center": [
+                54,
+                58
+              ],
+              "spread": [
+                2,
+                3
+              ],
+              "correlation": 0.1
+            }
+          ],
+          "outliers": [
+            [
+              20,
+              88
+            ],
+            [
+              18,
+              86
+            ],
+            [
+              26,
+              92
+            ],
+            [
+              55,
+              66
+            ],
+            [
+              88,
+              20
+            ],
+            [
+              92,
+              24
+            ]
+          ]
+        }
+      }
+    }
+  },
+  "recovered_data": {
+    "format": "JSON Pointer paths into the complete DSL above",
+    "fields": [
+      {
+        "path": "/data_specification/0/position_generator",
+        "kind": "position_generator",
+        "value": {
+          "type": "gaussian_mixture",
+          "seed": 12345,
+          "background_weight": 0.08,
+          "clusters": [
+            {
+              "weight": 0.18,
+              "center": [
+                28,
+                70
+              ],
+              "spread": [
+                5,
+                10
+              ],
+              "correlation": -0.55
+            },
+            {
+              "weight": 0.34,
+              "center": [
+                37,
+                55
+              ],
+              "spread": [
+                6,
+                9
+              ],
+              "correlation": -0.6
+            },
+            {
+              "weight": 0.24,
+              "center": [
+                45,
+                42
+              ],
+              "spread": [
+                6,
+                7
+              ],
+              "correlation": -0.5
+            },
+            {
+              "weight": 0.14,
+              "center": [
+                60,
+                30
+              ],
+              "spread": [
+                10,
+                5
+              ],
+              "correlation": -0.45
+            },
+            {
+              "weight": 0.08,
+              "center": [
+                78,
+                24
+              ],
+              "spread": [
+                10,
+                4
+              ],
+              "correlation": -0.35
+            },
+            {
+              "weight": 0.02,
+              "center": [
+                54,
+                58
+              ],
+              "spread": [
+                2,
+                3
+              ],
+              "correlation": 0.1
+            }
+          ],
+          "outliers": [
+            [
+              20,
+              88
+            ],
+            [
+              18,
+              86
+            ],
+            [
+              26,
+              92
+            ],
+            [
+              55,
+              66
+            ],
+            [
+              88,
+              20
+            ],
+            [
+              92,
+              24
+            ]
+          ]
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "case_id": "02_radial_bar_chart",
+  "chart_type": "Basic",
+  "model": "gpt-5.4",
+  "saved_at": "2026-08-31T14:41:50.373Z",
+  "prompt": "请观察左侧参考图，恢复当前 DSL 的真实数据分布。保持容器层级、图元类型、数量和数据结构不变；根据参考图重建尺寸、位置、峰值、聚集区域、稀疏区域和自然波动。不要生成均匀、对称或无依据的全局单调分布。",
+  "summary": "根据参考图重建了三条同心径向条的角度数据：外环最长，其次中环，内环最短；半径带宽保持原有固定厚度不变。",
+  "reference_image_used": true,
+  "generated_value_count": 3,
+  "dsl": {
+    "container_id": "0",
+    "coordinate": "polar",
+    "description": "Single polar chart composed of data-encoding arcs only. Three thick concentric ring segments (radial bars) share one center and occupy distinct annular bands, with an empty inner hole. All three arcs start near the rightmost vertical (≈90°) and sweep clockwise to different end angles: inner band ends around 220–240°, middle around 280–300°, and outer around 320–340°. Approximate radial bands: inner ≈0.25–0.38, middle ≈0.45–0.62, outer ≈0.72–0.95 of the full radius. No connectors or other data-encoding layers; gridlines/labels are decorative and ignored.",
+    "coordinate_system": {
+      "cx": "0.5",
+      "cy": "0.5",
+      "a1": "0",
+      "a2": "360",
+      "r1": "0",
+      "r2": "1"
+    },
+    "if_leaf": true,
+    "mark_type": "arc",
+    "components": null,
+    "data_specification": {
+      "0": {
+        "mark_specification": {
+          "mark_type": "arc",
+          "is_link_mark": false,
+          "link_mark_type": "no_link",
+          "group_link_direction": null,
+          "link_number": null,
+          "is_width_encoded_data": false,
+          "node_use_once": false,
+          "is_fully_connected": false,
+          "is_bipartite": false
+        },
+        "data_structure": {
+          "data_type": "1D_LIST",
+          "data_size": {
+            "primary": {
+              "number": 3,
+              "dimension": "radius",
+              "explanation": "Three concentric ring segments occupy distinct radial bands; items are arranged along radius with their sweeps set by angle."
+            },
+            "secondary": null
+          }
+        },
+        "layout_specification": {
+          "x": null,
+          "y": null,
+          "radius": {
+            "stacking": false,
+            "stacking_direction": "middle",
+            "anchor": "middle",
+            "subdividing": false,
+            "2d_flatten": false,
+            "size_uniform": true,
+            "size_range": [
+              12,
+              12
+            ],
+            "anchor_distribute": "uniform_interval",
+            "anchor_interval": 26,
+            "anchor_start": 20
+          },
+          "angle": {
+            "stacking": false,
+            "stacking_direction": "middle",
+            "anchor": "min",
+            "subdividing": false,
+            "2d_flatten": false,
+            "size_uniform": false,
+            "size_range": [
+              35,
+              70
+            ],
+            "anchor_distribute": "fixed_value",
+            "anchor_interval": 0,
+            "anchor_start": 0,
+            "data_values": [
+              69,
+              58,
+              42
+            ]
+          },
+          "source": null,
+          "target": null
+        },
+        "non_layout_specification": {
+          "fill": {
+            "scale": "ordinal_primary",
+            "fix": null,
+            "linear": null,
+            "options": [
+              "#B11623",
+              "#E43A3A",
+              "#FF5A4D"
+            ]
+          },
+          "stroke": {
+            "scale": "fix",
+            "fix": "#FFFFFF",
+            "linear": null,
+            "options": null
+          },
+          "stroke-width": {
+            "scale": "fix",
+            "fix": 2,
+            "linear": null,
+            "options": null
+          },
+          "opacity": null,
+          "line_type": null,
+          "rx": null,
+          "ry": null
+        }
+      }
+    }
+  },
+  "recovered_data": {
+    "format": "JSON Pointer paths into the complete DSL above",
+    "fields": [
+      {
+        "path": "/data_specification/0/layout_specification/angle/data_values",
+        "kind": "data_values",
+        "value": [
+          69,
+          58,
+          42
+        ]
+      }
+    ]
+  }
+}

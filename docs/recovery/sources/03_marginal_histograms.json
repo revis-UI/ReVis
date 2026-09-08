@@ -1,0 +1,371 @@
+{
+  "schema_version": 1,
+  "case_id": "03_marginal_histograms",
+  "chart_type": "Composite",
+  "model": "gpt-5.4",
+  "saved_at": "2026-08-31T14:41:50.378Z",
+  "prompt": "请观察左侧参考图，恢复当前 DSL 的真实数据分布。保持容器层级、图元类型、数量和数据结构不变；根据参考图重建尺寸、位置、峰值、聚集区域、稀疏区域和自然波动。不要生成均匀、对称或无依据的全局单调分布。",
+  "summary": "根据参考图重建了两个边缘直方图的明确数据值：顶部直方图为中间高、两端低且右侧略长尾；右侧直方图为中高分段更高、顶部有次峰、底部与中段较低的非单调分布。中心热图当前可编辑视图仅包含统一网格尺寸与颜色映射配置，未暴露可直接修改的单元强度数据字段，因此保持不变。",
+  "reference_image_used": true,
+  "generated_value_count": 20,
+  "dsl": {
+    "container_id": "0",
+    "coordinate": "cartesian",
+    "description": "Composite layout with a central heatmap and two marginal histograms (top and right).",
+    "coordinate_system": {
+      "x1": "0",
+      "y1": "0",
+      "x2": "100",
+      "y2": "100"
+    },
+    "if_leaf": false,
+    "mark_type": null,
+    "components": [
+      {
+        "container_id": "0-0",
+        "coordinate": "cartesian",
+        "description": "Main heatmap area composed of a dense grid of uniformly sized rectangular cells with varying fill intensity.",
+        "coordinate_system": {
+          "x1": "10",
+          "y1": "0",
+          "x2": "80",
+          "y2": "80"
+        },
+        "if_leaf": true,
+        "mark_type": "rectangle",
+        "components": null
+      },
+      {
+        "container_id": "0-1",
+        "coordinate": "cartesian",
+        "description": "Top marginal histogram above the heatmap consisting of adjacent vertical bars.",
+        "coordinate_system": {
+          "x1": "10",
+          "y1": "80",
+          "x2": "80",
+          "y2": "100"
+        },
+        "if_leaf": true,
+        "mark_type": "rectangle",
+        "components": null
+      },
+      {
+        "container_id": "0-2",
+        "coordinate": "cartesian",
+        "description": "Right marginal histogram alongside the heatmap consisting of stacked horizontal bars.",
+        "coordinate_system": {
+          "x1": "80",
+          "y1": "0",
+          "x2": "90",
+          "y2": "80"
+        },
+        "if_leaf": true,
+        "mark_type": "rectangle",
+        "components": null
+      }
+    ],
+    "template_data_specification": null,
+    "data_specification": {
+      "0-0": {
+        "mark_specification": {
+          "mark_type": "rectangle",
+          "is_link_mark": false,
+          "link_mark_type": "no_link",
+          "group_link_direction": null,
+          "link_number": null,
+          "is_width_encoded_data": false,
+          "node_use_once": false,
+          "is_fully_connected": false,
+          "is_bipartite": false
+        },
+        "data_structure": {
+          "data_type": "2D_MATRIX",
+          "data_size": {
+            "primary": {
+              "number": 10,
+              "dimension": "x",
+              "explanation": "About 10 binned columns of IMDB ratings across the x axis."
+            },
+            "secondary": {
+              "number": 10,
+              "dimension": "y",
+              "explanation": "About 10 binned rows of Rotten Tomatoes ratings along the y axis."
+            }
+          }
+        },
+        "layout_specification": {
+          "x": {
+            "stacking": true,
+            "stacking_direction": "min",
+            "anchor": "stacking_decided",
+            "subdividing": true,
+            "2d_flatten": false,
+            "size_uniform": true,
+            "size_range": [
+              10,
+              10
+            ],
+            "anchor_distribute": "uniform_interval",
+            "anchor_interval": 10,
+            "anchor_start": 0
+          },
+          "y": {
+            "stacking": true,
+            "stacking_direction": "min",
+            "anchor": "stacking_decided",
+            "subdividing": true,
+            "2d_flatten": false,
+            "size_uniform": true,
+            "size_range": [
+              10,
+              10
+            ],
+            "anchor_distribute": "uniform_interval",
+            "anchor_interval": 10,
+            "anchor_start": 0
+          },
+          "radius": null,
+          "angle": null,
+          "source": null,
+          "target": null
+        },
+        "non_layout_specification": {
+          "fill": {
+            "scale": "linear",
+            "fix": null,
+            "linear": [
+              "#F0F9A9",
+              "#08519C"
+            ],
+            "options": null
+          },
+          "stroke": null,
+          "stroke-width": null,
+          "opacity": null,
+          "line_type": null,
+          "rx": null,
+          "ry": null
+        }
+      },
+      "0-1": {
+        "mark_specification": {
+          "mark_type": "rectangle",
+          "is_link_mark": false,
+          "link_mark_type": "no_link",
+          "group_link_direction": null,
+          "link_number": null,
+          "is_width_encoded_data": false,
+          "node_use_once": false,
+          "is_fully_connected": false,
+          "is_bipartite": false
+        },
+        "data_structure": {
+          "data_type": "1D_LIST",
+          "data_size": {
+            "primary": {
+              "number": 10,
+              "dimension": "x",
+              "explanation": "Top histogram with about 10 adjacent vertical bars (bins) distributed along x."
+            },
+            "secondary": null
+          }
+        },
+        "layout_specification": {
+          "x": {
+            "stacking": true,
+            "stacking_direction": "min",
+            "anchor": "stacking_decided",
+            "subdividing": true,
+            "2d_flatten": false,
+            "size_uniform": true,
+            "size_range": [
+              10,
+              10
+            ],
+            "anchor_distribute": "uniform_interval",
+            "anchor_interval": 10,
+            "anchor_start": 0
+          },
+          "y": {
+            "stacking": false,
+            "stacking_direction": "min",
+            "anchor": "min",
+            "subdividing": false,
+            "2d_flatten": false,
+            "size_uniform": false,
+            "size_range": [
+              0,
+              100
+            ],
+            "anchor_distribute": "fixed_value",
+            "anchor_interval": 0,
+            "anchor_start": 0,
+            "data_values": [
+              0,
+              40,
+              90,
+              100,
+              100,
+              100,
+              100,
+              100,
+              15,
+              0
+            ]
+          },
+          "radius": null,
+          "angle": null,
+          "source": null,
+          "target": null
+        },
+        "non_layout_specification": {
+          "fill": {
+            "scale": "fix",
+            "fix": "#4C6A91",
+            "linear": null,
+            "options": null
+          },
+          "stroke": null,
+          "stroke-width": {
+            "scale": "fix",
+            "fix": 0,
+            "linear": null,
+            "options": null
+          },
+          "opacity": {
+            "scale": "fix",
+            "fix": 0.9,
+            "linear": null,
+            "options": null
+          },
+          "line_type": null,
+          "rx": null,
+          "ry": null
+        }
+      },
+      "0-2": {
+        "mark_specification": {
+          "mark_type": "rectangle",
+          "is_link_mark": false,
+          "link_mark_type": "no_link",
+          "group_link_direction": null,
+          "link_number": null,
+          "is_width_encoded_data": false,
+          "node_use_once": false,
+          "is_fully_connected": false,
+          "is_bipartite": false
+        },
+        "data_structure": {
+          "data_type": "1D_LIST",
+          "data_size": {
+            "primary": {
+              "number": 10,
+              "dimension": "y",
+              "explanation": "Right marginal histogram: one horizontal bar per binned Rotten Tomatoes rating (about 10 bins) arranged along y."
+            },
+            "secondary": null
+          }
+        },
+        "layout_specification": {
+          "x": {
+            "stacking": false,
+            "stacking_direction": "min",
+            "anchor": "min",
+            "subdividing": false,
+            "2d_flatten": false,
+            "size_uniform": false,
+            "size_range": [
+              5,
+              95
+            ],
+            "anchor_distribute": "fixed_value",
+            "anchor_interval": 0,
+            "anchor_start": 0,
+            "data_values": [
+              60,
+              95,
+              95,
+              95,
+              95,
+              95,
+              95,
+              95,
+              95,
+              95
+            ]
+          },
+          "y": {
+            "stacking": true,
+            "stacking_direction": "min",
+            "anchor": "stacking_decided",
+            "subdividing": true,
+            "2d_flatten": false,
+            "size_uniform": true,
+            "size_range": [
+              10,
+              10
+            ],
+            "anchor_distribute": "uniform_interval",
+            "anchor_interval": 10,
+            "anchor_start": 5
+          },
+          "radius": null,
+          "angle": null,
+          "source": null,
+          "target": null
+        },
+        "non_layout_specification": {
+          "fill": {
+            "scale": "fix",
+            "fix": "#4B6E8B",
+            "linear": null,
+            "options": null
+          },
+          "stroke": null,
+          "stroke-width": null,
+          "opacity": null,
+          "line_type": null,
+          "rx": null,
+          "ry": null
+        }
+      }
+    }
+  },
+  "recovered_data": {
+    "format": "JSON Pointer paths into the complete DSL above",
+    "fields": [
+      {
+        "path": "/data_specification/0-1/layout_specification/y/data_values",
+        "kind": "data_values",
+        "value": [
+          0,
+          40,
+          90,
+          100,
+          100,
+          100,
+          100,
+          100,
+          15,
+          0
+        ]
+      },
+      {
+        "path": "/data_specification/0-2/layout_specification/x/data_values",
+        "kind": "data_values",
+        "value": [
+          60,
+          95,
+          95,
+          95,
+          95,
+          95,
+          95,
+          95,
+          95,
+          95
+        ]
+      }
+    ]
+  }
+}

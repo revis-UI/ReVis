@@ -8,8 +8,16 @@
     "build": "tsc && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "save-server": "node scripts/save-dsl.js",
-    "dev:full": "concurrently \"npm run dev\" \"npm run save-server\""
+    "server": "node server.cjs",
+    "save-server": "npm run server",
+    "dev:full": "concurrently \"npm run dev\" \"npm run server\"",
+    "test": "npm run test:unit && npm run test:api",
+    "test:unit": "vitest run",
+    "test:api": "node --test server/backend.test.cjs",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test",
+    "test:smoke": "RUN_LIVE_AI_SMOKE=1 vitest run tests/live-ai.smoke.test.ts"
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.1.7",
@@ -35,7 +43,6 @@
     "ramda": "^0.31.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-router-dom": "^7.11.0",
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.11",
     "zustand": "^5.0.6"
@@ -48,16 +55,25 @@
     "@types/ramda": "^0.30.2",
     "@types/react": "^19.1.6",
     "@types/react-dom": "^19.1.6",
+    "@types/supertest": "^7.2.1",
     "@vitejs/plugin-react": "^5.1.2",
+    "@playwright/test": "^1.62.0",
+    "@testing-library/jest-dom": "^7.0.0",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
+    "@vitest/coverage-v8": "^4.1.10",
     "concurrently": "^7.6.0",
     "eslint": "^9.28.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.2.0",
     "less": "^4.4.0",
+    "jsdom": "^30.0.0",
+    "supertest": "^7.2.2",
     "tw-animate-css": "^1.3.5",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.33.1",
-    "vite": "^7.2.2"
+    "vite": "^7.2.2",
+    "vitest": "^4.1.10"
   }
 }

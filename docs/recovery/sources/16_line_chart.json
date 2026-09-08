@@ -1,0 +1,181 @@
+{
+  "schema_version": 1,
+  "case_id": "16_line_chart",
+  "chart_type": "Basic",
+  "model": "gpt-5.4",
+  "saved_at": "2026-08-31T14:41:50.428Z",
+  "prompt": "请观察左侧参考图，恢复当前 DSL 的真实数据分布。保持容器层级、图元类型、数量和数据结构不变；根据参考图重建尺寸、位置、峰值、聚集区域、稀疏区域和自然波动。不要生成均匀、对称或无依据的全局单调分布。",
+  "summary": "已修正为符合该 DSL 结构的完整数据补丁：y 维 data_values 使用一维 2 项数组承载两条线系列的组值，同时在 x 维使用 2×10 的 anchor_values 显式恢复每条折线各点的纵向位置分布，以匹配参考图中的峰值、低谷和波动。",
+  "reference_image_used": true,
+  "generated_value_count": 22,
+  "dsl": {
+    "container_id": "0",
+    "coordinate": "cartesian",
+    "description": "Single cartesian chart composed of multiple overlaid polyline series forming jagged paths across the plot area; no other data-encoding marks besides the lines.",
+    "coordinate_system": {
+      "x1": "0",
+      "y1": "0",
+      "x2": "100",
+      "y2": "45"
+    },
+    "if_leaf": true,
+    "mark_type": "line",
+    "components": null,
+    "data_specification": {
+      "0": {
+        "mark_specification": {
+          "mark_type": "line",
+          "is_link_mark": true,
+          "link_mark_type": "group_type",
+          "group_link_direction": "x",
+          "link_number": null,
+          "is_width_encoded_data": false,
+          "node_use_once": false,
+          "is_fully_connected": false,
+          "is_bipartite": false
+        },
+        "data_structure": {
+          "data_type": "2D_MATRIX",
+          "data_size": {
+            "primary": {
+              "number": 2,
+              "dimension": "y",
+              "explanation": "Two overlaid line series (two groups)."
+            },
+            "secondary": {
+              "number": 10,
+              "dimension": "x",
+              "explanation": "Each series contains 10 points along the x axis (indices 0–9)."
+            }
+          }
+        },
+        "layout_specification": {
+          "x": {
+            "stacking": false,
+            "stacking_direction": "middle",
+            "anchor": "middle",
+            "subdividing": false,
+            "2d_flatten": true,
+            "size_uniform": true,
+            "size_range": [
+              0,
+              0
+            ],
+            "anchor_distribute": "uniform_interval",
+            "anchor_interval": 11.11,
+            "anchor_start": 0,
+            "anchor_values": [
+              [
+                31.11,
+                47.78,
+                90,
+                21.11,
+                57.78,
+                26.67,
+                96.67,
+                18.89,
+                75.56,
+                54.44
+              ],
+              [
+                22.22,
+                38.89,
+                11.11,
+                16.67,
+                53.33,
+                31.11,
+                73.33,
+                30,
+                17.78,
+                27.78
+              ]
+            ]
+          },
+          "y": {
+            "stacking": false,
+            "stacking_direction": "middle",
+            "anchor": "middle",
+            "subdividing": false,
+            "2d_flatten": false,
+            "size_uniform": true,
+            "size_range": [
+              0,
+              0
+            ],
+            "anchor_distribute": "flexible",
+            "anchor_interval": null,
+            "anchor_start": null,
+            "data_values": [
+              0,
+              0
+            ]
+          },
+          "radius": null,
+          "angle": null,
+          "source": null,
+          "target": null
+        },
+        "non_layout_specification": {
+          "fill": null,
+          "stroke": {
+            "scale": "ordinal_primary",
+            "fix": null,
+            "linear": null,
+            "options": [
+              "#1f77b4",
+              "#ff7f0e"
+            ]
+          },
+          "stroke-width": null,
+          "opacity": null,
+          "line_type": "straight",
+          "rx": null,
+          "ry": null
+        }
+      }
+    }
+  },
+  "recovered_data": {
+    "format": "JSON Pointer paths into the complete DSL above",
+    "fields": [
+      {
+        "path": "/data_specification/0/layout_specification/x/anchor_values",
+        "kind": "anchor_values",
+        "value": [
+          [
+            31.11,
+            47.78,
+            90,
+            21.11,
+            57.78,
+            26.67,
+            96.67,
+            18.89,
+            75.56,
+            54.44
+          ],
+          [
+            22.22,
+            38.89,
+            11.11,
+            16.67,
+            53.33,
+            31.11,
+            73.33,
+            30,
+            17.78,
+            27.78
+          ]
+        ]
+      },
+      {
+        "path": "/data_specification/0/layout_specification/y/data_values",
+        "kind": "data_values",
+        "value": [
+          0,
+          0
+        ]
+      }
+    ]
+  }
+}

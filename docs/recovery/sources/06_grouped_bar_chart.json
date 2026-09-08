@@ -1,0 +1,157 @@
+{
+  "schema_version": 1,
+  "case_id": "06_grouped_bar_chart",
+  "chart_type": "Basic",
+  "model": "gpt-5.4",
+  "saved_at": "2026-08-31T14:41:50.397Z",
+  "prompt": "请观察左侧参考图，恢复当前 DSL 的真实数据分布。保持容器层级、图元类型、数量和数据结构不变；根据参考图重建尺寸、位置、峰值、聚集区域、稀疏区域和自然波动。不要生成均匀、对称或无依据的全局单调分布。",
+  "summary": "根据参考图重建了分组柱状图的 3×3 高度矩阵：A 组约为 [0.1,0.6,0.9]，B 组约为 [0.7,0.2,1.1]，C 组约为 [0.6,0.1,0.2]；已按 y 尺寸范围 [0,50] 映射为明确 data_values。",
+  "reference_image_used": true,
+  "generated_value_count": 9,
+  "dsl": {
+    "container_id": "0",
+    "coordinate": "cartesian",
+    "description": "Single-panel grouped vertical bar chart: multiple rectangles aligned to a common bottom baseline, arranged in three side-by-side clusters across the x-direction with gaps between bars; only rectangles are used as data-encoding marks, no overlaid lines/areas/bands.",
+    "coordinate_system": {
+      "x1": "0",
+      "y1": "0",
+      "x2": "100",
+      "y2": "100"
+    },
+    "if_leaf": true,
+    "mark_type": "rectangle",
+    "components": null,
+    "data_specification": {
+      "0": {
+        "mark_specification": {
+          "mark_type": "rectangle",
+          "is_link_mark": false,
+          "link_mark_type": "no_link",
+          "group_link_direction": null,
+          "link_number": null,
+          "is_width_encoded_data": false,
+          "node_use_once": false,
+          "is_fully_connected": false,
+          "is_bipartite": false
+        },
+        "data_structure": {
+          "data_type": "2D_MATRIX",
+          "data_size": {
+            "primary": {
+              "number": 3,
+              "dimension": "x",
+              "explanation": "Three category groups (A,B,C) arranged along x."
+            },
+            "secondary": {
+              "number": 3,
+              "dimension": "x",
+              "explanation": "Within each category, three bars (groups x,y,z) subdivide the x-direction."
+            }
+          }
+        },
+        "layout_specification": {
+          "x": {
+            "stacking": false,
+            "stacking_direction": "middle",
+            "anchor": "middle",
+            "subdividing": false,
+            "2d_flatten": true,
+            "size_uniform": true,
+            "size_range": [
+              30,
+              30
+            ],
+            "anchor_distribute": "uniform_interval",
+            "anchor_interval": 33,
+            "anchor_start": 17.5
+          },
+          "y": {
+            "stacking": false,
+            "stacking_direction": "min",
+            "anchor": "min",
+            "subdividing": false,
+            "2d_flatten": false,
+            "size_uniform": false,
+            "size_range": [
+              0,
+              50
+            ],
+            "anchor_distribute": "fixed_value",
+            "anchor_interval": 0,
+            "anchor_start": 0,
+            "data_values": [
+              [
+                4.5,
+                27.3,
+                40.9
+              ],
+              [
+                31.8,
+                9.1,
+                50
+              ],
+              [
+                27.3,
+                4.5,
+                9.1
+              ]
+            ]
+          },
+          "radius": null,
+          "angle": null,
+          "source": null,
+          "target": null
+        },
+        "non_layout_specification": {
+          "fill": {
+            "scale": "ordinal_secondary",
+            "fix": null,
+            "linear": null,
+            "options": [
+              "#4C78A8",
+              "#F58518",
+              "#E45756"
+            ]
+          },
+          "stroke": null,
+          "stroke-width": null,
+          "opacity": {
+            "scale": "fix",
+            "fix": 1,
+            "linear": null,
+            "options": null
+          },
+          "line_type": null,
+          "rx": null,
+          "ry": null
+        }
+      }
+    }
+  },
+  "recovered_data": {
+    "format": "JSON Pointer paths into the complete DSL above",
+    "fields": [
+      {
+        "path": "/data_specification/0/layout_specification/y/data_values",
+        "kind": "data_values",
+        "value": [
+          [
+            4.5,
+            27.3,
+            40.9
+          ],
+          [
+            31.8,
+            9.1,
+            50
+          ],
+          [
+            27.3,
+            4.5,
+            9.1
+          ]
+        ]
+      }
+    ]
+  }
+}

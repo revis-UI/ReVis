@@ -10,7 +10,8 @@
     },
     "if_leaf": false,
     "mark_type": null,
-    "components": [{
+    "components": [
+        {
             "container_id": "0-0",
             "coordinate": "cartesian",
             "description": "left component (bar).",
@@ -22,8 +23,8 @@
             },
             "if_leaf": true,
             "mark_type": "rectangle"
-    },
-    {
+        },
+        {
             "container_id": "0-1",
             "coordinate": "cartesian",
             "description": "right component (bar).",
@@ -35,7 +36,8 @@
             },
             "if_leaf": true,
             "mark_type": "rectangle"
-    }],
+        }
+    ],
     "data_specification": {
         "0-0": {
             "mark_specification": {
@@ -74,7 +76,25 @@
                     ],
                     "anchor_distribute": "fixed_value",
                     "anchor_interval": 0,
-                    "anchor_start": 100
+                    "anchor_start": 100,
+                    "data_values": [
+                        80.769231,
+                        90.384615,
+                        90.384615,
+                        86.538462,
+                        88.461538,
+                        92.307692,
+                        98.076923,
+                        88.461538,
+                        76.923077,
+                        61.538462,
+                        51.923077,
+                        44.230769,
+                        38.461538,
+                        28.846154,
+                        17.307692,
+                        9.615385
+                    ]
                 },
                 "y": {
                     "stacking": true,
@@ -105,9 +125,7 @@
                 },
                 "stroke": {
                     "scale": "fix",
-                    "fix": "#000000",
-                    "linear": null,
-                    "options": null
+                    "fix": "none"
                 },
                 "stroke-width": {
                     "scale": "fix",
@@ -163,7 +181,25 @@
                     ],
                     "anchor_distribute": "fixed_value",
                     "anchor_interval": 0,
-                    "anchor_start": 0
+                    "anchor_start": 0,
+                    "data_values": [
+                        84.615385,
+                        92.307692,
+                        92.307692,
+                        88.461538,
+                        88.461538,
+                        90.384615,
+                        100.0,
+                        86.538462,
+                        75.0,
+                        59.615385,
+                        48.076923,
+                        42.307692,
+                        34.615385,
+                        26.923077,
+                        19.230769,
+                        11.538462
+                    ]
                 },
                 "y": {
                     "stacking": true,
@@ -197,9 +233,7 @@
                 },
                 "stroke": {
                     "scale": "fix",
-                    "fix": "#000000",
-                    "linear": null,
-                    "options": null
+                    "fix": "none"
                 },
                 "stroke-width": {
                     "scale": "fix",

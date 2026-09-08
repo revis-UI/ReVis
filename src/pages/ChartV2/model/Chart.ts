@@ -1,14 +1,34 @@
+import { fitPreviewSVG } from './svgViewport';
+import {validateLinkValues} from './linkValues';
+import {resolveScopedColor, validateColorScales} from './colorScales';
+import { drawCoordinateGuides } from './coordinateGuides';
+import { applySourceAnchors, resolveSharedData, type ResolvedSources } from './dataSources';
+import { generatePositions, type GaussianMixture } from './positionGenerator';
+import { createSeededRandom } from './seededRandom';
+import { explicitValue, validateExplicitValues } from './explicitValues';
 import { generateGroup, generateLink, type GroupType } from '@/utils/link';
 import * as d3 from 'd3';
 import * as R from 'ramda';
 import { generateMark, MarkType } from '../../../utils/mark';
 import type { ContainerData, DrawData, DrawDataCartesian, DrawDataPolar, LinkData, VisualChartContainer, VisualChartDataSpecification, VisualChartJsonData, VisualChartLayout } from '../type';
-import { polarToCartesian, randomInRange } from '../utils';
+import { polarToCartesian } from '../utils';
 
 const VIEW_WIDTH = 1000
 const VIEW_HEIGHT = 1000
 
 const isLink = (spec?: VisualChartDataSpecification) => spec?.mark_specification?.is_link_mark && spec?.mark_specification?.link_mark_type === 'node_link_type';
+
+export interface VisualChartViewSnapshot {
+  marks: ContainerData;
+  containers: Record<string, VisualChartContainer>;
+  cache: {
+    size_range: Record<string, unknown>;
+    anchor_point: Record<string, unknown>;
+    link_nodes: Record<string, unknown>;
+    non_property: Record<string, unknown>;
+  };
+}
+
 export class VisualChart {
   svg?: d3.Selection<SVGSVGElement, unknown, null, undefined>
   dsl_json: VisualChartJsonData | undefined
@@ -16,8 +36,23 @@ export class VisualChart {
   dsl_container: Record<string, VisualChartContainer> = {}
   dsl_data: ContainerData = {}
   dsl_cache: Record<keyof ReturnType<typeof getInitialDSLCache>, any> = getInitialDSLCache()
+  private instanceIndices: Record<string, number> = {};
+  private sharedData: ResolvedSources = {};
+  private random: () => number = Math.random
   constructor() {
 
+  }
+  setRandomGenerator(random: () => number = Math.random) {
+    this.random = random;
+  }
+  private randomInRange(min: number, max: number) {
+    if (!Number.isFinite(min) || !Number.isFinite(max)) {
+      return min;
+    }
+    if (max <= min) {
+      return min;
+    }
+    return Math.floor(this.random() * (max - min + 1)) + min;
   }
   initSVGDOM(svgDom: SVGSVGElement) {
     this.svg = d3
@@ -28,33 +63,91 @@ export class VisualChart {
   reset() {
     this.dsl_cache = getInitialDSLCache();
   }
+  createViewSnapshot(): VisualChartViewSnapshot {
+    // Renderer objects can contain optional properties with `undefined`
+    // values. Persisted snapshots must be strict JSON before validation and
+    // history diffing, exactly as they will appear on disk.
+    return JSON.parse(JSON.stringify({
+      marks: this.dsl_data,
+      containers: this.dsl_container,
+      cache: this.dsl_cache,
+    })) as VisualChartViewSnapshot;
+  }
+  restoreViewSnapshot(snapshot?: Partial<VisualChartViewSnapshot> | null) {
+    if (!snapshot) {
+      return;
+    }
+    if (snapshot.marks) {
+      this.dsl_data = R.clone(snapshot.marks);
+    }
+    if (snapshot.containers) {
+      this.dsl_container = R.clone(snapshot.containers);
+    }
+    if (snapshot.cache) {
+      this.dsl_cache = R.mergeDeepRight(getInitialDSLCache(), R.clone(snapshot.cache));
+    }
+    for (const container of Object.values(this.dsl_container)) {
+      const spec = this.dsl_json?.data_specification?.[container.template_id];
+      if (!spec?.data_ref) continue;
+      const points = this.dsl_data[container.container_id] as DrawDataCartesian[];
+      const fields = this.sharedData[spec.data_ref.source];
+      for (const axis of ['x','y','angle','radius'] as const) {
+        const field = spec.data_ref[axis];
+        const sizeField = spec.data_ref[`${axis}_size`];
+        if(!field && !sizeField)continue;
+        const values = field ? fields[field] : undefined;
+        const sizes = sizeField ? fields[sizeField] : undefined;
+        if (!points || points.length !== (values ?? sizes)!.length) throw new Error('Shared data and saved marks have different counts.');
+        if(sizes?.some(n=>n<0))throw new Error('Shared sizes must be non-negative.');
+        const keys = axis === 'x' ? ['x1','x2'] : axis === 'y' ? ['y1','y2'] : axis === 'angle' ? ['a1','a2'] : ['r1','r2'];
+        const factor = axis === 'angle' ? 3.6 : axis === 'radius' ? 0.01 : 1;
+        const layout = spec.layout_specification[axis]!;
+        const offset = layout.anchor === 'middle' ? .5 : layout.anchor === 'max' ? 1 : 0;
+        points.forEach((point,i) => {
+          const p = point as unknown as Record<string,number>;
+          const oldSize = p[keys[1]]-p[keys[0]];
+          const size = sizes ? sizes[i]*factor : oldSize;
+          const anchor = values ? values[i]*factor : p[keys[0]]+offset*oldSize;
+          const target = anchor-offset*size;
+          if (Math.abs(p[keys[0]]-target)<1e-12 && Math.abs(oldSize-size)<1e-12) return;
+          p[keys[0]]=target;p[keys[1]]=target+size;
+        });
+        const cacheAxis = axis === 'x' || axis === 'angle' ? 'x' : 'y';
+        if(values) {
+          this.dsl_cache.anchor_point[container.container_id] ??= {};
+          this.dsl_cache.anchor_point[container.container_id][cacheAxis] = [...values];
+        }
+        if(sizes) {
+          this.dsl_cache.size_range[container.container_id] ??= {};
+          this.dsl_cache.size_range[container.container_id][cacheAxis] = [...sizes];
+        }
+      }
+    }
+  }
   parseDSL(
-    raw_dsl: string | Object,
+    raw_dsl: string | object,
     options?: {
       computeDslContainer?: (container: Record<string, VisualChartContainer>) => Record<string, VisualChartContainer>
       computeDslData?: (data: ContainerData) => ContainerData
     }
   ) {
-    try {
-      const dsl = typeof raw_dsl === 'string' ? JSON.parse(raw_dsl) : raw_dsl;
-      this.dsl_json = dsl as VisualChartJsonData;
-      this.dsl_data = {};
-      this.dsl_tree = [];
-      this.dsl_container = {};
-      if (!this.dsl_json) {
-        throw new Error('DSL 解析失败');
-      }
-      this.parseContainer();
-      if (options?.computeDslContainer) {
-        this.dsl_container = options.computeDslContainer(this.dsl_container);
-      }
-      this.parseData();
-      if (options?.computeDslData) {
-        this.dsl_data = options.computeDslData(this.dsl_data);
-      }
-    } catch (e) {
-      alert(e);
-      throw e;
+    const dsl = typeof raw_dsl === 'string' ? JSON.parse(raw_dsl) : raw_dsl;
+    this.dsl_json = dsl as VisualChartJsonData;
+    validateColorScales(dsl as Record<string, unknown>);
+    this.sharedData = resolveSharedData(dsl);
+    this.dsl_data = {};
+    this.dsl_tree = [];
+    this.dsl_container = {};
+    if (!this.dsl_json) {
+      throw new Error('DSL 解析失败');
+    }
+    this.parseContainer();
+    if (options?.computeDslContainer) {
+      this.dsl_container = options.computeDslContainer(this.dsl_container);
+    }
+    this.parseData();
+    if (options?.computeDslData) {
+      this.dsl_data = options.computeDslData(this.dsl_data);
     }
     return {
       dsl_data: this.dsl_data,
@@ -68,6 +161,7 @@ export class VisualChart {
     // 计算 dsl_container
 
     this.dsl_container = {};
+    this.instanceIndices = {};
     const computeCoordinateTemplate = (container: VisualChartContainer, parent?: VisualChartContainer) => {
 
       const isParentTemplate = parent?.template_id && /[a-zA-Z]/.test(parent.template_id);
@@ -116,7 +210,8 @@ export class VisualChart {
             if_leaf: container.if_leaf,
             __data_specification,
           }))
-        ).map((item) => {
+        ).map((item, index) => {
+          this.instanceIndices[item.container_id] = index;
           const _item = item as VisualChartContainer;
           this.dsl_container[_item.container_id] = _item;
           _item.components = container.components?.map((component) => computeCoordinateTemplate(component, _item)).flat();
@@ -138,6 +233,7 @@ export class VisualChart {
           __data_specification,
         }]
       ).map((item) => {
+        this.instanceIndices[item.container_id] = parent ? this.instanceIndices[parent.container_id] ?? 0 : 0;
         const _item = item as VisualChartContainer;
         this.dsl_container[_item.container_id] = _item;
         if (spec) {
@@ -165,7 +261,25 @@ export class VisualChart {
       if (!container.__data_specification) {
         throw new Error(`Missing data specification for container ${container.container_id}`);
       }
-      this.dsl_data[container.container_id] = this.computeData(`${container.container_id}`, container.__data_specification, container.coordinate, (i: number) => `${container.container_id}__${i}`);
+      const spec = container.__data_specification;
+      let generator = spec.position_generator;
+      if (spec.instance_position_generators !== undefined) {
+        // Source instance configurations are ordered visually: top-to-bottom,
+        // then left-to-right, independently of template expansion order.
+        const siblings = leafContainers.filter(c => c.template_id === container.template_id)
+          .sort((a,b) => b.coordinate_system.y2-a.coordinate_system.y2
+            || a.coordinate_system.x1-b.coordinate_system.x1);
+        if (!Array.isArray(spec.instance_position_generators)
+          || spec.instance_position_generators.length !== siblings.length) {
+          throw new Error(`${container.template_id}: one position generator is required per panel.`);
+        }
+        generator = spec.instance_position_generators[siblings.indexOf(container)];
+        if (!generator) throw new Error(`${container.template_id}: missing per-panel position generator.`);
+      }
+      this.dsl_data[container.container_id] = this.computeData(
+        container.container_id, spec, container.coordinate,
+        (i: number) => `${container.container_id}__${i}`, generator,
+      );
     }
     for (const linkContainer of linkContainers) {
       if (!linkContainer.__data_specification) {
@@ -174,10 +288,41 @@ export class VisualChart {
       this.dsl_data[linkContainer.container_id] = this.computeData(`${linkContainer.container_id}`, linkContainer.__data_specification, linkContainer.coordinate, (i: number) => `${linkContainer.container_id}__${i}`);
     }
   }
-  computeData(container_id: string, spec: VisualChartDataSpecification, coordinate: 'cartesian' | 'polar', getId: (i: number) => string) {
+  computeData(container_id: string, spec: VisualChartDataSpecification, coordinate: 'cartesian' | 'polar', getId: (i: number) => string, generator?: GaussianMixture) {
     if (!spec) {
       throw new Error(`Missing data specification for container ${container_id}`);
     }
+
+    const generated = this.dsl_json?.data_mode === 'generated';
+    if (generated) {
+      spec = {...spec, layout_specification: Object.fromEntries(
+        Object.entries(spec.layout_specification).map(([axis,layout]) => {
+          if (!layout || typeof layout !== 'object' || Array.isArray(layout)) return [axis,layout];
+          const {data_values: _sizes, anchor_values: _anchors, ...rules} = layout as VisualChartLayout;
+          return [axis,rules];
+        }),
+      ) as VisualChartDataSpecification['layout_specification']};
+    }
+    spec = applySourceAnchors(spec, this.sharedData);
+    let positionConfig = generator ?? spec.position_generator;
+    if (positionConfig && generated) positionConfig = {
+      ...positionConfig, seed: `${positionConfig.seed}:${this.dsl_json?.metadata?.generation_seed ?? '0'}`,
+    };
+    if (positionConfig && (coordinate !== 'cartesian'
+      || spec.data_structure.data_type !== '1D_LIST'
+      || spec.mark_specification.mark_type !== MarkType.circle
+      || spec.mark_specification.is_link_mark
+      || ['x','y'].some(axis => {
+        const layout = spec.layout_specification[axis as 'x' | 'y'];
+        return !layout || layout.stacking || layout.anchor !== 'middle'
+          || layout.anchor_distribute !== 'flexible' || layout.anchor_values !== undefined;
+      }))) {
+      throw new Error('Position generators require a Cartesian 1D scatter with flexible center anchors.');
+    }
+    const positions = positionConfig
+      ? generatePositions(positionConfig, spec.data_structure.data_size.primary.number) : undefined;
+    const styleRandom = positionConfig
+      ? createSeededRandom(`position-style-v1:${positionConfig.seed}`) : undefined;
 
     const computeProps = (i: number, j: number): Record<string, number | string> => {
       if (!spec.non_layout_specification) {
@@ -190,6 +335,11 @@ export class VisualChart {
               return [key, value[(i * value.length + j) % value.length]];
             }
             if (typeof value === 'object') {
+              const scoped = resolveScopedColor(value, this.dsl_json?.color_scales ?? {},
+                this.dsl_json?.metadata?.generation_seed ?? '0', container_id, key,
+                this.instanceIndices[container_id] ?? 0, i, j);
+              if (scoped !== undefined) return [key, scoped];
+              const options = value.ref === undefined ? value.options : this.dsl_json?.color_scales?.[value.ref];
               if (value.scale === 'fix') {
                 return [key, value.fix];
               } else if (value.scale === 'ordinal_primary') {
@@ -197,9 +347,9 @@ export class VisualChart {
               } else if (value.scale === 'ordinal_secondary') {
                 return [key, value.options?.[j]];
               } else if (value.scale === 'categorical') {
-                return [key, value.options?.[randomInRange(0, value.options?.length - 1)]];
+                return [key, options?.[styleRandom?.integer(0, options.length - 1) ?? this.randomInRange(0, options.length - 1)]];
               } else if (value.scale === 'linear') {
-                return [key, d3.scaleLinear().domain([0, 100]).range(value.linear!)(randomInRange(0, 100))];
+                return [key, d3.scaleLinear().domain([0, 100]).range(value.linear!)(styleRandom?.integer(0, 100) ?? this.randomInRange(0, 100))];
               }
             }
           }
@@ -212,7 +362,19 @@ export class VisualChart {
     // 处理 link 的情况
     if (isLink(spec)) {
 
-      const length = spec.mark_specification?.link_number || 5;
+      const explicit = spec.layout_specification.link_values;
+      if (explicit !== undefined) {
+        validateLinkValues(explicit);
+        const available = new Set([
+          ...Object.keys(this.dsl_container).map(id => `container_${id}`),
+          ...Object.values(this.dsl_data).flat(2).map(mark => `id_${mark.id}`),
+        ]);
+        if (explicit.some(pair => pair.some(id => !available.has(id)))) {
+          throw new Error(`Link container ${container_id}: link_values references a missing endpoint.`);
+        }
+        this.dsl_cache.link_nodes[container_id] ??= explicit;
+      }
+      const length = this.dsl_cache.link_nodes[container_id]?.length ?? spec.mark_specification?.link_number ?? 5;
       if (this.dsl_cache.link_nodes[container_id]) {
         return Array.from({ length }, (_, i) => {
           return ({
@@ -256,8 +418,8 @@ export class VisualChart {
         }).flat()
 
       const linkNodes = Array.from({ length }, (_, i) => {
-        const sourceIndex = randomInRange(0, sourceIds.length - 1);
-        const targetIndex = randomInRange(0, targetIds.length - 1);
+        const sourceIndex = this.randomInRange(0, sourceIds.length - 1);
+        const targetIndex = this.randomInRange(0, targetIds.length - 1);
         return ({
           id: getId(i),
           source: sourceIds[sourceIndex],
@@ -283,6 +445,17 @@ export class VisualChart {
       throw new Error(`Missing layout specification for dimension ${dim_x} or ${dim_y}`);
     }
 
+    const explicitPrimary = spec.data_structure.data_size.primary;
+    const explicitColumns = spec.data_structure.data_type === '1D_LIST'
+      ? undefined : spec.data_structure.data_size.secondary.number;
+    for (const [axis, layout] of [[dim_x, dim_x_spec], [dim_y, dim_y_spec]] as const) {
+      validateExplicitValues(layout.data_values, explicitPrimary.number, explicitColumns, `${container_id}.${axis}.data_values`, true);
+      validateExplicitValues(layout.anchor_values, explicitPrimary.number, explicitColumns, `${container_id}.${axis}.anchor_values`);
+      if (layout.stacking && layout.anchor_values !== undefined) {
+        throw new Error(`${container_id}.${axis}: explicit anchors cannot be combined with stacking.`);
+      }
+    }
+
     type DataCache = { _size: number, _point: number };
     type DataPoint = { min: number, max: number} & DataCache;
 
@@ -296,7 +469,7 @@ export class VisualChart {
         if (Array.isArray(number)) {
           sub_size = number;
         } else if (Array.isArray(dim_spec.size_range) && dim_spec.size_range.length === 2) {
-          sub_size = Array.from({ length: number }, (_, i) => cache?.map(item => item?._size)?.[i] ?? randomInRange((dim_spec.size_range as [number, number])[0], (dim_spec.size_range as [number, number])[1]));
+          sub_size = Array.from({ length: number }, (_, i) => cache?.map(item => item?._size)?.[i] ?? this.randomInRange((dim_spec.size_range as [number, number])[0], (dim_spec.size_range as [number, number])[1]));
         } else if (dim_spec.size_range === null) {
           sub_size = Array.from({ length: number }, (_, i) => 10);
         }
@@ -313,7 +486,7 @@ export class VisualChart {
         const max = stacking[stacking.length - 1].max;
         // if (max > 100 || dim_spec.subdividing) {
         if (dim_spec.subdividing) {
-          const radio = (dim_spec.subdividing ? 100 : randomInRange(0, 100)) / max;
+          const radio = (dim_spec.subdividing ? 100 : this.randomInRange(0, 100)) / max;
           stacking = stacking.map((item) => ({
             min: item.min * radio,
             max: item.max * radio,
@@ -345,7 +518,13 @@ export class VisualChart {
     }
 
     const computeDataPoint = (index: number, dim_spec: VisualChartLayout, cache?: DataCache): DataPoint => {
-      let size = cache?._size ?? randomInRange(dim_spec.size_range[0], dim_spec.size_range[1])
+      let size = cache?._size ?? this.randomInRange(dim_spec.size_range[0], dim_spec.size_range[1])
+      if (dim_spec.anchor_values !== undefined && cache?._point !== undefined) {
+        const point = cache._point;
+        const min = dim_spec.anchor === 'max' ? point - size
+          : dim_spec.anchor === 'middle' ? point - size / 2 : point;
+        return { min, max: min + size, _size: size, _point: point };
+      }
       if (dim_spec.anchor_distribute === "fixed_value") {
         if (dim_spec.anchor === "min") {
           return {
@@ -401,7 +580,7 @@ export class VisualChart {
       }
       if (dim_spec.anchor_distribute === "flexible") {
         if (dim_spec.anchor === 'min') {
-          let anchor_point = cache?._point ?? randomInRange(0, 100 - size)
+          let anchor_point = cache?._point ?? this.randomInRange(0, 100 - size)
           return {
             min: anchor_point,
             max: anchor_point + size,
@@ -410,7 +589,7 @@ export class VisualChart {
           }
         }
         if (dim_spec.anchor === 'max') {
-          let anchor_point = cache?._point ?? randomInRange(size, 100)
+          let anchor_point = cache?._point ?? this.randomInRange(size, 100)
           return {
             min: anchor_point - size,
             max: anchor_point,
@@ -419,7 +598,7 @@ export class VisualChart {
           }
         }
         if (dim_spec.anchor === 'middle') {
-          let anchor_point = cache?._point ?? randomInRange(size / 2, 100 - size / 2)
+          let anchor_point = cache?._point ?? this.randomInRange(size / 2, 100 - size / 2)
           return {
             min: anchor_point - size / 2,
             max: anchor_point + size / 2,
@@ -462,12 +641,12 @@ export class VisualChart {
     if (spec.data_structure.data_type === '1D_LIST') {
 
       const cache_x = Array.from({ length: primary.number }, (_, i) => ({
-        _size: this.dsl_cache.size_range[container_id]?.x?.[i],
-        _point: this.dsl_cache.anchor_point[container_id]?.x?.[i],
+        _size: (spec.data_ref?.[`${dim_x}_size`] ? explicitValue(dim_x_spec.data_values, i) : this.dsl_cache.size_range[container_id]?.x?.[i]) ?? explicitValue(dim_x_spec.data_values, i),
+        _point: (spec.data_ref?.[dim_x] ? explicitValue(dim_x_spec.anchor_values, i) : this.dsl_cache.anchor_point[container_id]?.x?.[i]) ?? explicitValue(dim_x_spec.anchor_values, i) ?? positions?.[i]?.[0],
       }))
       const cache_y = Array.from({ length: primary.number }, (_, i) => ({
-        _size: this.dsl_cache.size_range[container_id]?.y?.[i],
-        _point: this.dsl_cache.anchor_point[container_id]?.y?.[i],
+        _size: (spec.data_ref?.[`${dim_y}_size`] ? explicitValue(dim_y_spec.data_values, i) : this.dsl_cache.size_range[container_id]?.y?.[i]) ?? explicitValue(dim_y_spec.data_values, i),
+        _point: (spec.data_ref?.[dim_y] ? explicitValue(dim_y_spec.anchor_values, i) : this.dsl_cache.anchor_point[container_id]?.y?.[i]) ?? explicitValue(dim_y_spec.anchor_values, i) ?? positions?.[i]?.[1],
       }))
 
       const cache_props = Array.from({ length: primary.number }, (_, i) => this.dsl_cache.non_property[container_id]?.[i])
@@ -485,12 +664,12 @@ export class VisualChart {
         const secondary_number = Array.isArray(secondary.number) ? secondary.number[i] : secondary.number;
         return Array.from({ length: secondary_number }, (_, j) => [
           {
-            _size: this.dsl_cache.size_range[container_id]?.x?.[i]?.[j]?.[0],
-            _point: this.dsl_cache.anchor_point[container_id]?.x?.[i]?.[j]?.[0],
+            _size: this.dsl_cache.size_range[container_id]?.x?.[i]?.[j]?.[0] ?? ((primary.dimension === dim_x && primary.dimension !== secondary.dimension) ? explicitValue(dim_x_spec.data_values, i, j) : undefined),
+            _point: this.dsl_cache.anchor_point[container_id]?.x?.[i]?.[j]?.[0] ?? ((primary.dimension === dim_x && primary.dimension !== secondary.dimension) ? explicitValue(dim_x_spec.anchor_values, i, j) : undefined),
           },
           {
-            _size: this.dsl_cache.size_range[container_id]?.x?.[i]?.[j]?.[1],
-            _point: this.dsl_cache.anchor_point[container_id]?.x?.[i]?.[j]?.[1],
+            _size: this.dsl_cache.size_range[container_id]?.x?.[i]?.[j]?.[1] ?? ((primary.dimension === secondary.dimension || secondary.dimension === dim_x) ? explicitValue(dim_x_spec.data_values, i, j) : undefined),
+            _point: this.dsl_cache.anchor_point[container_id]?.x?.[i]?.[j]?.[1] ?? ((primary.dimension === secondary.dimension || secondary.dimension === dim_x) ? explicitValue(dim_x_spec.anchor_values, i, j) : undefined),
           }
         ])
       })
@@ -498,12 +677,12 @@ export class VisualChart {
         const secondary_number = Array.isArray(secondary.number) ? secondary.number[i] : secondary.number;
         return Array.from({ length: secondary_number }, (_, j) => [
           {
-            _size: this.dsl_cache.size_range[container_id]?.y?.[i]?.[j]?.[0],
-            _point: this.dsl_cache.anchor_point[container_id]?.y?.[i]?.[j]?.[0],
+            _size: this.dsl_cache.size_range[container_id]?.y?.[i]?.[j]?.[0] ?? ((primary.dimension === dim_y && primary.dimension !== secondary.dimension) ? explicitValue(dim_y_spec.data_values, i, j) : undefined),
+            _point: this.dsl_cache.anchor_point[container_id]?.y?.[i]?.[j]?.[0] ?? ((primary.dimension === dim_y && primary.dimension !== secondary.dimension) ? explicitValue(dim_y_spec.anchor_values, i, j) : undefined),
           },
           {
-            _size: this.dsl_cache.size_range[container_id]?.y?.[i]?.[j]?.[1],
-            _point: this.dsl_cache.anchor_point[container_id]?.y?.[i]?.[j]?.[1],
+            _size: this.dsl_cache.size_range[container_id]?.y?.[i]?.[j]?.[1] ?? ((primary.dimension === secondary.dimension || secondary.dimension === dim_y) ? explicitValue(dim_y_spec.data_values, i, j) : undefined),
+            _point: this.dsl_cache.anchor_point[container_id]?.y?.[i]?.[j]?.[1] ?? ((primary.dimension === secondary.dimension || secondary.dimension === dim_y) ? explicitValue(dim_y_spec.anchor_values, i, j) : undefined),
           }
         ])
       })
@@ -663,7 +842,8 @@ export class VisualChart {
         .range([0, Math.PI * 2])
     }
     svg.selectAll('*').remove();
-    this.drawContainer(undefined, svg);
+    this.drawContainer(undefined, svg, option);
+    drawCoordinateGuides(svg.node()!, this.dsl_container, this.dsl_json?.coordinate_guides, option.width, option.height);
     const containers = this.getContainerChildren(root_id);
 
     const leafContainers = containers.filter(container => container.if_leaf && !isLink(container.__data_specification));
@@ -701,13 +881,24 @@ export class VisualChart {
           if (container.__data_specification?.mark_specification?.link_mark_type === 'group_type') {
             const mark = generateGroup(
               container.__data_specification?.mark_specification?.mark_type as GroupType,
-              drawPoints,
+              drawPoints.map(d => {
+                if (container.coordinate === 'cartesian') {
+                  return {
+                    x: { d1: d.x1, d2: d.x2 },
+                    y: { d1: d.y1, d2: d.y2 }
+                  }
+                } else {
+                  const d1 = polarToCartesian(option.width / 2, option.height / 2, d.x1, d.y1)
+                  const d2 = polarToCartesian(option.width / 2, option.height / 2, d.x2, d.y2)
+
+                  return {
+                    x: { d1: d1.x, d2: d2.x },
+                    y: { d1: d1.y, d2: d2.y }
+                  }
+                }
+              }),
               drawPoints[0].props,
               container.coordinate,
-              {
-                centerX: option.width / 2,
-                centerY: option.height / 2,
-              }
             )
             mark && g.append(() => mark!)
           } else {
@@ -788,6 +979,13 @@ export class VisualChart {
       }
     }
 
+    // Resolve mark endpoints once per drawing, rather than scanning every SVG
+    // element and measuring the same node for each edge.
+    const endpointElements = new Map<string, Element>();
+    if (linkContainers.length) svg.node()?.querySelectorAll('[class]').forEach(element => {
+      element.classList.forEach(name => { if (!endpointElements.has(name)) endpointElements.set(name, element); });
+    });
+    const endpointBounds = new Map<string, {id:string;left:number;right:number;top:number;bottom:number} | null>();
     for (const container of linkContainers) {
       if (container.if_leaf) {
         const spec = this.dsl_data[container.container_id] as LinkData[];
@@ -795,42 +993,36 @@ export class VisualChart {
           throw new Error(`Link container ${container.container_id} has no data`)
         }
         const computePostion = (sourceId: string, targetId: string) => {
-          const sourceNode = document.querySelector(`.editor-preview .${sourceId}`);
-          const targetNode = document.querySelector(`.editor-preview .${targetId}`);
+          const sourceNode = endpointElements.get(sourceId);
+          const targetNode = endpointElements.get(targetId);
 
-          const _sourcePos = (sourceNode as Element)?.getBoundingClientRect()
-          const _targetPos = (targetNode as Element)?.getBoundingClientRect()
-          const svgPos = svg!.node()!.getBoundingClientRect();
-
-
-          if (!_sourcePos || !_targetPos) {
-            return {
-              sourcePos: null,
-              targetPos: null,
+          // Container endpoints come from model coordinates, even when debug
+          // rectangles are display:none. Mark bounds use SVG units, not pixels.
+          const bounds = (id: string, node?: Element) => {
+            const c = id.startsWith('container_') ? this.dsl_container[id.slice(10)] : undefined;
+            if (c?.coordinate === 'cartesian') {
+              const cs = c.coordinate_system;
+              const xs = [scale.xScale(Number(cs.x1)), scale.xScale(Number(cs.x2))];
+              const ys = [scale.yScale(Number(cs.y1)), scale.yScale(Number(cs.y2))];
+              return {id,left:Math.min(...xs),right:Math.max(...xs),top:Math.min(...ys),bottom:Math.max(...ys)};
             }
-          }
-
-          let sourcePos = {
-            id: sourceId,
-            left: _sourcePos?.left - svgPos.left,
-            top: _sourcePos?.top - svgPos.top,
-            right: _sourcePos?.right - svgPos.left,
-            bottom: _sourcePos?.bottom - svgPos.top,
-          }
-          let targetPos = {
-            id: targetId,
-            left: _targetPos?.left - svgPos.left,
-            top: _targetPos?.top - svgPos.top,
-            right: _targetPos?.right - svgPos.left,
-            bottom: _targetPos?.bottom - svgPos.top,
-          }
+            const box = (node as SVGGraphicsElement | undefined)?.getBBox?.();
+            return box ? {id,left:box.x,right:box.x+box.width,top:box.y,bottom:box.y+box.height} : null;
+          };
+          const cachedBounds = (id:string, node?:Element) => {
+            if (!endpointBounds.has(id)) endpointBounds.set(id, bounds(id, node));
+            return endpointBounds.get(id)!;
+          };
+          let sourcePos = cachedBounds(sourceId, sourceNode);
+          let targetPos = cachedBounds(targetId, targetNode);
+          if (!sourcePos || !targetPos) return {sourcePos:null,targetPos:null};
 
           if (sourcePos.left > targetPos.right) {
             [sourcePos, targetPos] = [targetPos, sourcePos]
           }
 
-          const xScale = d3.scaleLinear().domain([0, svgPos.width]).range([0, VIEW_WIDTH])
-          const yScale = d3.scaleLinear().domain([0, svgPos.height]).range([0, VIEW_HEIGHT])
+          const xScale = (value: number) => value;
+          const yScale = (value: number) => value;
 
 
           if (targetPos.left < sourcePos.right) {
@@ -871,6 +1063,7 @@ export class VisualChart {
         }
       }
     }
+    fitPreviewSVG(svg.node()!);
   }
   drawContainer(containerId?: string | null, _svg?: d3.Selection<SVGSVGElement, any, any, any>, _option?: {
     width: number,

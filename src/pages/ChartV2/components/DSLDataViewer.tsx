@@ -20,6 +20,7 @@ export const DSLDataViewer = () => {
     selectedContainerId,
     dslContainer,
     currentDataFormProp,
+    isSaving,
   } = useChartStore(
     useShallow((state) => ({
       dslData: state.dsl_data,
@@ -27,11 +28,14 @@ export const DSLDataViewer = () => {
       selectedContainerId: state.selectedContainerId,
       dslContainer: state.dsl_container,
       currentDataFormProp: state.currentDataFormProp,
+      isSaving: state.isSaving,
     })),
   );
   const [selectedSpecType, setSelectedSpecType] = useState<"template" | "mark">("template");
 
   const [jsonText, setJsonText] = useState("");
+  const [applyError, setApplyError] = useState("");
+  const [applying, setApplying] = useState(false);
 
   // 过滤数据，只保留选中的属性
   const filterDataByProperty = (data: any, selectedContainerChildrenIds: string[]) => {
@@ -67,7 +71,7 @@ export const DSLDataViewer = () => {
       ?.size_uniform;
   const ySizeRangeDisabled =
     selectedContainer?.__data_specification?.mark_specification?.is_link_mark ||
-    selectedContainer?.__data_specification?.layout_specification?.x?.stacking ||
+    selectedContainer?.__data_specification?.layout_specification?.y?.stacking ||
     selectedContainer?.__data_specification?.layout_specification?.y
       ?.size_uniform;
 
@@ -78,7 +82,7 @@ export const DSLDataViewer = () => {
       ?.anchor_distribute !== "flexible";
   const yAnchorPositionDisabled =
     selectedContainer?.__data_specification?.mark_specification?.is_link_mark ||
-    selectedContainer?.__data_specification?.layout_specification?.x?.stacking ||
+    selectedContainer?.__data_specification?.layout_specification?.y?.stacking ||
     selectedContainer?.__data_specification?.layout_specification?.y
       ?.anchor_distribute !== "flexible";
 
@@ -91,6 +95,7 @@ export const DSLDataViewer = () => {
   const markDisabled = !selectedContainer?.if_leaf
 
   useEffect(() => {
+    setApplyError("");
     setSelectedSpecType(selectedContainer?.if_leaf ? "mark" : "template");
   }, [selectedContainerId]);
 
@@ -100,7 +105,7 @@ export const DSLDataViewer = () => {
     if (selectedSpecType === "template") {
     const { dsl_container } = useChartStore.getState();
     const containers = Object.values(dsl_container).filter(item => item.template_id === selectedContainerId).map(item => R.pick(["container_id", "coordinate_system"], item));
-      const dataToDisplay = filterDataByProperty([containers], [`container_${selectedContainerId}`])[0];
+      const dataToDisplay = filterDataByProperty([containers], [`container_${selectedContainerId}`])?.[0];
       
       setJsonText(JSON.stringify(dataToDisplay, null, 2));
     } else if (selectedSpecType === "mark") {
@@ -112,7 +117,7 @@ export const DSLDataViewer = () => {
           filteredData = Object.fromEntries(
             Object.entries(dslData).filter(
               ([key, value]) =>
-                dslContainer[key].template_id === selectedContainerId,
+                dslContainer[key]?.template_id === selectedContainerId,
             ),
           );
         }
@@ -146,6 +151,7 @@ export const DSLDataViewer = () => {
   // Handle JSON text changes
   const handleJsonChange = (text: string) => {
     setJsonText(text);
+    setApplyError("");
   };
 
   return (
@@ -177,11 +183,16 @@ export const DSLDataViewer = () => {
           <Button
             variant="primary"
             size="sm"
-            disabled={!jsonValid}
-            onClick={() => applyDataChanges(selectedSpecType, JSON.parse(jsonText))}
+            disabled={!jsonValid || !selectedContainerId || isSaving || applying}
+            onClick={async () => {
+              setApplying(true); setApplyError('');
+              try { await applyDataChanges(selectedSpecType, JSON.parse(jsonText)); }
+              catch (error) { setApplyError(error instanceof Error ? error.message : String(error)); }
+              finally { setApplying(false); }
+            }}
             className="ml-auto"
           >
-            Apply Changes
+            {applying ? "Applying…" : "Apply Changes"}
           </Button>
         </div>
         <div className="flex mb-2 gap-1 items-center flex-wrap">
@@ -276,7 +287,9 @@ export const DSLDataViewer = () => {
             </SelectContent>
           </Select>
         </div>
+        {applyError && <p role="alert" className="text-sm text-red-700">{applyError}</p>}
         <textarea
+          aria-label="Container data JSON"
           className={`w-full flex-1 border rounded p-3 text-sm font-mono resize-none ${jsonValid ? "border-gray-300" : "border-red-300"}`}
           placeholder="No DSL data available"
           value={jsonText ? jsonText : "No DSL data"}

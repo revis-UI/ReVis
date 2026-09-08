@@ -1,0 +1,99 @@
+{
+  "source_repository": "https://github.com/Selvalim/ReVis",
+  "source_commit": "5b83bd4",
+  "baseline_commit": "e7020e3",
+  "cases": [
+    {
+      "case_id": "01_simple_bar_chart",
+      "category": "basic_charts",
+      "source_sha256": "4ecb7d87ca80d8c3dfc2714ada7ae7eb0d5df4d151faed4a8e5d5417ef9b3759",
+      "baseline_sha256": "6aac4a25b6adfc87d67436d830f8c11a6c17144f9357d0afa6be168a1d382b88"
+    },
+    {
+      "case_id": "06_grouped_bar_chart",
+      "category": "basic_charts",
+      "source_sha256": "0f85605189828de46572d99c24ddd609cf670f844dee4ec275b83c8219fffd93",
+      "baseline_sha256": "2a7a206a320666020566d818216f6a8611063836f1ed9fd10906a0c8cf69c23b"
+    },
+    {
+      "case_id": "14_pie_chart",
+      "category": "basic_charts",
+      "source_sha256": "41b648f8df653289c789abae1f886b36f6e47d4664591759c9dbee93056903d9",
+      "baseline_sha256": "c3b35233a77be88ea9d0f7f772aa1826035d1c214d7d7314d02d7483fd1888b9"
+    },
+    {
+      "case_id": "15_donut_chart",
+      "category": "basic_charts",
+      "source_sha256": "67af92033f74fbe8c3585fe55442ba92e0b625e04b5b6f773dfcc78105411633",
+      "baseline_sha256": "c7cf10bd5531b45eb69b9d35ec31f209d4e721ecc66367d84c1aa2944f4cbc0e"
+    },
+    {
+      "case_id": "16_line_chart",
+      "category": "basic_charts",
+      "source_sha256": "8d05e9af90c107bec3bbfd06669b8b54cc7cb6029028c52b7ac1f7807bd939e2",
+      "baseline_sha256": "2481220878b100a44a537087180161daa7921c95b250f6b85d3d9c3cde5a10fc"
+    },
+    {
+      "case_id": "12_diverging_stacked_bar",
+      "category": "composite",
+      "source_sha256": "0d80209483d9e4e6bc620f94b896af3aac868efce31a20ea9d4c7a6e405230c6",
+      "baseline_sha256": "c02807bd400eac7444d0414db7162b4ac4b51d5b5e45717dded9e3f162584eb4"
+    },
+    {
+      "case_id": "02_radial_bar_chart",
+      "category": "basic_charts",
+      "gallery_card_number": 3,
+      "selection": "user-selected",
+      "source_sha256": "ea48ae9fa13619493f0bb118795886bd55a6fd33bf38416d1f4bbf3308c22f66",
+      "baseline_sha256": "a7af8889e13d21c3e3a13891733e445d362f380ee0e46efd9314548a83010949"
+    },
+    {
+      "case_id": "02_scatter_plot_matrix",
+      "category": "composite",
+      "gallery_card_number": 4,
+      "selection": "user-selected",
+      "source_sha256": "074d5508a43fe464ffbb764f924cf678ea58c9f7a64e3367d2f0d812abfdff82",
+      "baseline_sha256": "8d3e6c8460e0718ee0873c04f153762fe003c5742a26488a989254ac97565fb8"
+    },
+    {
+      "case_id": "03_marginal_histograms",
+      "category": "composite",
+      "gallery_card_number": 5,
+      "selection": "user-selected",
+      "source_sha256": "8bae6b852558ba55714ba49fc95311efc4b69764786eb487e755e32cae291794",
+      "baseline_sha256": "b8846272b324b65aeb8be37ba2b7073efa3ce268302d0736eb0c89acac787202"
+    },
+    {
+      "case_id": "04_line_with_highlight",
+      "category": "composite",
+      "gallery_card_number": 7,
+      "selection": "user-selected",
+      "source_sha256": "0f256aa6308a8c624bce858b9d922f1aeb68990757d989a3fa3cfe7ce2476336",
+      "baseline_sha256": "b04a6dc0b93d6414d24657eb241e64d8248d572692d727f6e299ba0a55d0bec7"
+    },
+    {
+      "case_id": "04_radial_stacked_bar_chart",
+      "category": "basic_charts",
+      "gallery_card_number": 8,
+      "selection": "user-selected",
+      "source_sha256": "4455710cc0918430f1653a2f63f921ee5bda41acb29f8f22edbc599dbf4e75ce",
+      "baseline_sha256": "aae6c1c2a0f6de807e3e998988a2595101895f83e6c0b85ec74856e5b0f47965"
+    },
+    {
+      "case_id": "07_scatter_plot",
+      "category": "basic_charts",
+      "gallery_card_number": 13,
+      "selection": "user-selected",
+      "source_sha256": "b9ea083fdbcc6173891b697236dd1d0175b040be818af62d07567525dea371eb",
+      "baseline_sha256": "1e8f199c40d13ab92fb374ab5ce8ebfdd3e71f7384d0326ec2d9c30d34956f9d"
+    },
+    {
+      "case_id": "08_bubble_plot_1",
+      "category": "basic_charts",
+      "gallery_card_number": 15,
+      "selection": "user-selected",
+      "source_sha256": "68b7f8bd7f2449eeea7cecaef9afdd454ce47540a64751ac8e332834aef5e668",
+      "baseline_sha256": "509c9c81bb93fc7c59814354be7b5f1f4baf301f3fd384acc188f1eeb8d77828"
+    }
+  ]
+}

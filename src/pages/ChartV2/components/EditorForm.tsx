@@ -74,8 +74,8 @@ const LayoutEditor = ({
             <Label htmlFor={`${type}_2d_flatten`}>2D Flatten</Label>
             <Switch
               id={`${type}_2d_flatten`}
-              checked={layout["2D_flatten"]}
-              onCheckedChange={(checked) => handleFormFieldUpdate(`${path}.2D_flatten`, checked, {
+              checked={layout["2d_flatten"]}
+              onCheckedChange={(checked) => handleFormFieldUpdate(`${path}.2d_flatten`, checked, {
                 layoutType: type
               })}
             />
@@ -87,8 +87,9 @@ const LayoutEditor = ({
               value={Array.isArray(layout.size_range)
                 ? layout.size_range.join(', ')
                 : layout.size_range || ''}
-              onChange={(e) => handleFormFieldUpdate(`${path}.size_range`, e.target.value, { layoutType: type, })}
-              onBlur={(e) => handleFormFieldUpdate(`${path}.size_range`, e.target.value.split(',').map(item => parseFloat(item.trim())), { layoutType: type, })}
+              onChange={(e) => handleFormFieldUpdate(`${path}.size_range`, e.target.value.split(',').map(item => parseFloat(item.trim())), {
+                layoutType: type
+              })}
               placeholder="[0, 100] or 50"
             />
           </div>
@@ -134,8 +135,9 @@ const LayoutEditor = ({
               value={Array.isArray(layout.size_range)
                 ? layout.size_range.join(', ')
                 : layout.size_range || ''}
-              onChange={(e) => handleFormFieldUpdate(`${path}.size_range`, e.target.value, { layoutType: type, })}
-              onBlur={(e) => handleFormFieldUpdate(`${path}.size_range`, e.target.value.split(',').map(item => parseFloat(item.trim())), { layoutType: type, })}
+              onChange={(e) => handleFormFieldUpdate(`${path}.size_range`, e.target.value.split(',').map(item => parseFloat(item.trim())), {
+                layoutType: type
+              })}
               placeholder="[0, 100] or 50"
             />
           </div>
@@ -198,8 +200,11 @@ export const EditorForm = () => {
   const [mode, setMode] = useState<'json' | 'form'>('form');
   const [jsonText, setJsonText] = useState('');
   const [isValidJson, setIsValidJson] = useState(true);
-  const { dslJson, allContainers, selectedContainerId, selectedContainer, selectedContainerChildren } = useChartStore(useShallow((state) => ({
+  const [isApplying, setIsApplying] = useState(false);
+  const [applyError, setApplyError] = useState<string | null>(null);
+  const { dslJson, allContainers, selectedContainerId, selectedContainer, selectedContainerChildren, isSaving } = useChartStore(useShallow((state) => ({
     dslJson: state.dsl_json,
+    isSaving: state.isSaving,
     allContainers: state.allContainers,
     selectedContainerId: state.selectedContainerId,
     selectedContainer: state.selectedContainer,
@@ -218,6 +223,7 @@ export const EditorForm = () => {
   // Handle JSON text changes with validation
   const handleJsonChange = (text: string) => {
     setJsonText(text);
+    setApplyError(null);
     try {
       const parsedJson = JSON.parse(text);
 
@@ -231,7 +237,6 @@ export const EditorForm = () => {
       };
 
       if (validateDslJson(parsedJson)) {
-        changeDslJson(parsedJson);
         setIsValidJson(true);
       } else {
         console.error('Invalid DSL JSON structure');
@@ -244,6 +249,21 @@ export const EditorForm = () => {
     }
   };
 
+  const handleApplyChanges = async () => {
+    setIsApplying(true);
+    setApplyError(null);
+    try {
+      if (mode === 'json') {
+        await changeDslJson(JSON.parse(jsonText));
+      } else {
+        await applyContainerChanges();
+      }
+    } catch (error) {
+      setApplyError(error instanceof Error ? error.message : String(error));
+    } finally {
+      setIsApplying(false);
+    }
+  };
 
   // Handle form mode field updates with comprehensive mapping to DSL JSON
   const handleFormFieldUpdate = (fieldPath: string, value: any, context?: {
@@ -253,7 +273,7 @@ export const EditorForm = () => {
     specType?: 'data' | 'temp'; // 新增：指定是 __data_specification 还是 __temp_specification
   }) => {
     useChartStore.setState((state) => {
-      if (state.selectedContainer) {
+      if (selectedContainer) {
         const specType = context?.specType || 'data';
         const specField = specType === 'data' ? '__data_specification' : '__temp_specification';
 
@@ -268,24 +288,16 @@ export const EditorForm = () => {
         const res = R.set(R.lensPath(actualFieldPath.split('.')), value, selectedContainer);
         state.selectedContainer = res;
       }
-      if (state.selectedContainerChildren) {
-        state.selectedContainerChildren = state.selectedContainerChildren.map((child: any) => {
-          if (child.container_id === state.selectedContainer?.container_id) {
-            return state.selectedContainer;
-          }
-          return child;
-        });
-      }
     });
   };
 
-  // Handle Instance Container field updates
+  // Handle child container field updates
   const handleChildContainerUpdate = (childContainerId: string, fieldPath: string, value: any) => {
     useChartStore.setState((state) => {
-      // Find the Instance Container in the selected container's children
+      // Find the child container in the selected container's children
       const childIndex = state.selectedContainerChildren?.findIndex((child: any) => child.container_id === childContainerId);
       if (childIndex !== undefined && childIndex !== -1) {
-        // Update the Instance Container's field
+        // Update the child container's field
         const updatedChildren = [...state.selectedContainerChildren];
         const updatedChild = R.set(R.lensPath(fieldPath.split('.')), value, updatedChildren[childIndex]);
         updatedChildren[childIndex] = updatedChild;
@@ -296,86 +308,14 @@ export const EditorForm = () => {
     });
   };
 
-  // 处理坐标轴交换
-  const handleAxisExchange = (specType: 'data' | 'temp') => {
-    if (!selectedContainer) return;
-
-    const specField = specType === 'data' ? '__data_specification' : '__temp_specification';
-    const currentSpec = selectedContainer[specField];
-
-    if (!currentSpec) return;
-
-    // 深拷贝当前规格以避免直接修改状态
-    const updatedSpec = JSON.parse(JSON.stringify(currentSpec));
-
-    // 交换 Primary Dimension 和 Second Dimension 中的 x/y 和 radius/angle
-    if (updatedSpec.data_structure?.data_size) {
-      const primaryDim = updatedSpec.data_structure.data_size.primary?.dimension;
-      const secondaryDim = updatedSpec.data_structure.data_size.secondary?.dimension;
-
-      if (primaryDim) {
-        // 检查并交换 x/y
-        if (primaryDim === 'x') {
-          updatedSpec.data_structure.data_size.primary.dimension = 'y'
-        } else if (primaryDim === 'y') {
-          updatedSpec.data_structure.data_size.primary.dimension = 'x'
-        } else if (primaryDim === 'radius') {
-          updatedSpec.data_structure.data_size.primary.dimension = 'angle'
-        } else if (primaryDim === 'angle') {
-          updatedSpec.data_structure.data_size.primary.dimension = 'radius'
-        }
-      }
-      if (secondaryDim) {
-        // 检查并交换 x/y
-        if (secondaryDim === 'x') {
-          updatedSpec.data_structure.data_size.secondary.dimension = 'y'
-        } else if (secondaryDim === 'y') {
-          updatedSpec.data_structure.data_size.secondary.dimension = 'x'
-        } else if (secondaryDim === 'radius') {
-          updatedSpec.data_structure.data_size.secondary.dimension = 'angle'
-        } else if (secondaryDim === 'angle') {
-          updatedSpec.data_structure.data_size.secondary.dimension = 'radius'
-        }
-      }
-    }
-
-    // 交换 layout_specification 中的 x/y 和 radius/angle
-    if (updatedSpec.layout_specification) {
-      // 交换 x 和 y 布局
-      if (updatedSpec.layout_specification.x && updatedSpec.layout_specification.y) {
-        [updatedSpec.layout_specification.x, updatedSpec.layout_specification.y] = 
-          [updatedSpec.layout_specification.y, updatedSpec.layout_specification.x];
-      }
-      // 交换 radius 和 angle 布局
-      if (updatedSpec.layout_specification.radius && updatedSpec.layout_specification.angle) {
-        [updatedSpec.layout_specification.radius, updatedSpec.layout_specification.angle] = 
-          [updatedSpec.layout_specification.angle, updatedSpec.layout_specification.radius];
-      }
-    }
-
-    // 更新状态
-    handleFormFieldUpdate(specField, updatedSpec, { specType });
-  };
-
   // 渲染数据规格表单的通用函数
   const renderDataSpecificationForm = (specData: any, specType: 'data' | 'temp') => {
     if (!specData) return null;
 
-    const non_layout_specification_entries = specData.non_layout_specification ? Object.entries(specData.non_layout_specification).filter(item => !["line_type", "rx", "ry"].includes(item[0])) : [];
-
     return (
       <Card className='pt-2 pb-4 px-0'>
-        <CardHeader className="flex justify-between items-center">
+        <CardHeader>
           <CardTitle>{specType === 'data' ? 'Data Spec' : 'Template Spec'}</CardTitle>
-          {!specData?.mark_specification?.is_link_mark && (
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={() => handleAxisExchange(specType)}
-            >
-              Axis Exchange
-            </Button>
-          )}
         </CardHeader>
         <CardContent className="space-y-4">
           {/* Data Type */}
@@ -420,7 +360,7 @@ export const EditorForm = () => {
                       id={`${specType}_primary_number`}
                       type="number"
                       value={specData.data_structure.data_size.primary.number || ''}
-                      onChange={(e) => handleFormFieldUpdate('__data_specification.data_structure.data_size.primary.number', e.target.value, { specType })}
+                      onChange={(e) => handleFormFieldUpdate('__data_specification.data_structure.data_size.primary.number', e.target.value === '' ? '' : Number(e.target.value), { specType })}
                       placeholder="60"
                     />
                   </div>
@@ -458,16 +398,12 @@ export const EditorForm = () => {
                             ? specData.data_structure.data_size.secondary.number.join(', ')
                             : specData.data_structure.data_size.secondary?.number || ''}
                           onChange={(e) => {
-                            handleFormFieldUpdate('__data_specification.data_structure.data_size.secondary.number', e.target.value, { specType })
-                          }}
-                          onBlur={(e) => {
                             const value = e.target.value;
                             // 尝试解析为数组或数字
                             if (value.includes(',')) {
-                              const _value = value.replaceAll('，',',')
                               // 如果是逗号分隔的字符串，解析为数字数组
-                              const __value = _value.endsWith(',') ? `${value}0` : value;
-                              const arrayValue = __value.split(',').map(item => parseFloat(item.trim())).filter(num => !isNaN(num));
+                              const _value = value.endsWith(',') ? `${value}0` : value;
+                              const arrayValue = _value.split(',').map(item => parseFloat(item.trim())).filter(num => !isNaN(num));
                               handleFormFieldUpdate('__data_specification.data_structure.data_size.secondary.number', arrayValue, { specType });
                             } else {
                               // 如果是单个数字，解析为数字
@@ -502,9 +438,8 @@ export const EditorForm = () => {
               <Input
                 id={`${specType}_link_number`}
                 type="number"
-                value={specData?.mark_specification?.link_number}
+                value={specData?.mark_specification?.link_number || ''}
                 onChange={(e) => handleFormFieldUpdate('__data_specification.mark_specification.link_number', parseInt(e.target.value), { specType })}
-                onBlur={(e) => handleFormFieldUpdate('__data_specification.mark_specification.link_number', parseInt(e.target.value) || 0, { specType })}
                 placeholder="Enter link number"
               />
             </div>
@@ -553,124 +488,6 @@ export const EditorForm = () => {
             />
           )}
 
-          {/* Non-Layout Specification */}
-          <CardTitle>Non-Layout Specification</CardTitle>
-          <div className="space-y-4">
-            {non_layout_specification_entries.map(([key, value]:[string, any]) => {
-              if (value) {
-                return (
-                  <div key={key} className="border border-gray-200 rounded-lg p-4">
-                    <h5 className="text-sm font-medium text-gray-700 mb-3">{key}</h5>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor={`${specType}_${key}_label`}>Label</Label>
-                        <Input
-                          id={`${specType}_${key}_label`}
-                          value={key}
-                          onChange={(e) => {
-                            // Handle label change (key rename)
-                            const newKey = e.target.value;
-                            if (newKey && newKey !== key) {
-                              const updatedNonLayoutSpec = { ...specData.non_layout_specification };
-                              updatedNonLayoutSpec[newKey] = updatedNonLayoutSpec[key];
-                              delete updatedNonLayoutSpec[key];
-                              handleFormFieldUpdate('__data_specification.non_layout_specification', updatedNonLayoutSpec, { specType });
-                            }
-                          }}
-                          placeholder="Property name"
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor={`${specType}_${key}_scale`}>Scale</Label>
-                        <Select
-                          value={value.scale}
-                          onValueChange={(scaleValue) => {
-                            const updatedValue = { ...value, scale: scaleValue };
-                            handleFormFieldUpdate(`__data_specification.non_layout_specification.${key}`, updatedValue, { specType });
-                          }}
-                        >
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select scale type" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="fix">Fix</SelectItem>
-                            <SelectItem value="linear">Linear</SelectItem>
-                            <SelectItem value="ordinal_primary">Ordinal Primary</SelectItem>
-                            <SelectItem value="ordinal_secondary">Ordinal Secondary</SelectItem>
-                            <SelectItem value="categorical">Categorical</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor={`${specType}_${key}_value`}>Value</Label>
-                        <Input
-                          id={`${specType}_${key}_value`}
-                          value={value.scale === 'fix' ? value.fix : value.scale === 'linear' ? value.linear?.toString() : value.options?.toString()}
-                          onChange={(e) => {
-                            const updatedValue = { ...value };
-                            if (updatedValue.scale === 'fix') {
-                              updatedValue.fix = e.target.value;
-                            } else if (updatedValue.scale === 'linear') {
-                              updatedValue.linear = e.target.value
-                            } else {
-                              updatedValue.options = e.target.value
-                            }
-                            handleFormFieldUpdate(`__data_specification.non_layout_specification.${key}`, updatedValue, { specType });
-                          }}
-                          onBlur={(e) => {
-                            const updatedValue = { ...value };
-                            if (updatedValue.scale === 'fix') {
-                              updatedValue.fix = isNaN(parseFloat(e.target.value)) ? e.target.value : parseFloat(e.target.value);
-                            } else if (updatedValue.scale === 'linear') {
-                              updatedValue.linear = e.target.value.split(',').map(item => item);
-                            } else {
-                              updatedValue.options = e.target.value.split(',').map(item => item);
-                            }
-                            handleFormFieldUpdate(`__data_specification.non_layout_specification.${key}`, updatedValue, { specType });
-                          }}
-                          placeholder={value.scale === 'fix' ? 'Fixed value' : 'Min, Max'}
-                        />
-                      </div>
-                    </div>
-                    {/* Delete Property Button */}
-                    <Button
-                      variant="destructive"
-                      size="sm"
-                      className="mt-3"
-                      onClick={() => {
-                        const updatedNonLayoutSpec = { ...specData.non_layout_specification };
-                        delete updatedNonLayoutSpec[key];
-                        handleFormFieldUpdate('__data_specification.non_layout_specification', updatedNonLayoutSpec, { specType });
-                      }}
-                    >
-                      Delete Property
-                    </Button>
-                  </div>
-                );
-              }
-              return null;
-            })}
-            {/* Add New Property Button */}
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={() => {
-                // Create a new empty property
-                const newPropertyKey = `new_property_${Date.now()}`;
-                const updatedNonLayoutSpec = { ...specData.non_layout_specification };
-                updatedNonLayoutSpec[newPropertyKey] = {
-                  scale: "fix",
-                  fix: null,
-                  linear: null,
-                  options: null
-                };
-                handleFormFieldUpdate('__data_specification.non_layout_specification', updatedNonLayoutSpec, { specType });
-              }}
-            >
-              Add New Property
-            </Button>
-          </div>
-
           {/* Source and Target editors */}
           {
             specData?.mark_specification?.link_mark_type === 'node_link_type' && (
@@ -684,22 +501,19 @@ export const EditorForm = () => {
                         <div key={index} className="flex items-center gap-2 p-2 bg-gray-50 rounded">
                           <Input
                             placeholder="Container ID"
-                            value={item.container_id || ''}
+                            value={typeof item === 'string' ? item : item.container_id || ''}
                             onChange={(e) => {
-                              handleFormFieldUpdate('__data_specification.layout_specification.source', e.target.value, { specType });
-                            }}
-                            onBlur={(e) => {
                               const updatedSource = [...(specData?.layout_specification?.source || [])];
-                              updatedSource[index] = { ...updatedSource[index], container_id: e.target.value };
+                              updatedSource[index] = { ...(typeof item === 'string' ? {linked_object:'mark'} : item), container_id: e.target.value };
                               handleFormFieldUpdate('__data_specification.layout_specification.source', updatedSource, { specType });
                             }}
                             className="flex-1"
                           />
                           <Select
-                            value={item.linked_object || ''}
+                            value={typeof item === 'string' ? 'mark' : item.linked_object || ''}
                             onValueChange={(value) => {
                               const updatedSource = [...(specData?.layout_specification?.source || [])];
-                              updatedSource[index] = { ...updatedSource[index], linked_object: value as "mark" | "container" };
+                              updatedSource[index] = { ...(typeof item === 'string' ? {container_id:item} : item), linked_object: value as "mark" | "container" };
                               handleFormFieldUpdate('__data_specification.layout_specification.source', updatedSource, { specType });
                             }}
                           >
@@ -756,22 +570,19 @@ export const EditorForm = () => {
                         <div key={index} className="flex items-center gap-2 p-2 bg-gray-50 rounded">
                           <Input
                             placeholder="Container ID"
-                            value={item.container_id || ''}
+                            value={typeof item === 'string' ? item : item.container_id || ''}
                             onChange={(e) => {
-                              handleFormFieldUpdate('__data_specification.layout_specification.target', e.target.value, { specType });
-                            }}
-                            onBlur={(e) => {
                               const updatedTarget = [...(specData?.layout_specification?.target || [])];
-                              updatedTarget[index] = { ...updatedTarget[index], container_id: e.target.value };
+                              updatedTarget[index] = { ...(typeof item === 'string' ? {linked_object:'mark'} : item), container_id: e.target.value };
                               handleFormFieldUpdate('__data_specification.layout_specification.target', updatedTarget, { specType });
                             }}
                             className="flex-1"
                           />
                           <Select
-                            value={item.linked_object || ''}
+                            value={typeof item === 'string' ? 'mark' : item.linked_object || ''}
                             onValueChange={(value) => {
                               const updatedTarget = [...(specData?.layout_specification?.target || [])];
-                              updatedTarget[index] = { ...updatedTarget[index], linked_object: value as "container" | "mark" };
+                              updatedTarget[index] = { ...(typeof item === 'string' ? {container_id:item} : item), linked_object: value as "container" | "mark" };
                               handleFormFieldUpdate('__data_specification.layout_specification.target', updatedTarget, { specType });
                             }}
                           >
@@ -842,17 +653,28 @@ export const EditorForm = () => {
             <Button
               variant="primary"
               size="sm"
-              disabled={!selectedContainer}
-              onClick={() => applyContainerChanges()}
+              disabled={
+                isApplying || isSaving
+                || (mode === 'form' ? !selectedContainer : !isValidJson)
+              }
+              onClick={() => void handleApplyChanges()}
               className="ml-auto"
             >
-              Apply Changes
+              {isApplying ? 'Saving…' : 'Apply Changes'}
             </Button>
           }
         </div>
       </CardHeader>
 
       <CardContent className="flex-1 p-4 overflow-auto">
+        {applyError && (
+          <div
+            role="alert"
+            className="mb-3 rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"
+          >
+            {applyError}
+          </div>
+        )}
         {mode === 'form' ? (
           <div className="space-y-4">
             {/* Container Selector */}
@@ -950,15 +772,15 @@ export const EditorForm = () => {
                     />
                   </div>
 
-                  {/* Coordinate */}
+                  {/* Coordinate System */}
                   <div className="space-y-2">
-                    <Label htmlFor="coordinate">Coordinate</Label>
+                    <Label htmlFor="coordinate">Coordinate System</Label>
                     <Select
                       value={selectedContainer.coordinate}
                       onValueChange={(value) => handleFormFieldUpdate('coordinate', value)}
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder="Select coordinate" />
+                        <SelectValue placeholder="Select coordinate system" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="cartesian">Cartesian</SelectItem>
@@ -995,7 +817,7 @@ export const EditorForm = () => {
                     <div key={selectedContainer.container_id} className="border border-gray-200 rounded-lg p-4">
                       <div className="flex items-center justify-between mb-3">
                         <h5 className="text-sm font-medium text-gray-700">
-                          Coordinate System: {selectedContainer.container_id}
+                          Instance Container: {selectedContainer.container_id}
                         </h5>
                         <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-blue-100 text-blue-800">
                           {selectedContainer.coordinate}
@@ -1008,8 +830,8 @@ export const EditorForm = () => {
                             <Label htmlFor={`${selectedContainer.container_id}-x1`}>X1</Label>
                             <Input
                               id={`${selectedContainer.container_id}-x1`}
-                              value={selectedContainer.coordinate_system.x1 || ''}
-                              onChange={(e) => handleFormFieldUpdate('coordinate_system.x1', e.target.value)}
+                              value={selectedContainer.coordinate_system.x1 ?? ''}
+                              onChange={(e) => handleFormFieldUpdate('coordinate_system.x1', parseFloat(e.target.value))}
                               placeholder="0"
                             />
                           </div>
@@ -1017,8 +839,8 @@ export const EditorForm = () => {
                             <Label htmlFor={`${selectedContainer.container_id}-x2`}>X2</Label>
                             <Input
                               id={`${selectedContainer.container_id}-x2`}
-                              value={selectedContainer.coordinate_system.x2 || ''}
-                              onChange={(e) => handleFormFieldUpdate('coordinate_system.x2', e.target.value)}
+                              value={selectedContainer.coordinate_system.x2 ?? ''}
+                              onChange={(e) => handleFormFieldUpdate('coordinate_system.x2', parseFloat(e.target.value))}
                               placeholder="100"
                             />
                           </div>
@@ -1026,8 +848,8 @@ export const EditorForm = () => {
                             <Label htmlFor={`${selectedContainer.container_id}-y1`}>Y1</Label>
                             <Input
                               id={`${selectedContainer.container_id}-y1`}
-                              value={selectedContainer.coordinate_system.y1 || ''}
-                              onChange={(e) => handleFormFieldUpdate('coordinate_system.y1', e.target.value)}
+                              value={selectedContainer.coordinate_system.y1 ?? ''}
+                              onChange={(e) => handleFormFieldUpdate('coordinate_system.y1', parseFloat(e.target.value))}
                               placeholder="0"
                             />
                           </div>
@@ -1035,8 +857,8 @@ export const EditorForm = () => {
                             <Label htmlFor={`${selectedContainer.container_id}-y2`}>Y2</Label>
                             <Input
                               id={`${selectedContainer.container_id}-y2`}
-                              value={selectedContainer.coordinate_system.y2 || ''}
-                              onChange={(e) => handleFormFieldUpdate('coordinate_system.y2', e.target.value)}
+                              value={selectedContainer.coordinate_system.y2 ?? ''}
+                              onChange={(e) => handleFormFieldUpdate('coordinate_system.y2', parseFloat(e.target.value))}
                               placeholder="100"
                             />
                           </div>
@@ -1047,8 +869,8 @@ export const EditorForm = () => {
                             <Label htmlFor={`${selectedContainer.container_id}-a1`}>A1 (Start Angle)</Label>
                             <Input
                               id={`${selectedContainer.container_id}-a1`}
-                              value={selectedContainer.coordinate_system.a1 || ''}
-                              onChange={(e) => handleFormFieldUpdate('coordinate_system.a1', e.target.value)}
+                              value={selectedContainer.coordinate_system.a1 ?? ''}
+                              onChange={(e) => handleFormFieldUpdate('coordinate_system.a1', parseFloat(e.target.value))}
                               placeholder="-90"
                             />
                           </div>
@@ -1056,8 +878,8 @@ export const EditorForm = () => {
                             <Label htmlFor={`${selectedContainer.container_id}-a2`}>A2 (End Angle)</Label>
                             <Input
                               id={`${selectedContainer.container_id}-a2`}
-                              value={selectedContainer.coordinate_system.a2 || ''}
-                              onChange={(e) => handleFormFieldUpdate('coordinate_system.a2', e.target.value)}
+                              value={selectedContainer.coordinate_system.a2 ?? ''}
+                              onChange={(e) => handleFormFieldUpdate('coordinate_system.a2', parseFloat(e.target.value))}
                               placeholder="270"
                             />
                           </div>
@@ -1065,8 +887,8 @@ export const EditorForm = () => {
                             <Label htmlFor={`${selectedContainer.container_id}-r1`}>R1 (Inner Radius)</Label>
                             <Input
                               id={`${selectedContainer.container_id}-r1`}
-                              value={selectedContainer.coordinate_system.r1 || ''}
-                              onChange={(e) => handleFormFieldUpdate('coordinate_system.r1', e.target.value)}
+                              value={selectedContainer.coordinate_system.r1 ?? ''}
+                              onChange={(e) => handleFormFieldUpdate('coordinate_system.r1', parseFloat(e.target.value))}
                               placeholder="0"
                             />
                           </div>
@@ -1074,8 +896,8 @@ export const EditorForm = () => {
                             <Label htmlFor={`${selectedContainer.container_id}-r2`}>R2 (Outer Radius)</Label>
                             <Input
                               id={`${selectedContainer.container_id}-r2`}
-                              value={selectedContainer.coordinate_system.r2 || ''}
-                              onChange={(e) => handleFormFieldUpdate('coordinate_system.r2', e.target.value)}
+                              value={selectedContainer.coordinate_system.r2 ?? ''}
+                              onChange={(e) => handleFormFieldUpdate('coordinate_system.r2', parseFloat(e.target.value))}
                               placeholder="50"
                             />
                           </div>
@@ -1089,10 +911,10 @@ export const EditorForm = () => {
                 {renderDataSpecificationForm(selectedContainer.__temp_specification, 'temp')}
 
 
-                {/* Instance Container Fields - Moved to the end */}
+                {/* Child Container Fields - Moved to the end */}
                 {selectedContainer?.__temp_specification && (
                   <div className="space-y-4">
-                    <h4 className="text-md font-medium text-gray-700">Instance Container</h4>
+                    <h4 className="text-md font-medium text-gray-700">Child Container</h4>
 
                     {selectedContainerChildren.length > 0 ? (
                       <div className="space-y-4 max-h-[500px] overflow-y-auto">
@@ -1100,7 +922,7 @@ export const EditorForm = () => {
                           <div key={child.container_id} className="border border-gray-200 rounded-lg p-4">
                             <div className="flex items-center justify-between mb-3">
                               <h5 className="text-sm font-medium text-gray-700">
-                                Instance Container: {child.container_id}
+                                Child Container: {child.container_id}
                               </h5>
                               <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-blue-100 text-blue-800">
                                 {child.coordinate}
@@ -1113,7 +935,7 @@ export const EditorForm = () => {
                                   <Label htmlFor={`${child.container_id}-x1`}>X1</Label>
                                   <Input
                                     id={`${child.container_id}-x1`}
-                                    value={child.coordinate_system.x1 || ''}
+                                    value={child.coordinate_system.x1 ?? ''}
                                     onChange={(e) => handleChildContainerUpdate(child.container_id, 'coordinate_system.x1', parseFloat(e.target.value))}
                                     placeholder="0"
                                   />
@@ -1122,7 +944,7 @@ export const EditorForm = () => {
                                   <Label htmlFor={`${child.container_id}-x2`}>X2</Label>
                                   <Input
                                     id={`${child.container_id}-x2`}
-                                    value={child.coordinate_system.x2 || ''}
+                                    value={child.coordinate_system.x2 ?? ''}
                                     onChange={(e) => handleChildContainerUpdate(child.container_id, 'coordinate_system.x2', parseFloat(e.target.value))}
                                     placeholder="100"
                                   />
@@ -1131,7 +953,7 @@ export const EditorForm = () => {
                                   <Label htmlFor={`${child.container_id}-y1`}>Y1</Label>
                                   <Input
                                     id={`${child.container_id}-y1`}
-                                    value={child.coordinate_system.y1 || ''}
+                                    value={child.coordinate_system.y1 ?? ''}
                                     onChange={(e) => handleChildContainerUpdate(child.container_id, 'coordinate_system.y1', parseFloat(e.target.value))}
                                     placeholder="0"
                                   />
@@ -1140,7 +962,7 @@ export const EditorForm = () => {
                                   <Label htmlFor={`${child.container_id}-y2`}>Y2</Label>
                                   <Input
                                     id={`${child.container_id}-y2`}
-                                    value={child.coordinate_system.y2 || ''}
+                                    value={child.coordinate_system.y2 ?? ''}
                                     onChange={(e) => handleChildContainerUpdate(child.container_id, 'coordinate_system.y2', parseFloat(e.target.value))}
                                     placeholder="100"
                                   />
@@ -1152,7 +974,7 @@ export const EditorForm = () => {
                                   <Label htmlFor={`${child.container_id}-a1`}>A1 (Start Angle)</Label>
                                   <Input
                                     id={`${child.container_id}-a1`}
-                                    value={child.coordinate_system.a1 || ''}
+                                    value={child.coordinate_system.a1 ?? ''}
                                     onChange={(e) => handleChildContainerUpdate(child.container_id, 'coordinate_system.a1', parseFloat(e.target.value))}
                                     placeholder="-90"
                                   />
@@ -1161,7 +983,7 @@ export const EditorForm = () => {
                                   <Label htmlFor={`${child.container_id}-a2`}>A2 (End Angle)</Label>
                                   <Input
                                     id={`${child.container_id}-a2`}
-                                    value={child.coordinate_system.a2 || ''}
+                                    value={child.coordinate_system.a2 ?? ''}
                                     onChange={(e) => handleChildContainerUpdate(child.container_id, 'coordinate_system.a2', parseFloat(e.target.value))}
                                     placeholder="270"
                                   />
@@ -1170,7 +992,7 @@ export const EditorForm = () => {
                                   <Label htmlFor={`${child.container_id}-r1`}>R1 (Inner Radius)</Label>
                                   <Input
                                     id={`${child.container_id}-r1`}
-                                    value={child.coordinate_system.r1 || ''}
+                                    value={child.coordinate_system.r1 ?? ''}
                                     onChange={(e) => handleChildContainerUpdate(child.container_id, 'coordinate_system.r1', parseFloat(e.target.value))}
                                     placeholder="0"
                                   />
@@ -1179,7 +1001,7 @@ export const EditorForm = () => {
                                   <Label htmlFor={`${child.container_id}-r2`}>R2 (Outer Radius)</Label>
                                   <Input
                                     id={`${child.container_id}-r2`}
-                                    value={child.coordinate_system.r2 || ''}
+                                    value={child.coordinate_system.r2 ?? ''}
                                     onChange={(e) => handleChildContainerUpdate(child.container_id, 'coordinate_system.r2', parseFloat(e.target.value))}
                                     placeholder="50"
                                   />
@@ -1191,7 +1013,7 @@ export const EditorForm = () => {
                       </div>
                     ) : (
                       <div className="text-center py-4 text-gray-500">
-                        No Instance Containers found
+                        No child containers found
                       </div>
                     )}
                   </div>

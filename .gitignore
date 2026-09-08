@@ -10,7 +10,11 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+coverage
+playwright-report
+test-results
 *.local
+.env.local
 
 # Editor directories and files
 .vscode/*
@@ -25,3 +29,6 @@ dist-ssr
 # 目前数据依赖性强，先不忽略json文件
 # *.json
 # package-lock.json
+
+# Local comparison renders and recovery scratch files
+work/

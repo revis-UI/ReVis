@@ -1,0 +1,140 @@
+{
+  "schema_version": 1,
+  "case_id": "15_donut_chart",
+  "chart_type": "Basic",
+  "model": "gpt-5.4",
+  "saved_at": "2026-08-31T14:41:50.426Z",
+  "prompt": "请观察左侧参考图，恢复当前 DSL 的真实数据分布。保持容器层级、图元类型、数量和数据结构不变；根据参考图重建尺寸、位置、峰值、聚集区域、稀疏区域和自然波动。不要生成均匀、对称或无依据的全局单调分布。",
+  "summary": "根据参考图重建了 6 个甜甜圈扇区的角度数据：红色最大，黄色次大，绿色中等偏大，橙色中等，蓝色与青色较小；半径保持不变。",
+  "reference_image_used": true,
+  "generated_value_count": 6,
+  "dsl": {
+    "container_id": "0",
+    "coordinate": "polar",
+    "description": "Single-view donut chart composed of multiple colored wedge arcs (data marks). Legend on the right is ignored.",
+    "coordinate_system": {
+      "cx": "0.45",
+      "cy": "0.5",
+      "a1": "0",
+      "a2": "360",
+      "r1": "0.22",
+      "r2": "0.48"
+    },
+    "if_leaf": true,
+    "mark_type": "arc",
+    "components": null,
+    "data_specification": {
+      "0": {
+        "mark_specification": {
+          "mark_type": "arc",
+          "is_link_mark": false,
+          "link_mark_type": "no_link",
+          "group_link_direction": null,
+          "link_number": null,
+          "is_width_encoded_data": false,
+          "node_use_once": false,
+          "is_fully_connected": false,
+          "is_bipartite": false
+        },
+        "data_structure": {
+          "data_type": "1D_LIST",
+          "data_size": {
+            "primary": {
+              "number": 6,
+              "dimension": "angle",
+              "explanation": "Six donut wedges distributed around the angle dimension for six categories."
+            },
+            "secondary": null
+          }
+        },
+        "layout_specification": {
+          "x": null,
+          "y": null,
+          "radius": {
+            "stacking": false,
+            "stacking_direction": "middle",
+            "anchor": "middle",
+            "subdividing": false,
+            "2d_flatten": false,
+            "size_uniform": true,
+            "size_range": [
+              100,
+              100
+            ],
+            "anchor_distribute": "fixed_value",
+            "anchor_interval": 0,
+            "anchor_start": 50
+          },
+          "angle": {
+            "stacking": true,
+            "stacking_direction": "min",
+            "anchor": "stacking_decided",
+            "subdividing": true,
+            "2d_flatten": false,
+            "size_uniform": false,
+            "size_range": [
+              8,
+              27
+            ],
+            "anchor_distribute": "flexible",
+            "anchor_interval": null,
+            "anchor_start": null,
+            "data_values": [
+              11,
+              16,
+              26,
+              9,
+              18,
+              20
+            ]
+          },
+          "source": null,
+          "target": null
+        },
+        "non_layout_specification": {
+          "fill": {
+            "scale": "categorical",
+            "fix": null,
+            "linear": null,
+            "options": [
+              "#4C78A8",
+              "#F58518",
+              "#E45756",
+              "#72B7B2",
+              "#54A24B",
+              "#EECA3B"
+            ]
+          },
+          "stroke": {
+            "scale": "fix",
+            "fix": "#FFFFFF",
+            "linear": null,
+            "options": null
+          },
+          "stroke-width": null,
+          "opacity": null,
+          "line_type": null,
+          "rx": null,
+          "ry": null
+        }
+      }
+    }
+  },
+  "recovered_data": {
+    "format": "JSON Pointer paths into the complete DSL above",
+    "fields": [
+      {
+        "path": "/data_specification/0/layout_specification/angle/data_values",
+        "kind": "data_values",
+        "value": [
+          11,
+          16,
+          26,
+          9,
+          18,
+          20
+        ]
+      }
+    ]
+  }
+}

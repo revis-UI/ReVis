@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "case_id": "01_simple_bar_chart",
+  "chart_type": "Basic",
+  "model": "gpt-5.4",
+  "saved_at": "2026-08-31T14:41:50.375Z",
+  "prompt": "请观察左侧参考图，恢复当前 DSL 的真实数据分布。保持容器层级、图元类型、数量和数据结构不变；根据参考图重建尺寸、位置、峰值、聚集区域、稀疏区域和自然波动。不要生成均匀、对称或无依据的全局单调分布。",
+  "summary": "已根据参考图重建 9 个柱子的真实高度分布，并在 y 维度补充明确 data_values；保持原有容器层级、图元类型与数据结构不变。",
+  "reference_image_used": true,
+  "generated_value_count": 9,
+  "dsl": {
+    "container_id": "0",
+    "coordinate": "cartesian",
+    "description": "Single-panel vertical bar chart composed of multiple narrow vertical rectangles of equal width, spaced evenly along the x-axis, varying only in height from a common baseline. No other data-encoding marks present.",
+    "coordinate_system": {
+      "x1": "0",
+      "y1": "0",
+      "x2": "100",
+      "y2": "100"
+    },
+    "if_leaf": true,
+    "mark_type": "rectangle",
+    "components": null,
+    "template_data_specification": null,
+    "data_specification": {
+      "0": {
+        "mark_specification": {
+          "mark_type": "rectangle",
+          "is_link_mark": false,
+          "link_mark_type": "no_link",
+          "group_link_direction": null,
+          "link_number": null,
+          "is_width_encoded_data": false,
+          "node_use_once": false,
+          "is_fully_connected": false,
+          "is_bipartite": false
+        },
+        "data_structure": {
+          "data_type": "1D_LIST",
+          "data_size": {
+            "primary": {
+              "number": 9,
+              "dimension": "x",
+              "explanation": "Nine categorical bars laid out along the x axis; heights vary along y."
+            },
+            "secondary": null
+          }
+        },
+        "layout_specification": {
+          "x": {
+            "stacking": false,
+            "stacking_direction": "middle",
+            "anchor": "middle",
+            "subdividing": false,
+            "2d_flatten": false,
+            "size_uniform": true,
+            "size_range": [
+              6,
+              6
+            ],
+            "anchor_distribute": "uniform_interval",
+            "anchor_interval": 10,
+            "anchor_start": 5
+          },
+          "y": {
+            "stacking": false,
+            "stacking_direction": "min",
+            "anchor": "min",
+            "subdividing": false,
+            "2d_flatten": false,
+            "size_uniform": false,
+            "size_range": [
+              15,
+              90
+            ],
+            "anchor_distribute": "fixed_value",
+            "anchor_interval": 0,
+            "anchor_start": 0,
+            "data_values": [
+              28,
+              55,
+              43,
+              90,
+              81,
+              53,
+              19,
+              87,
+              52
+            ]
+          },
+          "radius": null,
+          "angle": null,
+          "source": null,
+          "target": null
+        },
+        "non_layout_specification": {
+          "fill": {
+            "scale": "fix",
+            "fix": "#4C78A8",
+            "linear": null,
+            "options": null
+          },
+          "stroke": null,
+          "stroke-width": null,
+          "opacity": {
+            "scale": "fix",
+            "fix": 0.8,
+            "linear": null,
+            "options": null
+          },
+          "line_type": null,
+          "rx": null,
+          "ry": null
+        }
+      }
+    }
+  },
+  "recovered_data": {
+    "format": "JSON Pointer paths into the complete DSL above",
+    "fields": [
+      {
+        "path": "/data_specification/0/layout_specification/y/data_values",
+        "kind": "data_values",
+        "value": [
+          28,
+          55,
+          43,
+          90,
+          81,
+          53,
+          19,
+          87,
+          52
+        ]
+      }
+    ]
+  }
+}

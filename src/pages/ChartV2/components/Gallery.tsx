@@ -1,8 +1,19 @@
+import { DataModeControls } from './DataModeControls';
+import { buildDataModeCandidate } from '../model/dataMode';
+import { commitDocument } from '../model/document';
+import type { DataMode } from '../model/dataSources';
+import styles from '../editor.module.less';
 import { useEffect, useRef, useState } from 'react';
 import { D3Chart } from '../../D3Chart';
 import { visualChart } from '../model/Chart';
-import { loadData,  } from '../utils';
+import { loadData, resolveDataCategory } from '../utils';
+import { loadDSLFile, saveDSLFile, usesLocalDSLService } from '@/services/dsl';
+import { previewDocument } from '../model/previewDocument';
+import { prepareDocumentEdit, validateRenderableDocument } from '../model/editor';
+import type { ChartDocument } from '../model/document';
 import { useSize } from 'ahooks';
+import { migrateDocument } from '../model/document';
+import { createSeededRandom } from '../model/seededRandom';
 
 interface GalleryItem {
   id: string;
@@ -18,12 +29,24 @@ export const Gallery = () => {
   const [isJsonValid, setIsJsonValid] = useState<boolean>(true);
   const [lastAppliedJson, setLastAppliedJson] = useState<string>('');
 
+  const [dataMode, setDataMode] = useState<DataMode>('reference');
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadError, setLoadError] = useState('');
+  const [showJson, setShowJson] = useState(false);
+  const loadSequence = useRef(0);
+  const appliedDocument = useRef<ChartDocument | null>(null);
+  const appliedJson = useRef('');
+  const [saving, setSaving] = useState(false);
+  const [saveMessage, setSaveMessage] = useState('');
+  const [editError, setEditError] = useState('');
+  const editTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const previewDOMRef = useRef<HTMLDivElement>(null);
 
   const previewSize = useSize(previewDOMRef.current);
 
   const width = previewSize?.width || 320;
-  const height = (previewSize?.height || 350) - 30;
+  const height = previewSize?.height || 350;
 
   const previewW = Math.min(width, height);
 
@@ -53,128 +76,111 @@ export const Gallery = () => {
 
     setGalleryItems(items);
 
-    // 默认选择第一个项目并加载对应数据
-    if (items.length > 0) {
-      const first = items[0];
-      setSelectedItem(first);
-      loadData(first.baseFileName, 'gallery').then(data => {
-        if (data) {
-          const jsonString = JSON.stringify(data, null, 2);
-          setCurrentJsonData(jsonString);
-          setIsJsonValid(true);
-          updateChartWithJson(jsonString);
-        }
-      });
-    }
+    let stored: string | null = null;
+    try { stored = sessionStorage.getItem('revis.gallery.selection'); } catch {}
+    if (items.length > 0) void handleItemClick(items.find(i => i.baseFileName === stored) || items[0]);
+    return () => {
+      loadSequence.current++;
+      if(editTimer.current) clearTimeout(editTimer.current);
+    };
   }, []);
 
-  // 图片路径直接使用 glob 返回的 imageSrc
-
   const handleItemClick = async (item: GalleryItem) => {
+    const request = ++loadSequence.current;
+    if(editTimer.current) clearTimeout(editTimer.current);
     setSelectedItem(item);
-    const data = await loadData(item.baseFileName, 'gallery');
-    if (data) {
+    setIsLoading(true);
+    setLoadError('');
+    setEditError(''); setSaveMessage('');
+    appliedDocument.current = null; setCurrentJsonData('');
+    try {
+      const data = await loadData(item.baseFileName, 'gallery');
+      if (request !== loadSequence.current) return;
+      if (!data) throw new Error('Chart data is unavailable.');
       const jsonString = JSON.stringify(data, null, 2);
       setCurrentJsonData(jsonString);
-      setIsJsonValid(true);
-      // 切换项目时自动应用 JSON 数据
-      updateChartWithJson(jsonString);
+      if (!updateChartWithJson(jsonString)) throw new Error('This chart cannot be rendered. Check its DSL and reference data.');
+      try { sessionStorage.setItem('revis.gallery.selection', item.baseFileName); } catch {}
+    } catch(error) {
+      if(request === loadSequence.current) setLoadError(error instanceof Error ? error.message : 'Unable to load chart.');
+    } finally {
+      if(request === loadSequence.current) setIsLoading(false);
     }
   };
 
   const handleJsonChange = (value: string) => {
     setCurrentJsonData(value);
-    try {
-      JSON.parse(value);
-      setIsJsonValid(true);
-      // 如果 JSON 有效且与上次应用的不同，自动更新图表
-      if (value !== lastAppliedJson) {
-        updateChartWithJson(value);
-      }
-    } catch (error) {
-      setIsJsonValid(false);
-    }
+    if(editTimer.current) clearTimeout(editTimer.current);
+    editTimer.current = setTimeout(() => updateChartWithJson(value), 250);
   };
 
-  const updateChartWithJson = (jsonData?: string) => {
+  const updateChartWithJson = (jsonData?: string, prepared?: ChartDocument) => {
     const dataToUse = jsonData || currentJsonData;
-    if (!isJsonValid || !dataToUse) return;
+    if (!dataToUse) return;
+    if (!prepared && appliedDocument.current && appliedJson.current === dataToUse) return appliedDocument.current;
     try {
       const parsedData = JSON.parse(dataToUse);
+      const document = prepared ? validateRenderableDocument(prepared) : appliedDocument.current
+        ? prepareDocumentEdit(appliedDocument.current, parsedData)
+        : validateRenderableDocument(parsedData);
+      const random = createSeededRandom(document.metadata.generation_seed);
+      const hasPersistedView =
+        Object.keys(document.view_data.marks).length > 0
+        || Object.keys(document.view_data.containers).length > 0;
+      visualChart.setRandomGenerator(random.next);
       visualChart.reset();
-      visualChart.parseDSL(parsedData);
+      visualChart.parseDSL(document);
+      if (hasPersistedView) {
+        visualChart.restoreViewSnapshot(document.view_data);
+      }
       visualChart.drawData();
-      setLastAppliedJson(dataToUse);
+      const appliedText = JSON.stringify(previewDocument(document), null, 2);
+      appliedJson.current = appliedText;
+      setCurrentJsonData(appliedText);
+      setLastAppliedJson(appliedText);
+      setDataMode(document.data_mode === 'generated' ? 'generated' : 'reference');
+      appliedDocument.current = document;
+      setIsJsonValid(true); setEditError('');
+      return document;
     } catch (error) {
-      console.error('Failed to update chart with JSON:', error);
+      setIsJsonValid(false);
+      setEditError(error instanceof Error ? error.message : String(error));
+      return null;
     }
   };
 
-  const resetToDefault = async () => {
-    if (!selectedItem) return;
-
-    const data = await loadData(selectedItem.baseFileName, 'gallery');
-    if (data) {
-      const jsonString = JSON.stringify(data, null, 2);
-      setCurrentJsonData(jsonString);
-      setIsJsonValid(true);
-      updateChartWithJson(jsonString);
-    }
-  };
+  const resetToDefault = () => { if (selectedItem) void handleItemClick(selectedItem); };
 
   const saveAndRedraw = async () => {
-    if (!selectedItem || !isJsonValid) return;
-
+    if (!selectedItem || isLoading || saving) return;
+    if(editTimer.current) clearTimeout(editTimer.current);
+    const applied = updateChartWithJson(currentJsonData);
+    if (!applied) return;
+    const fileName = selectedItem.baseFileName;
+    const request = loadSequence.current;
+    setSaving(true); setSaveMessage('');
     try {
-      // 重新绘制图表
-      updateChartWithJson(currentJsonData);
+      const category = await resolveDataCategory(fileName);
+      if (!category) throw new Error('Chart data is unavailable.');
+      const loaded = await loadDSLFile(category, `${fileName}.json`);
+      const next = commitDocument(migrateDocument(loaded.content), applied, {source:'json'}).document;
+      await saveDSLFile(category, `${fileName}.json`, next, loaded.hash);
+      if (request === loadSequence.current) setSaveMessage(usesLocalDSLService
+        ? 'Saved successfully.' : 'Saved for this tab until refresh. Export JSON to keep a copy.');
+    } catch(error) {
+      if (request === loadSequence.current) setEditError(error instanceof Error ? error.message : 'Save failed.');
+    } finally { setSaving(false); }
+  };
 
-      // 更新对应的JSON文件
-      const parsedData = JSON.parse(currentJsonData);
-      const jsonString = JSON.stringify(parsedData, null, 2);
-
-      // 确定文件路径
-      const fileName = selectedItem.baseFileName;
-      let filePath = '';
-
-      // 检查文件在哪个目录下
-      try {
-        await import(`../../../datav3/basic_charts/${fileName}.json`);
-        filePath = `src/datav3/basic_charts/${fileName}.json`;
-      } catch (e) {
-        try {
-          await import(`../../../datav3/composite/${fileName}.json`);
-          filePath = `src/datav3/composite/${fileName}.json`;
-        } catch (e2) {
-          console.error('Cannot find JSON file for:', fileName);
-          return;
-        }
-      }
-
-      // 调用API保存文件
-      try {
-        const response = await fetch(`http://localhost:3000/api/save-json?file=${encodeURIComponent(filePath)}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: jsonString,
-        });
-
-        if (response.ok) {
-          alert('Saved successfully!');
-        } else {
-          const errorData = await response.json();
-          alert('Failed to save file: ' + (errorData.error || 'Unknown error'));
-        }
-      } catch (error) {
-        console.error('API call failed:', error);
-        alert('Failed to connect to server. Please ensure the server is running on port 3000.');
-      }
-    } catch (error) {
-      console.error('Save failed:', error);
-      alert('Save failed: ' + error);
-    }
+  const changeMode = (mode: DataMode) => {
+    if(editTimer.current) clearTimeout(editTimer.current);
+    const current = updateChartWithJson(currentJsonData);
+    if (!current) throw new Error('Fix the DSL before generating data.');
+    const candidate = buildDataModeCandidate(current, mode);
+    const text = JSON.stringify(previewDocument(candidate), null, 2);
+    const applied = updateChartWithJson(text, candidate);
+    if (!applied) throw new Error('Unable to render the requested data mode.');
+    setCurrentJsonData(text);
   };
 
   return (
@@ -184,11 +190,13 @@ export const Gallery = () => {
         {galleryItems.map((item) => (
           <div
             key={item.id}
+            role="button" tabIndex={saving ? -1 : 0} aria-label={`Open ${item.title}`} aria-pressed={selectedItem?.id === item.id}
+            onKeyDown={e => { if (!saving && (e.key === 'Enter' || e.key === ' ')) {e.preventDefault(); void handleItemClick(item);} }}
             className={`m-1 w-25 overflow-hidden cursor-pointer border-2 rounded-lg transition-all ${selectedItem?.id === item.id
               ? 'border-blue-500 shadow-lg scale-105'
               : 'border-gray-300 hover:border-gray-400'
               }`}
-            onClick={() => handleItemClick(item)}
+            onClick={() => { if(!saving) void handleItemClick(item); }}
           >
             <div className='w-24 h-24'>
               <img
@@ -205,7 +213,7 @@ export const Gallery = () => {
       </div>
 
       {/* 主内容区域 - 三列分割 */}
-      <div className="flex-1 flex">
+      <div className="flex-1 flex min-h-0">
         {/* 左侧：静态图片 */}
         <div className="flex-1 p-4 flex flex-col items-center justify-center bg-white border-r">
           {selectedItem && (
@@ -221,10 +229,14 @@ export const Gallery = () => {
         </div>
 
         {/* 中间：D3 图表 */}
-        <div className="flex-1 p-4 flex flex-col items-center justify-center bg-gray-50 border-r">
-          <div ref={previewDOMRef} className="text-center w-full h-full flex flex-col items-center justify-center">
+        <div className="flex-1 min-w-0 min-h-0 p-4 flex flex-col items-center justify-center bg-gray-50 border-r">
+          <div className="text-center w-full h-full min-h-0 flex flex-col items-center">
             <h2 className="text-xl font-bold mb-4">D3 Visualization</h2>
-            <div className="mx-auto editor-preview">
+            <DataModeControls mode={dataMode} onChange={changeMode} key={selectedItem?.id} disabled={saving||isLoading||!isJsonValid||!currentJsonData}/>
+            <p className="text-xs text-gray-500 my-2">{usesLocalDSLService ? 'Preview changes; use Save to keep this data.' : 'Edits last for this session. Export JSON to keep a copy.'}</p>
+            {isLoading && <p role="status">Loading chart…</p>}
+            {loadError && <p role="alert">{loadError}</p>}
+            <div ref={previewDOMRef} style={{visibility:isLoading || loadError ? 'hidden' : 'visible'}} className={`flex-1 min-h-0 w-full flex items-center justify-center editor-preview ${styles['gallery-preview']}`}>
               <D3Chart
                 initSVG={(svg: SVGSVGElement) => {
                   visualChart.initSVGDOM(svg);
@@ -239,37 +251,50 @@ export const Gallery = () => {
         </div>
 
         {/* 右侧：JSON 编辑器 */}
-        <div className="flex-1 p-4 flex flex-col bg-white">
+        <div className="flex-1 min-w-0 min-h-0 p-4 flex flex-col bg-white">
           {selectedItem && (
             <div className="flex flex-col h-full">
-              <div className="flex justify-between items-center mb-4">
+              <div className="flex flex-wrap gap-2 justify-between items-center mb-4">
                 <h2 className="text-xl font-bold">JSON Editor</h2>
                 <div className="flex gap-2">
+                  <button onClick={() => setShowJson(v => !v)} className="px-3 py-2 rounded text-sm">
+                    {showJson ? 'Hide JSON' : 'Show JSON'}
+                  </button>
+                  <button disabled={saving || isLoading || !isJsonValid || !currentJsonData} onClick={() => {
+                    if(editTimer.current) clearTimeout(editTimer.current);
+                    const applied = updateChartWithJson(currentJsonData); if(!applied) return;
+                    const url=URL.createObjectURL(new Blob([JSON.stringify(previewDocument(applied), null, 2)],{type:'application/json'}));
+                    const link=document.createElement('a');link.href=url;link.download=`${selectedItem.baseFileName}.json`;link.click();URL.revokeObjectURL(url);
+                  }} className="px-3 py-2 rounded text-sm">Export JSON</button>
                   <button
+                    disabled={saving || isLoading}
                     onClick={resetToDefault}
                     className="px-3 py-2 rounded text-sm font-medium !bg-blue-500 text-white hover:bg-blue-600 cursor-pointer"
                   >
                     Reset
                   </button>
                   <button
+                    disabled={saving || isLoading || !isJsonValid || !currentJsonData}
                     onClick={saveAndRedraw}
                     className="px-3 py-2 rounded text-sm font-medium !bg-green-500 text-white hover:bg-green-600 cursor-pointer"
                   >
-                    Save
+                    {saving ? 'Saving…' : 'Save'}
                   </button>
                 </div>
               </div>
-              <div className="flex-1 relative">
-                <textarea
+              {editError && <p role="alert" className="mb-2 text-sm text-red-700">{editError}</p>}
+              {saveMessage && <p role="status" className="mb-2 text-sm text-green-700">{saveMessage}</p>}
+              <div className="flex-1 min-h-0 relative">
+                {showJson ? <textarea aria-label="Gallery DSL JSON" disabled={saving || isLoading}
                   value={currentJsonData}
                   onChange={(e) => handleJsonChange(e.target.value)}
                   className={`w-full h-full p-3 border rounded font-mono text-sm resize-none ${isJsonValid ? 'border-gray-300' : 'border-red-500'
                     }`}
                   placeholder="Edit JSON data here..."
-                />
+                /> : <p className="p-4 text-sm text-gray-500">Open the JSON editor to edit this chart, or export its current data.</p>}
                 {!isJsonValid && (
                   <div className="absolute bottom-2 left-2 text-red-500 text-xs bg-red-50 px-2 py-1 rounded">
-                    Invalid JSON
+                    Invalid DSL — changes not applied
                   </div>
                 )}
                 {isJsonValid && currentJsonData !== lastAppliedJson && (
@@ -279,8 +304,8 @@ export const Gallery = () => {
                 )}
               </div>
               <div className="mt-2 text-xs text-gray-500">
-                <p>• JSON changes are automatically applied when valid</p>
-                <p>• Use "Reset" to restore original JSON data</p>
+                <p>• JSON changes are automatically applied when valid; Save before switching charts or opening Editor</p>
+                <p>• Use "Reset" to reload the last saved data</p>
               </div>
             </div>
           )}

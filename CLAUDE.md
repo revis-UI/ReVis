@@ -15,12 +15,12 @@ This is a **Vite + React + TypeScript** application for **D3.js-based chart visu
 - `npm run preview` - Preview production build
 
 ### DSL Editor Workflow
-- `npm run save-server` - Start DSL save server (port 3001)
+- `npm run server` - Start the loopback API server (port 3000)
 - `npm run dev:full` - **Recommended**: Start both dev server and save server concurrently
 
 ### Server Configuration
 - Frontend dev server: `localhost:5173`
-- DSL save server: `localhost:3001`
+- Local DSL and AI API: `127.0.0.1:3000`
 - Backend API server: `localhost:3000` (configured in `server.cjs`)
 
 ## Architecture Overview
@@ -48,14 +48,13 @@ This is a **Vite + React + TypeScript** application for **D3.js-based chart visu
 
 #### Data Organization
 - `src/datav3/` - **Current DSL JSON files** (version 3)
-- `src/data_editor/` - Editor-specific DSL files
 - `src/data/`, `src/datav2/` - Legacy DSL files
 - `src/imagev3/` - Chart reference images
 - `src/generated/` - Auto-generated files (json-files.ts)
 
 #### Backend
-- `server.cjs` - Express server for saving DSL files
-- `scripts/save-dsl.js` - DSL save server script
+- `server.cjs` - Loopback-only Express entry point for DSL saving and AI proxying
+- `server/` - Atomic persistence, configuration, provider client, and API modules
 
 ## Key Architectural Patterns
 
@@ -90,19 +89,24 @@ This is a **Vite + React + TypeScript** application for **D3.js-based chart visu
 5. Click "Save" to save directly to project directory via save server
 
 ### File Saving Behavior
-- **Primary**: Connects to local save server (`localhost:3001`) to save to `/src/data/{filename}.json`
-- **Fallback**: If save server not running, downloads file locally for manual replacement
-- Save server validates: filename safety, JSON format, prevents directory traversal
+- Connects to the loopback API (`127.0.0.1:3000`) and atomically saves
+  `src/datav3/{basic_charts|composite}/{filename}.json`
+- Uses SHA-256 optimistic concurrency and offers reload or explicit force
+  overwrite on conflicts
+- Save server validates category, filename, JSON, symlinks, and path traversal
 
 ### API Endpoints
-- `PUT /api/save-dsl/{filename}` - Save DSL file to project path
+- `GET/PUT /api/dsl/:category/:file` - Read or atomically save a DSL file
+- `GET/PUT /api/ai/config` - Read public AI config or save project-local config
+- `POST /api/ai/config/test` - Test an AI provider configuration
+- `POST /api/ai/chat` - Request a validated RFC 6902 Patch
 - `GET /api/health` - Health check
-- Backend API (`localhost:3000`): `POST /api/save-json` for chart data
+- `POST /api/save-json` - Restricted compatibility endpoint for `datav3`
 
 ## Important Notes
 
 ### Data Locations
-- **Active development**: Use files in `src/datav3/` and `src/data_editor/`
+- **Active development**: Use files in `src/datav3/`
 - **Reference images**: Stored in `src/imagev3/` with matching filenames
 - **Generated code**: `src/generated/json-files.ts` is auto-generated - do not edit manually
 
@@ -127,7 +131,7 @@ This is a **Vite + React + TypeScript** application for **D3.js-based chart visu
 
 ### Save Server Issues
 - Ensure `npm run save-server` is running or use `npm run dev:full`
-- Check port 3001 availability
+- Check port 3000 availability
 - Verify file permissions for `src/data/` directory
 
 ### Build Issues

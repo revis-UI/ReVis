@@ -6,8 +6,23 @@ import fs from "fs"
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/ReVis/',
+  // AI credentials are managed by the loopback API, not exposed to Vite.
+  envDir: false,
+  base: process.env.VITE_BASE_PATH || "/",
   plugins: [
+    {
+      name: "compact-demo-documents",
+      apply: "build",
+      enforce: "pre",
+      transform(source, id) {
+        if (!/[/\\]src[/\\]datav3[/\\].*\.json$/.test(id)) return;
+        const document = JSON.parse(source);
+        // Keep the complete current/reference data, but do not ship authoring
+        // undo history. Canonical source files remain untouched.
+        document.history = {cursor: 0, entries: []};
+        return {code: JSON.stringify(document), map: null};
+      },
+    },
     react(),
     tailwindcss(),
     {
@@ -56,6 +71,14 @@ export const JSON_FILES = ${JSON.stringify(jsonFiles, null, 2)} as const
     }
   ],
   server: {
+    host: '127.0.0.1',
+    port: Number(process.env.REVIS_DEV_PORT || 5173),
+    strictPort: true,
+    // Canonical DSL files are edited by the running app. Re-rendering after
+    // saving is handled by its transaction; HMR would reset the active chart.
+    watch: {
+      ignored: ['**/src/datav3/**/*.json'],
+    },
     proxy: {
       '/api': {
         target: 'http://localhost:3000',

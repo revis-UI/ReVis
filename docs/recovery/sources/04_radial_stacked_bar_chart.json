@@ -1,0 +1,1043 @@
+{
+  "schema_version": 1,
+  "case_id": "04_radial_stacked_bar_chart",
+  "chart_type": "Basic",
+  "model": "gpt-5.4",
+  "saved_at": "2026-08-31T14:41:50.390Z",
+  "prompt": "请观察左侧参考图，恢复当前 DSL 的真实数据分布。保持容器层级、图元类型、数量和数据结构不变；根据参考图重建尺寸、位置、峰值、聚集区域、稀疏区域和自然波动。不要生成均匀、对称或无依据的全局单调分布。",
+  "summary": "已根据参考图重建径向堆叠柱的真实分布：在12点方向设置最高峰，随后沿顺时针快速回落到第二梯队；右半圈维持中高平台并带有局部起伏；下半圈逐步形成次峰；左半圈整体较低、接近长尾，仅保留小幅自然波动。保留了7个年龄层的相对构成差异，并为半径维度提供50×7明确 data_values。",
+  "reference_image_used": true,
+  "generated_value_count": 350,
+  "dsl": {
+    "container_id": "0",
+    "coordinate": "polar",
+    "description": "Single radial chart composed entirely of stacked annular arc segments. Numerous narrow angular sectors form a ring around the center; within each sector, multiple colored arc segments are stacked radially from an inner radius to the outer boundary, creating radial bar heights that vary by angle. Concentric guide circles, labels, and legend inside the hole are ignored.",
+    "coordinate_system": {
+      "cx": "0.5",
+      "cy": "0.6",
+      "a1": "0",
+      "a2": "360",
+      "r1": "0.3",
+      "r2": "1"
+    },
+    "if_leaf": true,
+    "mark_type": "arc",
+    "components": null,
+    "data_specification": {
+      "0": {
+        "mark_specification": {
+          "mark_type": "arc",
+          "is_link_mark": false,
+          "link_mark_type": "no_link",
+          "group_link_direction": null,
+          "link_number": null,
+          "is_width_encoded_data": false,
+          "node_use_once": false,
+          "is_fully_connected": false,
+          "is_bipartite": false
+        },
+        "data_structure": {
+          "data_type": "2D_MATRIX",
+          "data_size": {
+            "primary": {
+              "number": 50,
+              "dimension": "angle",
+              "explanation": "Around the circle, many angular sectors (states) are evenly distributed."
+            },
+            "secondary": {
+              "number": 7,
+              "dimension": "radius",
+              "explanation": "Within each sector, seven age groups are stacked radially."
+            }
+          }
+        },
+        "layout_specification": {
+          "x": null,
+          "y": null,
+          "radius": {
+            "stacking": true,
+            "stacking_direction": "min",
+            "anchor": "stacking_decided",
+            "subdividing": false,
+            "2d_flatten": false,
+            "size_uniform": false,
+            "size_range": [
+              1,
+              20
+            ],
+            "anchor_distribute": "fixed_value",
+            "anchor_interval": 0,
+            "anchor_start": 20,
+            "data_values": [
+              [
+                5,
+                13,
+                10,
+                13,
+                15,
+                18,
+                11
+              ],
+              [
+                4,
+                11,
+                8,
+                11,
+                13,
+                15,
+                9
+              ],
+              [
+                3,
+                9,
+                7,
+                9,
+                10,
+                12,
+                8
+              ],
+              [
+                3,
+                8,
+                6,
+                8,
+                9,
+                10,
+                7
+              ],
+              [
+                2,
+                7,
+                5,
+                7,
+                8,
+                9,
+                6
+              ],
+              [
+                2,
+                6,
+                5,
+                7,
+                8,
+                8,
+                5
+              ],
+              [
+                2,
+                6,
+                5,
+                7,
+                8,
+                8,
+                5
+              ],
+              [
+                2,
+                6,
+                5,
+                6,
+                7,
+                8,
+                5
+              ],
+              [
+                2,
+                5,
+                4,
+                6,
+                7,
+                8,
+                5
+              ],
+              [
+                2,
+                5,
+                4,
+                6,
+                7,
+                7,
+                5
+              ],
+              [
+                2,
+                5,
+                4,
+                6,
+                7,
+                7,
+                5
+              ],
+              [
+                2,
+                5,
+                4,
+                6,
+                7,
+                7,
+                5
+              ],
+              [
+                2,
+                5,
+                4,
+                6,
+                6,
+                7,
+                4
+              ],
+              [
+                2,
+                5,
+                4,
+                6,
+                6,
+                7,
+                4
+              ],
+              [
+                2,
+                5,
+                4,
+                6,
+                6,
+                7,
+                4
+              ],
+              [
+                2,
+                5,
+                4,
+                5,
+                6,
+                7,
+                4
+              ],
+              [
+                2,
+                5,
+                4,
+                5,
+                6,
+                7,
+                4
+              ],
+              [
+                2,
+                5,
+                4,
+                5,
+                6,
+                6,
+                4
+              ],
+              [
+                2,
+                5,
+                4,
+                5,
+                6,
+                6,
+                4
+              ],
+              [
+                2,
+                5,
+                4,
+                5,
+                6,
+                6,
+                4
+              ],
+              [
+                2,
+                5,
+                4,
+                5,
+                6,
+                6,
+                4
+              ],
+              [
+                2,
+                5,
+                4,
+                5,
+                6,
+                6,
+                4
+              ],
+              [
+                2,
+                5,
+                4,
+                5,
+                6,
+                6,
+                4
+              ],
+              [
+                2,
+                5,
+                4,
+                5,
+                6,
+                6,
+                4
+              ],
+              [
+                2,
+                5,
+                4,
+                5,
+                6,
+                6,
+                4
+              ],
+              [
+                2,
+                5,
+                4,
+                5,
+                6,
+                6,
+                4
+              ],
+              [
+                2,
+                5,
+                4,
+                5,
+                6,
+                6,
+                4
+              ],
+              [
+                2,
+                5,
+                4,
+                5,
+                6,
+                7,
+                4
+              ],
+              [
+                2,
+                5,
+                4,
+                5,
+                6,
+                7,
+                4
+              ],
+              [
+                2,
+                5,
+                4,
+                5,
+                6,
+                7,
+                4
+              ],
+              [
+                2,
+                5,
+                4,
+                5,
+                7,
+                7,
+                4
+              ],
+              [
+                2,
+                5,
+                4,
+                6,
+                7,
+                8,
+                4
+              ],
+              [
+                2,
+                5,
+                4,
+                6,
+                7,
+                8,
+                5
+              ],
+              [
+                2,
+                6,
+                4,
+                6,
+                7,
+                8,
+                5
+              ],
+              [
+                2,
+                6,
+                5,
+                6,
+                7,
+                8,
+                5
+              ],
+              [
+                2,
+                6,
+                5,
+                6,
+                8,
+                9,
+                5
+              ],
+              [
+                2,
+                6,
+                5,
+                7,
+                8,
+                9,
+                6
+              ],
+              [
+                2,
+                7,
+                5,
+                7,
+                8,
+                10,
+                6
+              ],
+              [
+                2,
+                7,
+                5,
+                7,
+                9,
+                10,
+                6
+              ],
+              [
+                2,
+                7,
+                5,
+                7,
+                9,
+                10,
+                6
+              ],
+              [
+                2,
+                7,
+                5,
+                7,
+                8,
+                9,
+                6
+              ],
+              [
+                2,
+                6,
+                5,
+                7,
+                8,
+                9,
+                6
+              ],
+              [
+                2,
+                6,
+                5,
+                7,
+                8,
+                9,
+                5
+              ],
+              [
+                2,
+                6,
+                5,
+                6,
+                8,
+                8,
+                5
+              ],
+              [
+                2,
+                6,
+                5,
+                6,
+                7,
+                8,
+                5
+              ],
+              [
+                2,
+                6,
+                5,
+                6,
+                7,
+                8,
+                5
+              ],
+              [
+                2,
+                6,
+                5,
+                6,
+                7,
+                8,
+                5
+              ],
+              [
+                2,
+                6,
+                5,
+                6,
+                7,
+                8,
+                5
+              ],
+              [
+                2,
+                6,
+                5,
+                6,
+                7,
+                8,
+                5
+              ],
+              [
+                2,
+                6,
+                5,
+                6,
+                7,
+                8,
+                5
+              ]
+            ]
+          },
+          "angle": {
+            "stacking": false,
+            "stacking_direction": "middle",
+            "anchor": "middle",
+            "subdividing": false,
+            "2d_flatten": false,
+            "size_uniform": true,
+            "size_range": [
+              1.5,
+              1.5
+            ],
+            "anchor_distribute": "uniform_interval",
+            "anchor_interval": 2,
+            "anchor_start": 0
+          },
+          "source": null,
+          "target": null
+        },
+        "non_layout_specification": {
+          "fill": {
+            "scale": "ordinal_secondary",
+            "fix": null,
+            "linear": null,
+            "options": [
+              "#95A5A6",
+              "#5DADE2",
+              "#6C5B7B",
+              "#8E44AD",
+              "#C06C84",
+              "#D35400",
+              "#F39C12"
+            ]
+          },
+          "stroke": {
+            "scale": "fix",
+            "fix": "#FFFFFF",
+            "linear": null,
+            "options": null
+          },
+          "stroke-width": {
+            "scale": "fix",
+            "fix": 0.5,
+            "linear": null,
+            "options": null
+          },
+          "opacity": {
+            "scale": "fix",
+            "fix": 1,
+            "linear": null,
+            "options": null
+          },
+          "line_type": null,
+          "rx": null,
+          "ry": null
+        }
+      }
+    }
+  },
+  "recovered_data": {
+    "format": "JSON Pointer paths into the complete DSL above",
+    "fields": [
+      {
+        "path": "/data_specification/0/layout_specification/radius/data_values",
+        "kind": "data_values",
+        "value": [
+          [
+            5,
+            13,
+            10,
+            13,
+            15,
+            18,
+            11
+          ],
+          [
+            4,
+            11,
+            8,
+            11,
+            13,
+            15,
+            9
+          ],
+          [
+            3,
+            9,
+            7,
+            9,
+            10,
+            12,
+            8
+          ],
+          [
+            3,
+            8,
+            6,
+            8,
+            9,
+            10,
+            7
+          ],
+          [
+            2,
+            7,
+            5,
+            7,
+            8,
+            9,
+            6
+          ],
+          [
+            2,
+            6,
+            5,
+            7,
+            8,
+            8,
+            5
+          ],
+          [
+            2,
+            6,
+            5,
+            7,
+            8,
+            8,
+            5
+          ],
+          [
+            2,
+            6,
+            5,
+            6,
+            7,
+            8,
+            5
+          ],
+          [
+            2,
+            5,
+            4,
+            6,
+            7,
+            8,
+            5
+          ],
+          [
+            2,
+            5,
+            4,
+            6,
+            7,
+            7,
+            5
+          ],
+          [
+            2,
+            5,
+            4,
+            6,
+            7,
+            7,
+            5
+          ],
+          [
+            2,
+            5,
+            4,
+            6,
+            7,
+            7,
+            5
+          ],
+          [
+            2,
+            5,
+            4,
+            6,
+            6,
+            7,
+            4
+          ],
+          [
+            2,
+            5,
+            4,
+            6,
+            6,
+            7,
+            4
+          ],
+          [
+            2,
+            5,
+            4,
+            6,
+            6,
+            7,
+            4
+          ],
+          [
+            2,
+            5,
+            4,
+            5,
+            6,
+            7,
+            4
+          ],
+          [
+            2,
+            5,
+            4,
+            5,
+            6,
+            7,
+            4
+          ],
+          [
+            2,
+            5,
+            4,
+            5,
+            6,
+            6,
+            4
+          ],
+          [
+            2,
+            5,
+            4,
+            5,
+            6,
+            6,
+            4
+          ],
+          [
+            2,
+            5,
+            4,
+            5,
+            6,
+            6,
+            4
+          ],
+          [
+            2,
+            5,
+            4,
+            5,
+            6,
+            6,
+            4
+          ],
+          [
+            2,
+            5,
+            4,
+            5,
+            6,
+            6,
+            4
+          ],
+          [
+            2,
+            5,
+            4,
+            5,
+            6,
+            6,
+            4
+          ],
+          [
+            2,
+            5,
+            4,
+            5,
+            6,
+            6,
+            4
+          ],
+          [
+            2,
+            5,
+            4,
+            5,
+            6,
+            6,
+            4
+          ],
+          [
+            2,
+            5,
+            4,
+            5,
+            6,
+            6,
+            4
+          ],
+          [
+            2,
+            5,
+            4,
+            5,
+            6,
+            6,
+            4
+          ],
+          [
+            2,
+            5,
+            4,
+            5,
+            6,
+            7,
+            4
+          ],
+          [
+            2,
+            5,
+            4,
+            5,
+            6,
+            7,
+            4
+          ],
+          [
+            2,
+            5,
+            4,
+            5,
+            6,
+            7,
+            4
+          ],
+          [
+            2,
+            5,
+            4,
+            5,
+            7,
+            7,
+            4
+          ],
+          [
+            2,
+            5,
+            4,
+            6,
+            7,
+            8,
+            4
+          ],
+          [
+            2,
+            5,
+            4,
+            6,
+            7,
+            8,
+            5
+          ],
+          [
+            2,
+            6,
+            4,
+            6,
+            7,
+            8,
+            5
+          ],
+          [
+            2,
+            6,
+            5,
+            6,
+            7,
+            8,
+            5
+          ],
+          [
+            2,
+            6,
+            5,
+            6,
+            8,
+            9,
+            5
+          ],
+          [
+            2,
+            6,
+            5,
+            7,
+            8,
+            9,
+            6
+          ],
+          [
+            2,
+            7,
+            5,
+            7,
+            8,
+            10,
+            6
+          ],
+          [
+            2,
+            7,
+            5,
+            7,
+            9,
+            10,
+            6
+          ],
+          [
+            2,
+            7,
+            5,
+            7,
+            9,
+            10,
+            6
+          ],
+          [
+            2,
+            7,
+            5,
+            7,
+            8,
+            9,
+            6
+          ],
+          [
+            2,
+            6,
+            5,
+            7,
+            8,
+            9,
+            6
+          ],
+          [
+            2,
+            6,
+            5,
+            7,
+            8,
+            9,
+            5
+          ],
+          [
+            2,
+            6,
+            5,
+            6,
+            8,
+            8,
+            5
+          ],
+          [
+            2,
+            6,
+            5,
+            6,
+            7,
+            8,
+            5
+          ],
+          [
+            2,
+            6,
+            5,
+            6,
+            7,
+            8,
+            5
+          ],
+          [
+            2,
+            6,
+            5,
+            6,
+            7,
+            8,
+            5
+          ],
+          [
+            2,
+            6,
+            5,
+            6,
+            7,
+            8,
+            5
+          ],
+          [
+            2,
+            6,
+            5,
+            6,
+            7,
+            8,
+            5
+          ],
+          [
+            2,
+            6,
+            5,
+            6,
+            7,
+            8,
+            5
+          ]
+        ]
+      }
+    ]
+  }
+}

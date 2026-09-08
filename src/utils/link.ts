@@ -1,15 +1,6 @@
 import * as d3 from 'd3'
 import type { XYDatumAxis } from './mark';
 
-type DrawData = {
-  id: string;
-  x1: number; // 0-100
-  y1: number; // 0-100
-  x2: number; // 0-100
-  y2: number; // 0-100
-  props: Record<string, number | string>
-}
-
 function generateLine(links: { x: number; y: number; }[], attribution: Record<string, any> = {}, direction?: 'horizontal' | 'vertical') {
   let nodes = links;
 
@@ -81,33 +72,17 @@ export function generateLink(type: 'line' | 'band', links: { x: number; y: numbe
 }
 
 // 绘制折线图
-export function generateLineChart(dataPoints: DrawData[], attribution: Record<string, any> = {}, coordinate?: 'cartesian' | 'polar', center?: { centerX: number, centerY: number }) {
+export function generateLineChart(dataPoints: XYDatumAxis[], attribution: Record<string, any> = {}, coordinate?: 'cartesian' | 'polar') {
   const isCurve = attribution?.line_type === 'curve';
-
-  const data = dataPoints.map((d) => {
-    if (coordinate === 'cartesian') {
-      return {
-        x: { d1: d.x1, d2: d.x2 },
-        y: { d1: d.y1, d2: d.y2 }
-      }
-    } else {
-      const d1 = polarToCartesian(center?.centerX || 0, center?.centerY || 0, d.x1, d.y1)
-      const d2 = polarToCartesian(center?.centerX || 0, center?.centerY || 0, d.x2, d.y2)
-
-      return {
-        x: { d1: d1.x, d2: d2.x },
-        y: { d1: d1.y, d2: d2.y }
-      }
-    }
-  })
+  const closed = attribution.closed === 1 || attribution.closed === true;
 
   const line = d3
     .line<XYDatumAxis>()
     .x(d => d.x.d1)
     .y(d => d.y.d1)
-    .curve(isCurve ? d3.curveCardinal : d3.curveLinear);
+    .curve(closed ? (isCurve ? d3.curveCardinalClosed : d3.curveLinearClosed) : (isCurve ? d3.curveCardinal : d3.curveLinear));
 
-  const path = line(data);
+  const path = line(dataPoints);
 
   const svgLine = d3
     .select(document.createElementNS(d3.namespaces.svg, 'path'))
@@ -126,48 +101,30 @@ export function generateLineChart(dataPoints: DrawData[], attribution: Record<st
   return svgLine.node();
 }
 
-
 // 绘制面积图
-export function generateAreaChart(dataPoints: DrawData[], attribution: Record<string, any> = {}, coordinate?: 'cartesian' | 'polar', center?: { centerX: number, centerY: number }) {
+export function generateAreaChart(dataPoints: XYDatumAxis[], attribution: Record<string, any> = {}, coordinate?: 'cartesian' | 'polar', band = false) {
   const isCurve = attribution?.line_type === 'curve';
   const isPolar = coordinate === 'polar';
-  let path:any;
 
-  if (coordinate === 'cartesian') {
-    path = d3
-        .area<DrawData>()
-        .x(d => d.x1)
-        .y0(d => d.y1)
-        .y1(d => d.y2)
-        .curve(isCurve ? d3.curveCardinal : d3.curveLinear)
-        (dataPoints);
-  } else {
-    path = d3
-        .area<DrawData>()
-        .x0((d, i) => {
-          const angle = d.x1 - 90; // 调整角度
-          const point = polarToCartesian(center?.centerX || 0, center?.centerY || 0, 0, 0);
-          return point.x;
-        })
-        .x1((d, i) => {
-          const angle = d.x2 - 90; // 调整角度
-          const point = polarToCartesian(center?.centerX || 0, center?.centerY || 0, angle, d.y2);
-          return point.x;
-        })
-        .y0((d, i) => {
-          const angle = d.x1 - 90; // 调整角度
-          const point = polarToCartesian(center?.centerX || 0, center?.centerY || 0, 0, 0);
-          return point.y;
-        })
-        .y1((d, i) => {
-          const angle = d.x2 - 90; // 调整角度
-          const point = polarToCartesian(center?.centerX || 0, center?.centerY || 0, angle, d.y2);
-          return point.y;
-        })
-        .curve(isCurve ? d3.curveLinearClosed : d3.curveLinearClosed)
-        (dataPoints);
-  }
-  debugger;
+  const area = d3
+    .area<XYDatumAxis>()
+    .x0(d => d.x.d1)
+    .x1(d => isPolar ? d.x.d2 : d.x.d1)
+    .y0(d => d.y.d1)
+    .y1(d => d.y.d2)
+    .curve(isPolar
+      ? (isCurve ? d3.curveCardinalClosed : d3.curveLinearClosed)
+      : (isCurve ? d3.curveCardinal : d3.curveLinear)
+    );
+
+  // A radar series is one closed polygon. Only a band has an inner contour.
+  const path = isPolar && !band
+    ? d3.line<XYDatumAxis>()
+      .x(d => d.x.d2)
+      .y(d => d.y.d2)
+      .curve(isCurve ? d3.curveCardinalClosed : d3.curveLinearClosed)(dataPoints)
+    : area(dataPoints);
+
   const svgArea = d3
     .select(document.createElementNS(d3.namespaces.svg, 'path'))
     .attr("d", path)
@@ -186,17 +143,10 @@ export function generateAreaChart(dataPoints: DrawData[], attribution: Record<st
 
 export type GroupType = 'line' | 'area' | 'band'
 
-export function generateGroup(type: GroupType, data: DrawData[], attribution: Record<string, any> = {}, coordinate?: 'cartesian' | 'polar', center?: { centerX: number, centerY: number }) {
+export function generateGroup(type: GroupType, data: XYDatumAxis[], attribution: Record<string, any> = {}, coordinate?: 'cartesian' | 'polar') {
   if (type === 'line') {
-    return generateLineChart(data, attribution, coordinate, center);
+    return generateLineChart(data, attribution, coordinate);
   } else if (type === 'area' || type === 'band') {
-    return generateAreaChart(data, attribution, coordinate, center);
+    return generateAreaChart(data, attribution, coordinate, type === 'band');
   }
-}
-
-function polarToCartesian(centerX: number, centerY: number, angle: number, radius: number) {
-  return {
-    x: centerX + (radius * Math.sin(angle)),
-    y: centerY - (radius * Math.cos(angle))
-  };
 }

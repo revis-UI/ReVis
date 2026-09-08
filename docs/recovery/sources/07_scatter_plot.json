@@ -1,0 +1,283 @@
+{
+  "schema_version": 1,
+  "case_id": "07_scatter_plot",
+  "chart_type": "Basic",
+  "model": "gpt-5.4",
+  "saved_at": "2026-08-31T14:41:50.431Z",
+  "prompt": "请观察左侧参考图，恢复当前 DSL 的真实数据分布。保持容器层级、图元类型、数量和数据结构不变；根据参考图重建尺寸、位置、峰值、聚集区域、稀疏区域和自然波动。不要生成均匀、对称或无依据的全局单调分布。",
+  "summary": "根据参考图恢复为单面板散点分布：使用高斯混合位置生成器重建左中部高密度主簇、向右下延伸的负相关带状分布、右侧稀疏长尾，以及少量高油耗/低马力与中高马力离群点；保持点数量与结构不变。",
+  "reference_image_used": true,
+  "generated_value_count": 784,
+  "dsl": {
+    "container_id": "0",
+    "coordinate": "cartesian",
+    "description": "Single-panel scatter plot composed of many small hollow circular marks distributed across the plotting area; no additional overlaid data marks.",
+    "coordinate_system": {
+      "x1": "0",
+      "y1": "0",
+      "x2": "100",
+      "y2": "100"
+    },
+    "if_leaf": true,
+    "mark_type": "circle",
+    "components": null,
+    "data_specification": {
+      "0": {
+        "mark_specification": {
+          "mark_type": "circle",
+          "is_link_mark": false,
+          "link_mark_type": "no_link",
+          "group_link_direction": null,
+          "link_number": null,
+          "is_width_encoded_data": false,
+          "node_use_once": false,
+          "is_fully_connected": false,
+          "is_bipartite": false
+        },
+        "data_structure": {
+          "data_type": "1D_LIST",
+          "data_size": {
+            "primary": {
+              "number": 392,
+              "dimension": "x",
+              "explanation": "Each data point is positioned by x and y values in a scatter plot."
+            },
+            "secondary": null
+          }
+        },
+        "layout_specification": {
+          "x": {
+            "stacking": false,
+            "stacking_direction": "middle",
+            "anchor": "middle",
+            "subdividing": false,
+            "2d_flatten": false,
+            "size_uniform": true,
+            "size_range": [
+              2,
+              2
+            ],
+            "anchor_distribute": "flexible",
+            "anchor_interval": null,
+            "anchor_start": null
+          },
+          "y": {
+            "stacking": false,
+            "stacking_direction": "middle",
+            "anchor": "middle",
+            "subdividing": false,
+            "2d_flatten": false,
+            "size_uniform": true,
+            "size_range": [
+              2,
+              2
+            ],
+            "anchor_distribute": "flexible",
+            "anchor_interval": null,
+            "anchor_start": null
+          },
+          "radius": null,
+          "angle": null,
+          "source": null,
+          "target": null
+        },
+        "non_layout_specification": {
+          "fill": {
+            "scale": "fix",
+            "fix": "#FFFFFF",
+            "linear": null,
+            "options": null
+          },
+          "stroke": {
+            "scale": "fix",
+            "fix": "#4A76A8",
+            "linear": null,
+            "options": null
+          },
+          "stroke-width": {
+            "scale": "fix",
+            "fix": 1,
+            "linear": null,
+            "options": null
+          },
+          "opacity": {
+            "scale": "fix",
+            "fix": 0.6,
+            "linear": null,
+            "options": null
+          },
+          "line_type": null,
+          "rx": null,
+          "ry": null
+        },
+        "position_generator": {
+          "type": "gaussian_mixture",
+          "seed": 12345,
+          "background_weight": 0.04,
+          "clusters": [
+            {
+              "weight": 0.34,
+              "center": [
+                36,
+                58
+              ],
+              "spread": [
+                5.5,
+                11
+              ],
+              "correlation": -0.45
+            },
+            {
+              "weight": 0.28,
+              "center": [
+                44,
+                46
+              ],
+              "spread": [
+                5.5,
+                8.5
+              ],
+              "correlation": -0.55
+            },
+            {
+              "weight": 0.17,
+              "center": [
+                50,
+                39
+              ],
+              "spread": [
+                4.5,
+                6.5
+              ],
+              "correlation": -0.5
+            },
+            {
+              "weight": 0.12,
+              "center": [
+                63,
+                31
+              ],
+              "spread": [
+                7.5,
+                4
+              ],
+              "correlation": -0.62
+            },
+            {
+              "weight": 0.06,
+              "center": [
+                76,
+                27
+              ],
+              "spread": [
+                8,
+                2.8
+              ],
+              "correlation": -0.35
+            },
+            {
+              "weight": 0.03,
+              "center": [
+                30,
+                73
+              ],
+              "spread": [
+                3.8,
+                7
+              ],
+              "correlation": -0.2
+            }
+          ]
+        }
+      }
+    }
+  },
+  "recovered_data": {
+    "format": "JSON Pointer paths into the complete DSL above",
+    "fields": [
+      {
+        "path": "/data_specification/0/position_generator",
+        "kind": "position_generator",
+        "value": {
+          "type": "gaussian_mixture",
+          "seed": 12345,
+          "background_weight": 0.04,
+          "clusters": [
+            {
+              "weight": 0.34,
+              "center": [
+                36,
+                58
+              ],
+              "spread": [
+                5.5,
+                11
+              ],
+              "correlation": -0.45
+            },
+            {
+              "weight": 0.28,
+              "center": [
+                44,
+                46
+              ],
+              "spread": [
+                5.5,
+                8.5
+              ],
+              "correlation": -0.55
+            },
+            {
+              "weight": 0.17,
+              "center": [
+                50,
+                39
+              ],
+              "spread": [
+                4.5,
+                6.5
+              ],
+              "correlation": -0.5
+            },
+            {
+              "weight": 0.12,
+              "center": [
+                63,
+                31
+              ],
+              "spread": [
+                7.5,
+                4
+              ],
+              "correlation": -0.62
+            },
+            {
+              "weight": 0.06,
+              "center": [
+                76,
+                27
+              ],
+              "spread": [
+                8,
+                2.8
+              ],
+              "correlation": -0.35
+            },
+            {
+              "weight": 0.03,
+              "center": [
+                30,
+                73
+              ],
+              "spread": [
+                3.8,
+                7
+              ],
+              "correlation": -0.2
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

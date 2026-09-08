@@ -64,11 +64,28 @@
                     "size_uniform": false,
                     "size_range": [
                         0,
-                        50
+                        100
                     ],
                     "anchor_distribute": "fixed_value",
                     "anchor_interval": 0,
-                    "anchor_start": 0
+                    "anchor_start": 0,
+                    "data_values": [
+                        [
+                            9.0,
+                            54.6,
+                            81.8
+                        ],
+                        [
+                            63.6,
+                            18.2,
+                            100
+                        ],
+                        [
+                            54.6,
+                            9.0,
+                            18.2
+                        ]
+                    ]
                 },
                 "radius": null,
                 "angle": null,

@@ -8,51 +8,37 @@ import {
 } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import React, {  useEffect, useRef, useState } from 'react';
+import { getImagePath } from '../utils';
 import { changeDslFile,  useChartStore } from '../model/editor';
 import { useShallow } from 'zustand/shallow';
 import * as d3 from 'd3';
 import { JSON_FILES } from '@/generated/json-files';
 import { useSize } from 'ahooks';
 import { Upload } from 'lucide-react';
+import { showToast } from '@/components/toast';
 
 export const EditorSelector: React.FC = () => {
 
   // Get the visualChart instance and update function from context
-  
-  // Static import of all images using import.meta.glob
-  const basicImages = import.meta.glob('../../../imagev3/basic_charts/*.{png,jpg}', { eager: true }) as Record<string, any>;
-  const compositeImages = import.meta.glob('../../../imagev3/composite/*.{png,jpg}', { eager: true }) as Record<string, any>;
-
-  // Function to get image source from static imports
-  const getImageSrc = (key: string): string => {
-    // Try basic_charts first
-    const basicPath1 = `../../../imagev3/basic_charts/${key}.png`;
-    const basicPath2 = `../../../imagev3/basic_charts/${key}.jpg`;
-    // Then try composite
-    const compositePath1 = `../../../imagev3/composite/${key}.png`;
-    const compositePath2 = `../../../imagev3/composite/${key}.jpg`;
-
-    if (basicImages[basicPath1]) return basicImages[basicPath1].default;
-    if (basicImages[basicPath2]) return basicImages[basicPath2].default;
-    if (compositeImages[compositePath1]) return compositeImages[compositePath1].default;
-    if (compositeImages[compositePath2]) return compositeImages[compositePath2].default;
-    return '';
-  };
- const { dsl_file, selectedContainerId, hoveredContainerId, chart } =
+ const { dsl_file, hoveredContainerId, chart, isSaving } =
   useChartStore(useShallow((state) => ({
     dsl_file: state.dsl_file,
-    selectedContainerId: state.selectedContainerId,
     hoveredContainerId: state.hoveredContainerId,
     chart: state.chart,
+    isSaving: state.isSaving,
   })));
   const imageRef = useRef<HTMLImageElement>(null);
 
   const [imageSrc, setImageSrc] = useState('');
+  const [switching, setSwitching] = useState(false);
+  const [switchError, setSwitchError] = useState('');
 
   useEffect(() => {
-    const src = getImageSrc(dsl_file);
-    setImageSrc(src);
-  }, [dsl_file, getImageSrc]);
+    let active = true;
+    setImageSrc('');
+    getImagePath(dsl_file).then(path => { if(active) setImageSrc(path); }).catch(() => {if(active) setImageSrc('');});
+    return () => { active = false; };
+  }, [dsl_file]);
 
   // Upload image function
   const handleUploadImage = () => {
@@ -103,11 +89,27 @@ export const EditorSelector: React.FC = () => {
             variant="primary"
             size="sm"
             onClick={handleUploadImage}
-            title="Upload reference image"
+            title="Upload a reference image for comparison only"
+            aria-label="Upload reference image"
           >
             <Upload className="h-4 w-4" />
           </Button>
-          <Select value={dsl_file} onValueChange={changeDslFile}>
+          <Select
+            value={dsl_file}
+            disabled={isSaving || switching}
+            onValueChange={(value) => {
+              setSwitching(true); setSwitchError('');
+              void changeDslFile(
+                value as typeof JSON_FILES[number],
+              ).catch((error: unknown) => {
+                const message = error instanceof Error
+                  ? error.message
+                  : String(error);
+                setSwitchError(message);
+                showToast(`Unable to switch DSL file: ${message}`);
+              }).finally(() => setSwitching(false));
+            }}
+          >
             <SelectTrigger className="w-[200px]" size="sm">
               <SelectValue placeholder="Select chart type" />
             </SelectTrigger>
@@ -122,6 +124,9 @@ export const EditorSelector: React.FC = () => {
         </div>
       </CardHeader>
 
+      <p className="px-4 pt-2 text-xs text-gray-500">Upload changes the reference image only; it does not generate a DSL.</p>
+      {switching && <p role="status" className="px-4">Loading selected chart…</p>}
+      {switchError && <p role="alert" className="px-4 text-red-700">{switchError}</p>}
       {dsl_file && (
         <CardContent className="flex-1 p-4 overflow-hidden">
           <div className="relative flex items-center justify-center h-full w-full bg-gray-50 rounded-lg border border-gray-200 overflow-hidden">

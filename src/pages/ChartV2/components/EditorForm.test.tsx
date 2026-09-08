@@ -1,0 +1,24 @@
+import {readFileSync} from 'node:fs';
+import {render,screen,fireEvent,cleanup} from '@testing-library/react';
+import {afterEach,it,expect} from 'vitest';
+import {EditorForm} from './EditorForm';
+import {useChartStore} from '../model/editor';
+import {migrateDocument} from '../model/document';
+import {previewDocument} from '../model/previewDocument';
+const initial=useChartStore.getInitialState();
+afterEach(()=>{cleanup();useChartStore.setState(initial,true);});
+it('writes numeric counts and the actual 2d_flatten DSL field',()=>{
+ const raw=JSON.parse(readFileSync('src/datav3/basic_charts/03_stacked_bar_chart.json','utf8'));
+ const doc=migrateDocument(previewDocument(raw));
+ const selected={...raw,__data_specification:raw.data_specification['0']};
+ useChartStore.setState({dsl_json:doc,selectedContainerId:'0',selectedContainer:selected,selectedContainerChildren:[],isSaving:false});
+ render(<EditorForm/>);
+ fireEvent.change(screen.getByLabelText('Primary Number'),{target:{value:'18'}});
+ expect(useChartStore.getState().selectedContainer!.__data_specification!.data_structure.data_size.primary.number).toBe(18);
+ const toggle=screen.getByRole('switch',{name:'2D Flatten'});
+ fireEvent.click(toggle);
+ const layouts=useChartStore.getState().selectedContainer!.__data_specification!.layout_specification;
+ expect(layouts.y?.['2d_flatten']).toBe(true);
+ expect(layouts.y).not.toHaveProperty('2D_flatten');
+ expect(screen.getByLabelText('X1')).toHaveValue('0');
+});
